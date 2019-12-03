@@ -5,25 +5,16 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "comments")
+@Table(name = "appointments")
 public class Appointments implements Serializable {
 
     @EmbeddedId
     private AppointmentID appointmentID;
 
-    @Size(max = 20)
-    @Column(name = "comment", columnDefinition = "varchar(20)")
+    @Size(max = 50)
+    @Column(name = "comment", columnDefinition = "varchar(50)")
     private String comment;
-// TODO!!!!!!!!!!!!!!
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumns({
-            @JoinColumn(
-                    name = "company_id",
-                    referencedColumnName = "company_id"),
-            @JoinColumn(
-                    name = "employee_number",
-                    referencedColumnName = "employee_number")
-    })
+
 
     public Appointments() { }
 

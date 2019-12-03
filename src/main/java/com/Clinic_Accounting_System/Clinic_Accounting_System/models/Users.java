@@ -8,9 +8,11 @@ import java.io.Serializable;
 @Entity
 @Table(name = "users")
 public class Users implements Serializable {
+    /*
+        We'll be using this generated id value in child id entities
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_generator")
-    @SequenceGenerator(name="book_generator", sequenceName = "book_seq", allocationSize=20)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -41,14 +43,6 @@ public class Users implements Serializable {
         this.username = username;
         this.password = password;
         this.role = role;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getUsername() {

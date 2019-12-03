@@ -15,12 +15,12 @@ public class Doctors implements Serializable {
     @NotNull
     @Size(max = 40)
     @Column(name = "`degree`", columnDefinition = "varchar(40)", nullable = false)
-    private String middleName;
+    private String degree;
 
     @NotNull
     @Size(max = 40)
     @Column(name = "`specialization`", columnDefinition = "varchar(40)", nullable = false)
-    private String lastName;
+    private String specialization;
 
     // Specifying the child relationship with StaffEntity datatable(owner of the relationship)
     @OneToOne(fetch = FetchType.LAZY,
@@ -32,26 +32,26 @@ public class Doctors implements Serializable {
 
     public Doctors() {}
 
-    public Doctors(@NotNull @Size(max = 40) String middleName, @NotNull @Size(max = 40) String lastName, StaffEntity staffEntity) {
-        this.middleName = middleName;
-        this.lastName = lastName;
+    public Doctors(@NotNull @Size(max = 40) String degree, @NotNull @Size(max = 40) String specialization, StaffEntity staffEntity) {
+        this.degree = degree;
+        this.specialization = specialization;
         this.staffEntity = staffEntity;
     }
 
-    public String getMiddleName() {
-        return middleName;
+    public String getDegree() {
+        return degree;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
+    public void setDegree(String degree) {
+        this.degree = degree;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSpecialization() {
+        return specialization;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 
     public StaffEntity getStaffEntity() {

@@ -1,59 +1,76 @@
 package com.Clinic_Accounting_System.Clinic_Accounting_System.models;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Objects;
 
 @Embeddable
 public class AppointmentID implements Serializable {
 
-    @NotNull
-    @Column(name = "patient_id")
-    private Long patientID;
+
 
     @NotNull
-    @Column(name = "doctor_id")
-    private Long doctorID;
+    @Column(name = "date", nullable = false)
+    private Date date;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date utilDate;
+    @Column(name = "time", nullable = false)
+    private Time time;
+
+    // specifying many to one relationship to Doctors table(btw, it's unidirectional relationship)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "doctor_id", nullable = false)
+    @MapsId("id")
+    private Doctors doctor;
+
+    // specifying many to one relationship to UserInfo table(btw, it's unidirectional relationship)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "patient_id", nullable = false)
+    @MapsId("id")
+    private UserInfo userInfo;
 
     public AppointmentID() {}
 
-    public AppointmentID(@NotNull Long patientID, @NotNull Long doctorID, @NotNull Date utilDate) {
-        this.patientID = patientID;
-        this.doctorID = doctorID;
-        this.utilDate = utilDate;
+    public AppointmentID(@NotNull Date date, @NotNull Time time, UserInfo userInfo, Doctors doctor) {
+        this.date = date;
+        this.time = time;
+        this.userInfo = userInfo;
+        this.doctor = doctor;
     }
 
-    public Long getPatientID() {
-        return patientID;
+    public Date getDate() {
+        return date;
     }
 
-    public void setPatientID(Long patientID) {
-        this.patientID = patientID;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Long getDoctorID() {
-        return doctorID;
+    public Time getTime() {
+        return time;
     }
 
-    public void setDoctorID(Long doctorID) {
-        this.doctorID = doctorID;
+    public void setTime(Time time) {
+        this.time = time;
     }
 
-    public Date getUtilDate() {
-        return utilDate;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
-    public void setUtilDate(Date utilDate) {
-        this.utilDate = utilDate;
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public Doctors getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctors doctor) {
+        this.doctor = doctor;
     }
 
     @Override
@@ -61,14 +78,14 @@ public class AppointmentID implements Serializable {
         if (this == o) return true;
         if (!(o instanceof AppointmentID)) return false;
         AppointmentID that = (AppointmentID) o;
-        return Objects.equals(getDoctorID(), that.getDoctorID()) &&
-                Objects.equals(getPatientID(), that.getPatientID()) &&
-                        Objects.equals(getUtilDate(), that.getUtilDate());
+        return
+                Objects.equals(getDate(), that.getDate()) &&
+                    Objects.equals(getTime(), that.getTime());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDoctorID(), getPatientID(), getUtilDate());
+        return Objects.hash(getDate(), getTime());
     }
 
 }

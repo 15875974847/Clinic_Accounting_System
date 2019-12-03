@@ -4,7 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+
 
 @Entity
 @Table(name = "user_info")
@@ -18,9 +19,8 @@ public class UserInfo implements Serializable {
     @Column(name = "`first_name`", columnDefinition = "varchar(20)", nullable = false)
     private String firstName;
 
-    @NotNull
     @Size(max = 20)
-    @Column(name = "`middle_name`", columnDefinition = "varchar(20)", nullable = false)
+    @Column(name = "`middle_name`", columnDefinition = "varchar(20)")
     private String middleName;
 
     @NotNull
@@ -28,9 +28,16 @@ public class UserInfo implements Serializable {
     @Column(name = "`last_name`", columnDefinition = "varchar(20)", nullable = false)
     private String lastName;
 
+    @Size(max = 30)
+    @Column(name = "`email`", columnDefinition = "varchar(30)", unique = true)
+    private String email;
+
+    @Size(max = 25)
+    @Column(name = "`phone`", columnDefinition = "varchar(25)", unique = true)
+    private String phone;
+
     @NotNull
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
+    @Column(name = "`dob`", nullable = false)
     private Date dateOfBirth;
 
     @NotNull
@@ -56,22 +63,17 @@ public class UserInfo implements Serializable {
 
     public UserInfo() { }
 
-    public UserInfo(@NotNull @Size(max = 20) String firstName, @NotNull @Size(max = 20) String middleName, @NotNull @Size(max = 20) String lastName, @NotNull Date dateOfBirth, @NotNull @Size(max = 40) String address, String medicalHistory, Users user) {
+
+    public UserInfo(@NotNull @Size(max = 20) String firstName, @Size(max = 20) String middleName, @NotNull @Size(max = 20) String lastName, @Size(max = 30) String email, @Size(max = 30) String phone, @NotNull Date dateOfBirth, @NotNull @Size(max = 40) String address, String medicalHistory, Users user) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.medicalHistory = medicalHistory;
         this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -128,5 +130,29 @@ public class UserInfo implements Serializable {
 
     public void setUser(Users user) {
         this.user = user;
+    }
+
+    public StaffEntity getStaffEntity() {
+        return staffEntity;
+    }
+
+    public void setStaffEntity(StaffEntity staffEntity) {
+        this.staffEntity = staffEntity;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
