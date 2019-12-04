@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=US-ASCII"
+	pageEncoding="US-ASCII" %>
+<%@ page session = "true" %> 				<%-- Requesting implicit session object here (by the way, it's providing automatically) --%>
 <!doctype html>
 <html lang="en">
   <head>
@@ -22,7 +25,7 @@
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
 				<a class="nav-item nav-link active" href="#">Home Page<span class="sr-only">(current)</span></a>
-				<a class="nav-item nav-link" href="Account.htm">Account</a>
+				<a class="nav-item nav-link" href="account.htm">Account</a>
 				<a class="nav-item nav-link" href="#">Doctors</a>
 				<a class="nav-item nav-link" href="#">Make an appointment</a>
 			</div>

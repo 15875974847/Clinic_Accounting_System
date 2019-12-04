@@ -80,12 +80,14 @@ public class AppointmentID implements Serializable {
         AppointmentID that = (AppointmentID) o;
         return
                 Objects.equals(getDate(), that.getDate()) &&
-                    Objects.equals(getTime(), that.getTime());
+                    Objects.equals(getTime(), that.getTime()) &&
+                        Objects.equals(getDoctor(), that.getDoctor()) &&
+                            Objects.equals(getUserInfo(), that.getUserInfo());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDate(), getTime());
+        return Objects.hash(getDate(), getTime(), getDoctor(), getUserInfo());
     }
 
 }
