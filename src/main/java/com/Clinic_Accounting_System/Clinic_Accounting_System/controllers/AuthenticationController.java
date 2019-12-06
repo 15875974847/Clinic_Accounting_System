@@ -26,30 +26,25 @@ public class AuthenticationController {
 
     @GetMapping(value = {"/", "/sign_in"})
     public String doStart(HttpServletRequest request) {
-        AppLogger.logWarn("In do start!");
         // checking session obj existence
         HttpSession session = request.getSession(false);
         if(session != null){
-            // if session exists
+            // if session objects exists
             Long id = (Long)session.getAttribute("user_id");
-            if(id != null){
-                // checking if id exists in session
-                Users user = usersRepository.getOne(id);
-                if(user != null) {
-                    // update max inactive interval in "no remember-me" type of session
-                    if(session.getMaxInactiveInterval() > 0) session.setMaxInactiveInterval(30*60);
-                    // if such user found in database -> redirect on page he 'deserves'
-                    return redirectSignedUserToHisHomePage(user.getRole());
-                } else {
-                    AppLogger.logError("Start method from Authentication controller: Strange behavior caught! user_id from session object not found in database");
-                    session.invalidate();
-                }
+            Roles role = (Roles)session.getAttribute("role");
+            if(id != null && role != null){
+                // that means that we are authenticated
+                // update max inactive interval in "no remember-me" type of session
+                if(session.getMaxInactiveInterval() > 0) session.setMaxInactiveInterval(30*60);
+                // if such user found in database -> redirect on page he 'deserves'
+                return redirectSignedUserToHisHomePage(role);
             } else {
+                // we have session, but don't have Auth objects
                 // implementing message_ticket logic: messages only with ticket are coming thru
                 if(session.getAttribute("message_ticket") != null){
-                    session.removeAttribute("message_ticket");AppLogger.logError("Displaying message !");
+                    session.removeAttribute("message_ticket");
                 } else{
-                    session.removeAttribute("message");AppLogger.logError("Not Displaying message !");
+                    session.removeAttribute("message");
                 }
             }
         }
@@ -80,7 +75,10 @@ public class AuthenticationController {
             return "redirect:/sign_in";
         }
 
+        // set Auth session objects
         session.setAttribute("user_id", user.getId());
+        session.setAttribute("role", user.getRole());
+
         // also don't forget remember-me checkbox(am i poked vain on him???)
         if(request.getParameterValues("remember-me") != null){
             // if it's selected --> set endless session timeout
@@ -101,6 +99,11 @@ public class AuthenticationController {
         return "redirect:/";
     }
 
+    // go by default on sign_in page and it will show u the way
+    @RequestMapping (value = "/**", method = {RequestMethod.GET, RequestMethod.POST})
+    public String defaultPath() {
+        return "redirect:/sign_in";
+    }
 
     private String redirectSignedUserToHisHomePage(Roles role){
         switch(role){

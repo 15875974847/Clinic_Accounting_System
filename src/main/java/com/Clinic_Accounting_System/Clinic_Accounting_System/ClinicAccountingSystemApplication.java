@@ -13,7 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.Clinic_Accounting_System.Clinic_Accounting_System.repositories")
 public class ClinicAccountingSystemApplication extends SpringBootServletInitializer {
 
-	// to have access to resources folder in jsp
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(ClinicAccountingSystemApplication.class);
