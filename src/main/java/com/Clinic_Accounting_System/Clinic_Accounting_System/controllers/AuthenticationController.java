@@ -26,7 +26,7 @@ public class AuthenticationController {
 
     @GetMapping(value = {"/", "/sign_in"})
     public String doStart(HttpServletRequest request) {
-        AppLogger.logInfo("LOGINFO TEST from Get mapping method!");
+        AppLogger.logWarn("In do start!");
         // checking session obj existence
         HttpSession session = request.getSession(false);
         if(session != null){
@@ -42,16 +42,14 @@ public class AuthenticationController {
                     return redirectSignedUserToHisHomePage(user.getRole());
                 } else {
                     AppLogger.logError("Start method from Authentication controller: Strange behavior caught! user_id from session object not found in database");
-                    session.removeAttribute("user_id");
                     session.invalidate();
                 }
             } else {
-                // we have session object, but don't have 'user_id', so probably we have 'message' attribute and we need delete it if we don't want to show same error message twice
-                if(session.getAttribute("message") != null) {
-                    session.removeAttribute("message");
-                } else {
-                    AppLogger.logError("Start method from Authentication controller: Strange behavior caught! We didn't get from session object neither user_id nor message! Invalidating this session...");
-                    session.invalidate();
+                // implementing message_ticket logic: messages only with ticket are coming thru
+                if(session.getAttribute("message_ticket") != null){
+                    session.removeAttribute("message_ticket");AppLogger.logError("Displaying message !");
+                } else{
+                    session.removeAttribute("message");AppLogger.logError("Not Displaying message !");
                 }
             }
         }
@@ -61,14 +59,13 @@ public class AuthenticationController {
 
     @PostMapping({"/", "sign_in"})
     public String doSignIn(HttpServletRequest request){
-        AppLogger.logInfo("LOGINFO TEST from post mapping method!");
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         // checking existence of username and password form attributes
         if(username == null || password == null){
             AppLogger.logError("SignIn method from Authentication controller: username or password equals null in doSignIn POST request method");
-            return "sign_in";
+            return "redirect:/sign_in";
         }
 
         // looking in database thru our DAO object
@@ -78,8 +75,9 @@ public class AuthenticationController {
         HttpSession session = request.getSession(true);
         // if there is no such user in db -> stay on 'sign in' page and set error message to display
         if(user == null){
+            session.setAttribute("message_ticket", true);
             session.setAttribute("message", "Invalid username or password!");
-            return "sign_in";
+            return "redirect:/sign_in";
         }
 
         session.setAttribute("user_id", user.getId());
@@ -96,13 +94,19 @@ public class AuthenticationController {
         return redirectSignedUserToHisHomePage(user.getRole());
     }
 
+    @PostMapping("/sign_out")
+    public String doSign_out(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session != null) session.invalidate();
+        return "redirect:/";
+    }
 
 
     private String redirectSignedUserToHisHomePage(Roles role){
         switch(role){
-            case admin: return "redirect:admin/";
-            case doctor: return "redirect:doctor/";
-            case user: return "patient/home";
+            case admin: return "redirect:/admin/";
+            case doctor: return "redirect:/doctor/";
+            case user: return "redirect:/patient/";
             default: return "redirect:sign_in";
         }
     }

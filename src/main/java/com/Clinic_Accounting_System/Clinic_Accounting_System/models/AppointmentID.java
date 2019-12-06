@@ -10,8 +10,6 @@ import java.util.Objects;
 @Embeddable
 public class AppointmentID implements Serializable {
 
-
-
     @NotNull
     @Column(name = "date", nullable = false)
     private Date date;
@@ -20,24 +18,22 @@ public class AppointmentID implements Serializable {
     @Column(name = "time", nullable = false)
     private Time time;
 
-    // specifying many to one relationship to Doctors table(btw, it's unidirectional relationship)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "doctor_id", nullable = false)
-    @MapsId("id")
-    private Doctors doctor;
-
     // specifying many to one relationship to UserInfo table(btw, it's unidirectional relationship)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "patient_id", nullable = false)
-    @MapsId("id")
-    private UserInfo userInfo;
+    @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false)
+    private UserInfo patient;
+
+    // specifying many to one relationship to Doctors table(btw, it's unidirectional relationship)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id", nullable = false)
+    private Doctors doctor;
 
     public AppointmentID() {}
 
-    public AppointmentID(@NotNull Date date, @NotNull Time time, UserInfo userInfo, Doctors doctor) {
+    public AppointmentID(@NotNull Date date, @NotNull Time time, UserInfo patient, Doctors doctor) {
         this.date = date;
         this.time = time;
-        this.userInfo = userInfo;
+        this.patient = patient;
         this.doctor = doctor;
     }
 
@@ -57,12 +53,12 @@ public class AppointmentID implements Serializable {
         this.time = time;
     }
 
-    public UserInfo getUserInfo() {
-        return userInfo;
+    public UserInfo getPatient() {
+        return patient;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
+    public void setPatient(UserInfo patient) {
+        this.patient = patient;
     }
 
     public Doctors getDoctor() {
@@ -80,14 +76,14 @@ public class AppointmentID implements Serializable {
         AppointmentID that = (AppointmentID) o;
         return
                 Objects.equals(getDate(), that.getDate()) &&
-                    Objects.equals(getTime(), that.getTime()) &&
+                        Objects.equals(getTime(), that.getTime()) &&
                         Objects.equals(getDoctor(), that.getDoctor()) &&
-                            Objects.equals(getUserInfo(), that.getUserInfo());
+                        Objects.equals(getPatient(), that.getPatient());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDate(), getTime(), getDoctor(), getUserInfo());
+        return Objects.hash(getDate(), getTime(), getDoctor(), getPatient());
     }
 
 }

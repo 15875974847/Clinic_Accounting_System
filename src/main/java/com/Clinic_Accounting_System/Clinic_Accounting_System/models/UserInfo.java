@@ -61,19 +61,11 @@ public class UserInfo implements Serializable {
             mappedBy = "userInfo")
     private StaffEntity staffEntity;
 
+
     public UserInfo() { }
 
-
-    public UserInfo(@NotNull @Size(max = 20) String firstName, @Size(max = 20) String middleName, @NotNull @Size(max = 20) String lastName, @Size(max = 30) String email, @Size(max = 30) String phone, @NotNull Date dateOfBirth, @NotNull @Size(max = 40) String address, String medicalHistory, Users user) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.dateOfBirth = dateOfBirth;
-        this.address = address;
-        this.medicalHistory = medicalHistory;
-        this.user = user;
+    public Long getId() {
+        return id;
     }
 
     public String getFirstName() {

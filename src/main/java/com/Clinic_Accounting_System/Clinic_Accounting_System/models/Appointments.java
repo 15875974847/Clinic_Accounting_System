@@ -1,8 +1,12 @@
 package com.Clinic_Accounting_System.Clinic_Accounting_System.models;
 
 import javax.persistence.*;
+import javax.validation.Constraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
 
 @Entity
 @Table(name = "appointments")
@@ -15,10 +19,9 @@ public class Appointments implements Serializable {
     @Column(name = "comment", columnDefinition = "varchar(50)")
     private String comment;
 
-
     public Appointments() { }
 
-    public Appointments(AppointmentID appointmentID, @Size(max = 20) String comment) {
+    public Appointments(AppointmentID appointmentID, @Size(max = 50) String comment) {
         this.appointmentID = appointmentID;
         this.comment = comment;
     }

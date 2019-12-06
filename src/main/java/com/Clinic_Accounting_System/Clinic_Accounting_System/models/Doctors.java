@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Doctors implements Serializable {
 
     @Id
-    Long id;
+    private Long id;
 
     @NotNull
     @Size(max = 40)
@@ -32,10 +32,8 @@ public class Doctors implements Serializable {
 
     public Doctors() {}
 
-    public Doctors(@NotNull @Size(max = 40) String degree, @NotNull @Size(max = 40) String specialization, StaffEntity staffEntity) {
-        this.degree = degree;
-        this.specialization = specialization;
-        this.staffEntity = staffEntity;
+    public Long getId() {
+        return id;
     }
 
     public String getDegree() {
@@ -61,4 +59,5 @@ public class Doctors implements Serializable {
     public void setStaffEntity(StaffEntity staffEntity) {
         this.staffEntity = staffEntity;
     }
+
 }
