@@ -8,19 +8,19 @@
 <!doctype html>
 <html lang="en">
   <head>
-	<title>Patient Home Page</title>
+	<title>Account</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
 	<meta name="author" content="Artique">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
 	<!-- My Page Favicon -->
-	<link rel="icon" type="image/png" href="res/images/icons/favicon.ico"/>
+	<link rel="icon" type="image/png" href="res/images/icons/favicon.ico">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu"/>
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu">
 	<!-- My CSS -->
-	<link rel="stylesheet" type="text/css" href="css/background.css"/>
+	<link rel="stylesheet" type="text/css" href="css/myBackgrounds.css">
 	
 	<!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -29,15 +29,16 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	
   </head>
-  <body class = "bg-light-green-mari " style="font-family: Ubuntu">
+  
+  <body class = "bg-light-green-mari" style="font-family: Ubuntu">
 	
 	<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
 		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 			<div class="navbar-nav">
-				<a class="nav-item nav-link active" href="${pageContext.request.contextPath}/home">Home Page<span class="sr-only">(current)</span></a>
-				<a class="nav-item nav-link" href="${pageContext.request.contextPath}/account">Account</a>
-				<a class="nav-item nav-link" href="${pageContext.request.contextPath}/doctors">Doctors</a>
-				<a class="nav-item nav-link" href="${pageContext.request.contextPath}/appointments">Appointments</a>
+				<a class="nav-item nav-link" href="home">Home Page</a>
+				<a class="nav-item nav-link active" href="account">Account<span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="doctors">Doctors</a>
+				<a class="nav-item nav-link" href="appointments">Appointments</a>
 			</div>
 		</div>
 		<form class="form-inline" action="/sign_out" method = "post">

@@ -20,13 +20,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
 	<!-- My Page Favicon -->
-	<link rel="icon" type="image/png" href="res/images/icons/favicon.ico"/>
+	<link rel="icon" type="image/png" href="res/images/icons/favicon.ico">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
-	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu">
 	<!-- My CSS -->
-	<link rel="stylesheet" type="text/css" href="css/background.css"/>
-	<link rel="stylesheet" type="text/css" href="css/snackbar.css"/>
+	<link rel="stylesheet" type="text/css" href="css/myBackgrounds.css">
+	<link rel="stylesheet" type="text/css" href="css/snackbar.css">
 	
 	<!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -51,12 +51,12 @@
 	<div class="my-5 d-flex align-items-center flex-column justify-content-center h-100 text-white" id="header">
 
 		<h1 class="display-4">Sign in</h1>
-		<form action="${pageContext.request.contextPath}/" method = "post" class="needs-validation" novalidate>
+		<form action="sign_in" method = "post">
 			<div class="form-group my-2">
-				<input class="form-control form-control-lg" name="username" placeholder="Username" type="text">
+				<input class="form-control form-control-lg" name="username" placeholder="Username" type="text" required>
 			</div>
 			<div class="form-group my-2">
-				<input class="form-control form-control-lg" name="password" placeholder="Password" type="password">
+				<input class="form-control form-control-lg" name="password" placeholder="Password" type="password" required>
 			</div>
 			<div class="form-row my-2">
 				<div class="col-md-6">

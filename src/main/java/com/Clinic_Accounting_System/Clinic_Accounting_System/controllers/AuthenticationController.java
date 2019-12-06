@@ -54,7 +54,6 @@ public class AuthenticationController {
 
     @PostMapping({"/", "sign_in"})
     public String doSignIn(HttpServletRequest request){
-
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         // checking existence of username and password form attributes
@@ -99,11 +98,12 @@ public class AuthenticationController {
         return "redirect:/";
     }
 
-    // go by default on sign_in page and it will show u the way
-    @RequestMapping (value = "/**", method = {RequestMethod.GET, RequestMethod.POST})
-    public String defaultPath() {
-        return "redirect:/sign_in";
-    }
+//    // go by default on sign_in page and it will show u the way
+//    @RequestMapping (value = "/**", method = {RequestMethod.GET, RequestMethod.POST})
+//    public String defaultPath() {
+//        AppLogger.logWarn("In catcher!");
+//        return "redirect:/sign_in";
+//    }
 
     private String redirectSignedUserToHisHomePage(Roles role){
         switch(role){

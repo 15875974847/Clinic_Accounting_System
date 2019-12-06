@@ -42,6 +42,8 @@ public class Events implements Serializable {
         this.onlyForPersonal = onlyForPersonal;
     }
 
+    public Long getId() { return id; }
+
     public String getHeader() {
         return header;
     }
