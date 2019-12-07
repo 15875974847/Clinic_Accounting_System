@@ -37,7 +37,9 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
-	
+
+<!-- My scripts -->
+	<script type="text/javascript" src="../js/patient/home/dataTableConfig.js"></script>
   </head>
   
   <body class = "bg-light-green-mari" style="font-family: Ubuntu">
@@ -47,6 +49,7 @@
 			<div class="navbar-nav">
 				<a class="nav-item nav-link active" href="home">Home Page<span class="sr-only">(current)</span></a>
 				<a class="nav-item nav-link" href="account">Account</a>
+				<a class="nav-item nav-link" href="pers_info">Personal Information</a>
 				<a class="nav-item nav-link" href="doctors">Doctors</a>
 				<a class="nav-item nav-link" href="appointments">Appointments</a>
 			</div>
@@ -68,7 +71,7 @@
         </div>
 	
 		<div class="table-responsive">
-            <table id="dtDormInfo" class="table table-hover table-bordered table-sm bg-info text-white">
+            <table id="dtEvents" class="table table-hover table-bordered table-sm bg-info text-white">
                 <thead>
                     <tr class="bg-dark text-white">
                         <th class="th-sm">Id</th>
@@ -80,17 +83,15 @@
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <c:forEach var="event" items="${requestScope.events}">
-                            <tr>
-                                <td>${event.id}</td>
-                                <td>${event.header}</td>
-                                <td>${event.content}</td>
-                                <td>${event.startDate.toString()}</td>
-                                <td>${event.endDate.toString()}</td>
-                            </tr>
-                        </c:forEach>
-                    </tr>
+					<c:forEach var="event" items="${requestScope.events}">
+						<tr>
+							<td>${event.id}</td>
+							<td>${event.header}</td>
+							<td>${event.content}</td>
+							<td>${event.startDate.toString()}</td>
+							<td>${event.endDate.toString()}</td>
+						</tr>
+					</c:forEach>
                 </tbody>
 
                 <thead>

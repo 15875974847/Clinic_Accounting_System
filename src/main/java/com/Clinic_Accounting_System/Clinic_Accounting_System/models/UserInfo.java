@@ -29,20 +29,20 @@ public class UserInfo implements Serializable {
     private String lastName;
 
     @Size(max = 30)
-    @Column(name = "`email`", columnDefinition = "varchar(30)", unique = true)
+    @Column(name = "`email`", columnDefinition = "varchar(30)")
     private String email;
 
     @Size(max = 25)
-    @Column(name = "`phone`", columnDefinition = "varchar(25)", unique = true)
+    @Column(name = "`phone`", columnDefinition = "varchar(25)")
     private String phone;
 
     @NotNull
-    @Column(name = "`dob`", nullable = false)
+    @Column(name = "`dob`")
     private Date dateOfBirth;
 
     @NotNull
     @Size(max = 40)
-    @Column(name = "`address`", columnDefinition = "varchar(40)", nullable = false)
+    @Column(name = "`address`", columnDefinition = "varchar(40)")
     private String address;
 
     @Lob @Basic(fetch = FetchType.LAZY)

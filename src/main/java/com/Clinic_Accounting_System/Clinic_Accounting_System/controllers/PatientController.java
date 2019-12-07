@@ -7,6 +7,7 @@ import com.Clinic_Accounting_System.Clinic_Accounting_System.models.UserInfo;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.DoctorsRepository;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.EventsRepository;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.UserInfoRepository;
+import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.UsersRepository;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.utils.AppLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/patient")
 public class PatientController {
+
+    @Autowired
+    private UsersRepository accountInfoService;
 
     @Autowired
     private UserInfoRepository patientInfoService;
@@ -70,6 +74,35 @@ public class PatientController {
         if(checkPatientAuth(request)){
 
             return "patient/account";
+        } else {
+            return "redirect:/sign_in";
+        }
+    }
+
+    @GetMapping (value = "/pers_info")
+    public String showAccountPersonalInfo(HttpServletRequest request){
+        if(checkPatientAuth(request)){
+            // making call to patient service repo to retrieve user info from database
+            HttpSession session = request.getSession();
+            Optional<UserInfo> patientInfo = patientInfoService.findById((Long)session.getAttribute("user_id"));
+            if(patientInfo.isPresent()){
+                // setting request params, so jsp can render the page
+                request.setAttribute("firstname", patientInfo.get().getFirstName());
+                request.setAttribute("midname", patientInfo.get().getMiddleName());
+                request.setAttribute("lastname", patientInfo.get().getLastName());
+                request.setAttribute("email", patientInfo.get().getEmail());
+                request.setAttribute("phone", patientInfo.get().getPhone());
+                request.setAttribute("dob", patientInfo.get().getDateOfBirth().toString());
+                request.setAttribute("address", patientInfo.get().getAddress());
+                request.setAttribute("medHistory", patientInfo.get().getMedicalHistory());
+            } else {
+                // invalidate this session and notify that user with such 'user_id' don't exist
+                session.invalidate();
+                session = request.getSession(true);
+                session.setAttribute("message", "User with such user_id not found. Sorry!");
+            }
+
+            return "patient/pers_info";
         } else {
             return "redirect:/sign_in";
         }
