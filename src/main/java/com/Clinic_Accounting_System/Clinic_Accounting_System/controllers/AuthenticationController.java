@@ -5,6 +5,7 @@ import com.Clinic_Accounting_System.Clinic_Accounting_System.models.Users;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.UsersRepository;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.services.UserService;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.utils.AppLogger;
+import com.Clinic_Accounting_System.Clinic_Accounting_System.utils.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
@@ -40,12 +41,7 @@ public class AuthenticationController {
                 return redirectSignedUserToHisHomePage(role);
             } else {
                 // we have session, but don't have Auth objects
-                // implementing message_ticket logic: messages only with ticket are coming thru
-                if(session.getAttribute("message_ticket") != null){
-                    session.removeAttribute("message_ticket");
-                } else{
-                    session.removeAttribute("message");
-                }
+                ControllerUtils.goThru_MessageByTicket_System(session);
             }
         }
         // and if session not exists -> just go Sign in
@@ -69,8 +65,7 @@ public class AuthenticationController {
         HttpSession session = request.getSession(true);
         // if there is no such user in db -> stay on 'sign in' page and set error message to display
         if(user == null){
-            session.setAttribute("message_ticket", true);
-            session.setAttribute("message", "Invalid username or password!");
+            ControllerUtils.giveTicketToMyMessage(session, "Invalid username or password!");
             return "redirect:/sign_in";
         }
 

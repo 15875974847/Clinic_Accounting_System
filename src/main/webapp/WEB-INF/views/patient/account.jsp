@@ -12,22 +12,25 @@
 	<meta name="author" content="Artique">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
-	<!-- My Page Favicon -->
+<!-- My Page Favicon -->
 	<link rel="icon" type="image/png" href="../res/images/icons/favicon.ico">
 <!-- Latest Bootstrap and datatables Bootstrap API ================================================-->
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css"/>
-<!-- Latest Datatable's Bootstrap API ==============================================================-->
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"/>
-<!-- Datatable's Buttons, Responsivness and Selection ==============================================-->
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap4.min.css"/>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css"/>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap4.min.css"/>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css"/>
 <!-- My CSS -->
 	<link rel="stylesheet" type="text/css" href="../css/myBackgrounds.css">
 	
-<!--JQuery, Bootstrap 4, Buttons, Responsivness, selection here-->
+<!-- JQuery, Bootstrap 4 -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	
+	<%-- Injecting error message if we have one --%>
+	<c:if test = "${sessionScope.message != null}">
+		<%-- Snackbar css and js function definition --%>
+		<link rel="stylesheet" type="text/css" href="../css/snackbar.css">
+		<script type="text/javascript" src="../js/snackbar.js"></script>
+		<%-- Displaying snackbar with error --%>
+		<script>$(document).ready(function () {showPopupSnackbar('${sessionScope.message}');});</script>
+	</c:if>
 	
   </head>
   
@@ -38,6 +41,7 @@
 			<div class="navbar-nav">
 				<a class="nav-item nav-link" href="home">Home Page</a>
 				<a class="nav-item nav-link active" href="account">Account<span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link" href="pers_info">Personal Information</a>
 				<a class="nav-item nav-link" href="doctors">Doctors</a>
 				<a class="nav-item nav-link" href="appointments">Appointments</a>
 			</div>
@@ -47,6 +51,80 @@
 		</form>
 	</nav>
 
+	<div class="container my-5">
+			<div class="text-center my-2">
+				<h3 class="bg-secondary text-white">&darr;Account Information&darr;</h3>
+			</div>
+	
+			<div class = "row justify-content-md-center my-3">
+				<div class="col-6">
+					<label class="bg-dark text-white" for="username"><b>Username:</b></label>
+					<input class="form-control" id="username" value="${requestScope.username}" readonly></input>   
+				</div>
+			</div>
+			<div class = "row justify-content-md-center my-3">
+				<div class="col-6">
+					<label class="bg-dark text-white" for="username"><b>Password:</b></label>
+					<input class="form-control" id="password" value="${requestScope.password}" readonly></input>   
+				</div>
+			</div>
+			
+			<div class="row justify-content-md-center my-3">
+				<div class="col-6">
+					<button class = "form-control btn btn-primary" data-toggle="modal" data-target="#editAccountInfoModal">Edit Account Information</button>
+				</div>
+			</div>
+	</div>
+	
+	<!-- ====== Edit Personal Info Modal Form ====================================================-->
+	<div class="modal fade" id="editAccountInfoModal" tabindex="-1" role="dialog" aria-labelledby="editAccountInfoLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-center" id="editAccountInfoLabel"><b>Edit Account Information</b></h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form action = "/patient/editAccountInfo" method = "post">
+					<div class="modal-body">
+						<div class="row col-12">
+							<div class="col-6">
+								<h5 class="text-center text-danger">Old Account Info</h5>
+								<div class="col-12 my-2">
+									<label for="oldUsername"><b>Username:</b></label>
+									<input class="form-control" name="oldUsername" id="oldUsername" value="${requestScope.username}" readonly></input>   
+								</div>
+								<div class="col-12 my-2">
+									<label for="oldPassword"><b>Password:</b></label>
+									<input class="form-control" name="oldPassword" id="oldPassword" value="${requestScope.password}" readonly></input>   
+								</div>
+							</div>
+							<div class="col-6">
+								<h5 class="text-center text-success">New Account Info</h5>
+								<div class="col-12 my-2">
+									<label for="newUsername"><b>Username:</b></label>
+									<input class="form-control" name="newUsername" id="newUsername" value="" maxlength=30 required></input>   
+								</div>
+								<div class="col-12 my-2">
+									<label for="newPassword"><b>Password:</b></label>
+									<input class="form-control" name="newPassword" id="newPassword" value="" maxlength=30 required></input>   
+								</div>
+							</div>
+						</div>
+					</div><!-- end of modal body -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Edit</button>
+					</div>
+				</form>
+			</div><!--modal content-->
+		</div><!--modal dialog-->
+	</div><!--main modal content division-->
+
+	<div id="snackbar"></div>    <!-- this bar will be showing notifications and errors -->
+	
+	
 	
 	
   </body>

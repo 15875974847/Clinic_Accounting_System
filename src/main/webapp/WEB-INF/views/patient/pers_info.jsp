@@ -1,3 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=US-ASCII"
+	pageEncoding="US-ASCII" %>
+<%@ page isELIgnored = "false" %>
+<%@ page session = "true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,6 +17,8 @@
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css"/>
 	<!-- Date picker css -->
 	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+	<!-- My Page Favicon -->
+	<link rel="icon" type="image/png" href="../res/images/icons/favicon.ico">
 	<!-- My CSS -->
 	<link rel="stylesheet" type="text/css" href="../css/myBackgrounds.css">
 	
@@ -21,7 +29,7 @@
 	<!-- Date picker -->
 	<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <!-- My JS -->
-	<script type="text/javascript" src="../js/patient/pers_inf/config.js"></script>
+	<script type="text/javascript" src="../js/patient/pers_info/config.js"></script>
 	
 	<%-- Injecting error message if we have one --%>
 	<c:if test = "${sessionScope.message != null}">
@@ -40,7 +48,7 @@
 			<div class="navbar-nav">
 				<a class="nav-item nav-link" href="home">Home Page</a>
 				<a class="nav-item nav-link" href="account">Account</a>
-				<a class="nav-item nav-link active" href="pers_info">Personal Info<span class="sr-only">(current)</span></a>
+				<a class="nav-item nav-link active" href="pers_info">Personal Information<span class="sr-only">(current)</span></a>
 				<a class="nav-item nav-link" href="doctors">Doctors</a>
 				<a class="nav-item nav-link" href="appointments">Appointments</a>
 			</div>
@@ -58,49 +66,49 @@
 			<div class = "row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="firstnameInfo"><b>First Name:</b></label>
-					<input class="bg-info text-white form-control" id="firstnameInfo" value="${requestScope.firstname}" readonly></input>   
+					<input class="form-control" id="firstnameInfo" value="${requestScope.firstname}" readonly></input>   
 				</div>
 			</div>
 			<div class="row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="midnameInfo"><b>Middle Name:</b></label>
-					<input class="bg-info text-white form-control" id="midnameInfo" value="${requestScope.midname}" readonly></input>  
+					<input class="form-control" id="midnameInfo" value="${requestScope.midname}" readonly></input>  
 				</div>
 			</div>			
 			<div class="row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="lastnameInfo"><b>Last Name:</b></label>
-					<input class="bg-info text-white form-control" id="lastnameInfo" value="${requestScope.lastname}" readonly></input>  
+					<input class="form-control" id="lastnameInfo" value="${requestScope.lastname}" readonly></input>  
 				</div>
 			</div>
 			<div class="row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="emailInfo"><b>Email:</b></label>
-					<input class="bg-info text-white form-control" id="emailInfo" value="${requestScope.email}" readonly></input>
+					<input class="form-control" id="emailInfo" value="${requestScope.email}" readonly></input>
 				</div>
 			</div>
 			<div class="row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="phoneInfo"><b>Phone:</b></label>
-					<input class="bg-info text-white form-control" id="phoneInfo" value="${requestScope.phone}" readonly></input>
+					<input class="form-control" id="phoneInfo" value="${requestScope.phone}" readonly></input>
 				</div>
 			</div>
 			<div class="row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="dobInfo"><b>Date of birth:</b></label>
-					<input class="bg-info text-white form-control" id="dobInfo" value="${requestScope.dob}" readonly></input>
+					<input class="form-control" id="dobInfo" value="${requestScope.dob}" readonly></input>
 				</div>
 			</div>
 			<div class="row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="addressInfo"><b>Address:</b></label>
-					<input class="bg-info text-white form-control" id="addressInfo" value="${requestScope.address}" readonly></input>
+					<input class="form-control" id="addressInfo" value="${requestScope.address}" readonly></input>
 				</div>
 			</div>
 			<div class="row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="medHistoryInfo"><b>Medical history:</b></label>
-					<textarea class="bg-info text-white form-control" id="medHistoryInfo" readonly>${requestScope.medHistory}</textarea>
+					<textarea class="form-control" id="medHistoryInfo" readonly>${requestScope.medHistory}</textarea>
 				</div>
 			</div>
 			<div class="row justify-content-md-center my-3">
@@ -158,31 +166,31 @@
 								<h5 class="text-center text-success">New Personal Info</h5>
 								<div class="col-12 my-2">
 									<label for="newFirstnameInfo"><b>First Name:</b></label>
-									<input class="form-control" id="newFirstnameInfo" value="" maxlength=20 required></input>   
+									<input class="form-control" name="firstname" id="newFirstnameInfo" value="" maxlength=20 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newMidnameInfo"><b>Middle Name:</b></label>
-									<input class="form-control" id="newMidnameInfo" value="" maxlength=20 required></input>   
+									<input class="form-control" name="midname" id="newMidnameInfo" value="" maxlength=20 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newLastnameInfo"><b>Last Name:</b></label>
-									<input class="form-control" id="newLastnameInfo" value="" maxlength=20 required></input>   
+									<input class="form-control" name="lastname" id="newLastnameInfo" value="" maxlength=20 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newEmailInfo"><b>Email:</b></label>
-									<input class="form-control" id="newEmailInfo" value="" maxlength=30 required></input>   
+									<input class="form-control" name="email" id="newEmailInfo" value="" maxlength=30 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newPhoneInfo"><b>Phone:</b></label>
-									<input class="form-control" id="newPhoneInfo" value="" maxlength=25 required></input>   
+									<input class="form-control" name="phone" id="newPhoneInfo" value="" maxlength=25 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newDOBInfo"><b>Date of birth:</b></label>
-									<input class="form-control" id="newDOBInfo" value="" required readonly></input>   
+									<input class="form-control" name="dob" id="newDOBInfo" value="" required readonly></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newAddressInfo"><b>Address:</b></label>
-									<input class="form-control" id="newAddressInfo" value="" maxlength=40 required></input>   
+									<input class="form-control" name="address" id="newAddressInfo" value="" maxlength=40 required></input>   
 								</div>
 							</div>
 						</div>

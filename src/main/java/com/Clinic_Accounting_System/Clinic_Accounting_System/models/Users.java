@@ -16,18 +16,17 @@ public class Users implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 4, max = 30)
+    @Size(max = 30)
     @Column(name = "`username`", columnDefinition = "varchar(30)", nullable = false, unique = true)
     private String username;
 
     @NotNull
-    @Size(min = 4, max = 30)
+    @Size(max = 30)
     @Column(name = "`password`", columnDefinition = "varchar(30)", nullable = false)
     private String password;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Size(max = 10)
     @Column(name = "`role`", columnDefinition = "varchar(10)", nullable = false)
     private Roles role;
 
