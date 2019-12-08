@@ -74,7 +74,6 @@
             <table id="dtEvents" class="table table-hover table-bordered table-sm bg-info text-white">
                 <thead>
                     <tr class="bg-dark text-white">
-                        <th class="th-sm">Id</th>
                         <th class="th-sm">Event</th>
                         <th class="th-sm">Description</th>
                         <th class="th-sm">Start date</th>
@@ -85,7 +84,6 @@
                 <tbody>
 					<c:forEach var="event" items="${requestScope.events}">
 						<tr>
-							<td>${event.id}</td>
 							<td>${event.header}</td>
 							<td>${event.content}</td>
 							<td>${event.startDate.toString()}</td>
@@ -96,7 +94,6 @@
 
                 <thead>
                     <tr class="bg-dark text-white">
-                        <th class="th-sm">Id</th>
                         <th class="th-sm">Event</th>
                         <th class="th-sm">Description</th>
                         <th class="th-sm">Start date</th>

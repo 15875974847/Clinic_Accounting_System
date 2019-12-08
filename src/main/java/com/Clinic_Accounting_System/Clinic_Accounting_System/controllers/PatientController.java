@@ -192,7 +192,7 @@ public class PatientController {
             request.setAttribute("doctors", doctors);
             // pass this page thru message-only-with-ticket system
             ControllerUtils.goThru_MessageByTicket_System(session);
-            return "patient/doctors";
+            return "patient/see_doctor";
         } else {
             return "redirect:/sign_in";
         }
@@ -204,11 +204,11 @@ public class PatientController {
             HttpSession session = request.getSession();
             // scrapping params
             Long patientID = (Long)session.getAttribute("user_id");
-            Long doctorID = (Long)request.getAttribute("doctorID");
-            Date date = Date.valueOf((String)request.getAttribute("date"));
-            String comment = (String)request.getAttribute("comment");
+            Long doctorID = Long.parseLong(request.getParameter("doctorID"));
+            Date date = java.sql.Date.valueOf(request.getParameter("date"));
+            String comment = request.getParameter("comment");
             // making call to database to find out how many appointments already we have on this date
-            int numberInQueue = appointmentsService.countAppointmentsToTheDoctorOnThisDate(doctorID, date).intValue() + 1;
+            int numberInQueue = appointmentsService.countAppointmentsByAppointmentID_Doctor_IdAndAppointmentID_Date(doctorID, date).intValue() + 1;
 
             // taking from db necessary to create new appointment patient and doctor objects
             UserInfo patientInfo = patientInfoService.getOne(patientID);
@@ -232,11 +232,21 @@ public class PatientController {
     }
 
 
-    @GetMapping (value = "/appointments")
+    @GetMapping (value = "/my_appointments")
     public String showAppointmentsPage(HttpServletRequest request){
         if(checkPatientAuth(request)){
-
-            return "patient/appointments";
+            HttpSession session = request.getSession();
+            // making some calls to database to retrieve necessary info
+            UserInfo patientInfo = patientInfoService.getOne((Long)session.getAttribute("user_id"));
+            if(patientInfo != null){
+                // fetch from database all patient's
+                List<Appointments> appointments = appointmentsService.findAppointmentsByAppointmentID_PatientId(patientInfo.getId());
+                //set it as request attrib
+                request.setAttribute("appointments", appointments);
+                return "patient/my_appointments";
+            } else {
+                return ControllerUtils.processNonexistentUserWithValidSessionParams(session, request);
+            }
         } else {
             return "redirect:/sign_in";
         }

@@ -16,7 +16,7 @@
 	<!-- Latest Bootstrap and datatables Bootstrap API ================================================-->
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css"/>
 	<!-- Date picker css -->
-	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
 	<!-- My Page Favicon -->
 	<link rel="icon" type="image/png" href="../res/images/icons/favicon.ico">
 	<!-- My CSS -->
@@ -29,7 +29,8 @@
 	<!-- Date picker -->
 	<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <!-- My JS -->
-	<script type="text/javascript" src="../js/patient/pers_info/dataPickerConfig.js"></script>
+	<script type="text/javascript" src="../../utils/utils.js"></script> 
+	<script type="text/javascript" src="../js/patient/pers_info/datePickerConfig.js"></script>
 	
 	<%-- Injecting message if we only have one --%>
 	<c:if test = "${sessionScope.message != null}">
@@ -58,8 +59,8 @@
 		</form>
 	</nav>
 
-	<div class = "container my-5">
-		<div class="text-center my-2">
+	<div class = "container">
+		<div class="text-center my-3">
 			<h3 class="bg-secondary text-white">&darr;Personal Information&darr;</h3>
 		</div>
 

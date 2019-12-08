@@ -2,7 +2,7 @@
 $(document).ready(function () {
 
     // working with DataTable API
-    let table = $('#dtDormInfo').DataTable({
+    let table = $('#dtDoctors').DataTable({
         "pagingType": "full_numbers", 																				//  first, last, next, prev and nums
         "order": [[ 0, "asc" ]],																					// firstly, sort by first row and in asc order
         "select": {"style": 'single'},																				// only single selection!
@@ -16,7 +16,7 @@ $(document).ready(function () {
             // remembering rows(actually, row) we are selected
             const selectedDocInfoRows = table.rows(indexes).data().toArray();
             // setting tableDoctorID to selectedDoctorID, so it will be ready to go to server
-            document.getElementById("selectedDoctorID").value = selectedDormStudRowInfo[0][0];             // 0 0 cuz we have only 1 row and id is 1 column
+            document.getElementById("selectedDoctorID").value = selectedDocInfoRows[0][0];             // 0:0 cuz we have only 1 row and id is 1 column
         } );
 
 });

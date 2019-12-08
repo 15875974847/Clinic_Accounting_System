@@ -23,6 +23,9 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap4.min.css"/>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css"/>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap4.min.css"/>
+<!-- Date picker css -->
+	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>	
+	
 <!-- My CSS -->
 	<link rel="stylesheet" type="text/css" href="../css/myBackgrounds.css">
 	
@@ -38,8 +41,16 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
 
+<!-- Date picker -->
+	<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<!-- Font Awesome for Glyphs -->
+	<script src="https://kit.fontawesome.com/7685c16a3d.js" crossorigin="anonymous"></script>
+	
 <!-- My scripts -->
+	<script type="text/javascript" src="../../utils/utils.js"></script> 
 	<script type="text/javascript" src="../js/patient/see_doctor/dataTableConfig.js"></script>
+	<script type="text/javascript" src="../js/patient/see_doctor/datePickerConfig.js"></script>
+	
 	<%-- Injecting message only if we have one --%>
 	<c:if test = "${sessionScope.message != null}">
 		<%-- Snackbar css and js function definition --%>
@@ -70,7 +81,7 @@
 	<!-- content here -->
 	<div class = "container">
 
-        <div class="text-center mt-5 mb-2">
+        <div class="text-center my-3">
             <h3 class="bg-secondary text-white">&darr;Over here all doctors available for you&darr;</h3>
         </div>
 	
@@ -97,9 +108,13 @@
 							<td>${doctor.staffEntity.userInfo.lastName}</td>
 							<td>${doctor.specialization}</td>
 							<td>${doctor.degree}</td>
-							<button class="btn btn-success" data-toggle="modal" data-target="#datePickerModal">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-							</button>
+							<td>
+								<div class="row justify-content-center">
+									<button class="btn" data-toggle="modal" data-target="#datePickerModal">
+										<i class=" fas fa-address-book"></i>
+									</button>
+								</div>
+							</td>	
 						</tr>
 					</c:forEach>
                 </tbody>
@@ -134,7 +149,7 @@
 						<div class="container my-5">
 							<input type="hidden" id="selectedDoctorID" name="doctorID" value="">
 							<div class="row justify-content-center my-3">
-								<input class="form-control" name="date" value="2020-12-12" required readonly></input> 
+								<input class="form-control" id="appointmentDatePicker" name="date" value="2020-12-12" required readonly></input> 
 							</div>
 							<div class="row justify-content-center my-3">
 								<label for="formCommentSection"> You can leave the comment if you want: </label>

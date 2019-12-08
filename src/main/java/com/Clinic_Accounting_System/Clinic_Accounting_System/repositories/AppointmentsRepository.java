@@ -5,10 +5,16 @@ import com.Clinic_Accounting_System.Clinic_Accounting_System.models.Appointments
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
+@Repository
 public interface AppointmentsRepository extends JpaRepository<Appointments, AppointmentID> {
-    @Query(countQuery = "SELECT COUNT(a) FROM appointments AS a WHERE a.doctor_id = :doctorID AND a.date = :selectedDate")
-    Long countAppointmentsToTheDoctorOnThisDate(@Param("doctorID") Long doctorID, @Param("selectedDate") Date selectedDate);
+//    @Query(countQuery = "SELECT COUNT(a.appointmentID) FROM Appointments AS a WHERE a.appointmentID.doctor.id = :doctorID AND a.appointmentID.date = :selectedDate")
+//    Long countAppointmentsToTheDoctorOnThisDate(@Param("doctorID") Long doctorID, @Param("selectedDate") Date selectedDate);
+    Long countAppointmentsByAppointmentID_Doctor_IdAndAppointmentID_Date(Long doctorID, Date selectedDate);
+
+    ArrayList<Appointments> findAppointmentsByAppointmentID_PatientId(Long patientID);
 }

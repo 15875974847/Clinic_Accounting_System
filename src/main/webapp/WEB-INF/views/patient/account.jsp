@@ -51,8 +51,8 @@
 		</form>
 	</nav>
 
-	<div class="container my-5">
-			<div class="text-center my-2">
+	<div class="container">
+			<div class="text-center my-3">
 				<h3 class="bg-secondary text-white">&darr;Account Information&darr;</h3>
 			</div>
 	
