@@ -1,14 +1,8 @@
 package com.Clinic_Accounting_System.Clinic_Accounting_System.controllers;
 
 
-import com.Clinic_Accounting_System.Clinic_Accounting_System.models.Events;
-import com.Clinic_Accounting_System.Clinic_Accounting_System.models.Roles;
-import com.Clinic_Accounting_System.Clinic_Accounting_System.models.UserInfo;
-import com.Clinic_Accounting_System.Clinic_Accounting_System.models.Users;
-import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.DoctorsRepository;
-import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.EventsRepository;
-import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.UserInfoRepository;
-import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.UsersRepository;
+import com.Clinic_Accounting_System.Clinic_Accounting_System.models.*;
+import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.*;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.utils.AppLogger;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.utils.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -38,6 +34,9 @@ public class PatientController {
 
     @Autowired
     private EventsRepository eventsService;
+
+    @Autowired
+    private AppointmentsRepository appointmentsService;
 
 
     @GetMapping (value = "/")
@@ -183,15 +182,55 @@ public class PatientController {
     }
 
 
-    @GetMapping (value = "/doctors")
-    public String showDoctorsPage(HttpServletRequest request){
+    @GetMapping (value = "/see_doctor")
+    public String show_SeeDoctor_Page(HttpServletRequest request){
         if(checkPatientAuth(request)){
-
+            HttpSession session = request.getSession();
+            // making some calls to retrieve info from database
+            List<Doctors> doctors = doctorsService.findAll();
+            // setting list of doctors as request attribute
+            request.setAttribute("doctors", doctors);
+            // pass this page thru message-only-with-ticket system
+            ControllerUtils.goThru_MessageByTicket_System(session);
             return "patient/doctors";
         } else {
             return "redirect:/sign_in";
         }
     }
+    // this post request is used to register patient appointment in database
+    @PostMapping (value = "/makeAppointment")
+    public String makeAnAppointment(HttpServletRequest request){
+        if(checkPatientAuth(request)){
+            HttpSession session = request.getSession();
+            // scrapping params
+            Long patientID = (Long)session.getAttribute("user_id");
+            Long doctorID = (Long)request.getAttribute("doctorID");
+            Date date = Date.valueOf((String)request.getAttribute("date"));
+            String comment = (String)request.getAttribute("comment");
+            // making call to database to find out how many appointments already we have on this date
+            int numberInQueue = appointmentsService.countAppointmentsToTheDoctorOnThisDate(doctorID, date).intValue() + 1;
+
+            // taking from db necessary to create new appointment patient and doctor objects
+            UserInfo patientInfo = patientInfoService.getOne(patientID);
+            Doctors doctorInfo = doctorsService.getOne(doctorID);
+            // and check those objects on existence
+            if(patientInfo != null && doctorInfo != null){
+                // creating new appointment on chosen date
+                AppointmentID newAppointmentID = new AppointmentID(patientInfo, doctorInfo, date, numberInQueue);
+                Appointments newAppointment = new Appointments(newAppointmentID, comment);
+                // and save and flush(always flush after yourself!:))
+                appointmentsService.saveAndFlush(newAppointment);
+                // add give ticket to message to notify user that appointment to doctor successfully created
+                ControllerUtils.giveTicketToMyMessage(session, "Appointment to selected doctor successfully created!");
+                return "redirect:/patient/see_doctor";
+            } else {
+                return ControllerUtils.processNonexistentUserWithValidSessionParams(session, request);
+            }
+        } else {
+            return "redirect:/sign_in";
+        }
+    }
+
 
     @GetMapping (value = "/appointments")
     public String showAppointmentsPage(HttpServletRequest request){

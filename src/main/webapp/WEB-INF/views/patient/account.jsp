@@ -6,7 +6,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-	<title>Patient Account Page</title>
+	<title>Patient's Account Page</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
 	<meta name="author" content="Artique">
@@ -42,8 +42,8 @@
 				<a class="nav-item nav-link" href="home">Home Page</a>
 				<a class="nav-item nav-link active" href="account">Account<span class="sr-only">(current)</span></a>
 				<a class="nav-item nav-link" href="pers_info">Personal Information</a>
-				<a class="nav-item nav-link" href="doctors">Doctors</a>
-				<a class="nav-item nav-link" href="appointments">Appointments</a>
+				<a class="nav-item nav-link" href="see_doctor">See Doctor</a>
+				<a class="nav-item nav-link" href="my_appointments">My Appointments</a>
 			</div>
 		</div>
 		<form class="form-inline" action="/sign_out" method = "post">

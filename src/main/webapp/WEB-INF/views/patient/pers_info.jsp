@@ -7,7 +7,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-	<title>Patient Personal Info Page</title>
+	<title>Patient's Personal Info Page</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
 	<meta name="author" content="Artique">
@@ -29,9 +29,9 @@
 	<!-- Date picker -->
 	<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <!-- My JS -->
-	<script type="text/javascript" src="../js/patient/pers_info/config.js"></script>
+	<script type="text/javascript" src="../js/patient/pers_info/dataPickerConfig.js"></script>
 	
-	<%-- Injecting error message if we have one --%>
+	<%-- Injecting message if we only have one --%>
 	<c:if test = "${sessionScope.message != null}">
 		<%-- Snackbar css and js function definition --%>
 		<link rel="stylesheet" type="text/css" href="../css/snackbar.css">
@@ -49,8 +49,8 @@
 				<a class="nav-item nav-link" href="home">Home Page</a>
 				<a class="nav-item nav-link" href="account">Account</a>
 				<a class="nav-item nav-link active" href="pers_info">Personal Information<span class="sr-only">(current)</span></a>
-				<a class="nav-item nav-link" href="doctors">Doctors</a>
-				<a class="nav-item nav-link" href="appointments">Appointments</a>
+				<a class="nav-item nav-link" href="see_doctor">See Doctor</a>
+				<a class="nav-item nav-link" href="my_appointments">My Appointments</a>
 			</div>
 		</div>
 		<form class="form-inline" action="/sign_out" method = "post">
@@ -59,63 +59,63 @@
 	</nav>
 
 	<div class = "container my-5">
-			<div class="text-center my-2">
-				<h3 class="bg-secondary text-white">&darr;Personal Information&darr;</h3>
+		<div class="text-center my-2">
+			<h3 class="bg-secondary text-white">&darr;Personal Information&darr;</h3>
+		</div>
+
+		<div class = "row justify-content-md-center my-3">
+			<div class="col-6">
+				<label class="bg-dark text-white" for="firstnameInfo"><b>First Name:</b></label>
+				<input class="form-control" id="firstnameInfo" value="${requestScope.firstname}" readonly></input>   
 			</div>
-	
-			<div class = "row justify-content-md-center my-3">
-				<div class="col-6">
-					<label class="bg-dark text-white" for="firstnameInfo"><b>First Name:</b></label>
-					<input class="form-control" id="firstnameInfo" value="${requestScope.firstname}" readonly></input>   
-				</div>
+		</div>
+		<div class="row justify-content-md-center my-3">
+			<div class="col-6">
+				<label class="bg-dark text-white" for="midnameInfo"><b>Middle Name:</b></label>
+				<input class="form-control" id="midnameInfo" value="${requestScope.midname}" readonly></input>  
 			</div>
-			<div class="row justify-content-md-center my-3">
-				<div class="col-6">
-					<label class="bg-dark text-white" for="midnameInfo"><b>Middle Name:</b></label>
-					<input class="form-control" id="midnameInfo" value="${requestScope.midname}" readonly></input>  
-				</div>
-			</div>			
-			<div class="row justify-content-md-center my-3">
-				<div class="col-6">
-					<label class="bg-dark text-white" for="lastnameInfo"><b>Last Name:</b></label>
-					<input class="form-control" id="lastnameInfo" value="${requestScope.lastname}" readonly></input>  
-				</div>
+		</div>			
+		<div class="row justify-content-md-center my-3">
+			<div class="col-6">
+				<label class="bg-dark text-white" for="lastnameInfo"><b>Last Name:</b></label>
+				<input class="form-control" id="lastnameInfo" value="${requestScope.lastname}" readonly></input>  
 			</div>
-			<div class="row justify-content-md-center my-3">
-				<div class="col-6">
-					<label class="bg-dark text-white" for="emailInfo"><b>Email:</b></label>
-					<input class="form-control" id="emailInfo" value="${requestScope.email}" readonly></input>
-				</div>
+		</div>
+		<div class="row justify-content-md-center my-3">
+			<div class="col-6">
+				<label class="bg-dark text-white" for="emailInfo"><b>Email:</b></label>
+				<input class="form-control" id="emailInfo" value="${requestScope.email}" readonly></input>
 			</div>
-			<div class="row justify-content-md-center my-3">
-				<div class="col-6">
-					<label class="bg-dark text-white" for="phoneInfo"><b>Phone:</b></label>
-					<input class="form-control" id="phoneInfo" value="${requestScope.phone}" readonly></input>
-				</div>
+		</div>
+		<div class="row justify-content-md-center my-3">
+			<div class="col-6">
+				<label class="bg-dark text-white" for="phoneInfo"><b>Phone:</b></label>
+				<input class="form-control" id="phoneInfo" value="${requestScope.phone}" readonly></input>
 			</div>
-			<div class="row justify-content-md-center my-3">
-				<div class="col-6">
-					<label class="bg-dark text-white" for="dobInfo"><b>Date of birth:</b></label>
-					<input class="form-control" id="dobInfo" value="${requestScope.dob}" readonly></input>
-				</div>
+		</div>
+		<div class="row justify-content-md-center my-3">
+			<div class="col-6">
+				<label class="bg-dark text-white" for="dobInfo"><b>Date of birth:</b></label>
+				<input class="form-control" id="dobInfo" value="${requestScope.dob}" readonly></input>
 			</div>
-			<div class="row justify-content-md-center my-3">
-				<div class="col-6">
-					<label class="bg-dark text-white" for="addressInfo"><b>Address:</b></label>
-					<input class="form-control" id="addressInfo" value="${requestScope.address}" readonly></input>
-				</div>
+		</div>
+		<div class="row justify-content-md-center my-3">
+			<div class="col-6">
+				<label class="bg-dark text-white" for="addressInfo"><b>Address:</b></label>
+				<input class="form-control" id="addressInfo" value="${requestScope.address}" readonly></input>
 			</div>
-			<div class="row justify-content-md-center my-3">
-				<div class="col-6">
-					<label class="bg-dark text-white" for="medHistoryInfo"><b>Medical history:</b></label>
-					<textarea class="form-control" id="medHistoryInfo" readonly>${requestScope.medHistory}</textarea>
-				</div>
+		</div>
+		<div class="row justify-content-md-center my-3">
+			<div class="col-6">
+				<label class="bg-dark text-white" for="medHistoryInfo"><b>Medical history:</b></label>
+				<textarea class="form-control" id="medHistoryInfo" readonly>${requestScope.medHistory}</textarea>
 			</div>
-			<div class="row justify-content-md-center my-3">
-				<div class="col-6">
-					<button class = "form-control btn btn-primary" data-toggle="modal" data-target="#editPersonalInfoModal">Edit Personal Information</button>
-				</div>
+		</div>
+		<div class="row justify-content-md-center my-3">
+			<div class="col-6">
+				<button class = "form-control btn btn-primary" data-toggle="modal" data-target="#editPersonalInfoModal">Edit Personal Information</button>
 			</div>
+		</div>
 	</div>
 	
 	<!-- ====== Edit Personal Info Modal Form ====================================================-->
@@ -186,7 +186,7 @@
 								</div>
 								<div class="col-12 my-2">
 									<label for="newDOBInfo"><b>Date of birth:</b></label>
-									<input class="form-control" name="dob" id="newDOBInfo" value="" required readonly></input>   
+									<input class="form-control" name="dob" id="newDOBInfo" value="2020-12-12" required readonly></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newAddressInfo"><b>Address:</b></label>

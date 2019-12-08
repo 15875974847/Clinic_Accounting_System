@@ -15,8 +15,8 @@ public class AppointmentID implements Serializable {
     private Date date;
 
     @NotNull
-    @Column(name = "time", nullable = false)
-    private Time time;
+    @Column(name = "number_in_queue", nullable = false)
+    private int numberInQueue;
 
     // specifying many to one relationship to UserInfo table(btw, it's unidirectional relationship)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
@@ -30,11 +30,11 @@ public class AppointmentID implements Serializable {
 
     public AppointmentID() {}
 
-    public AppointmentID(@NotNull Date date, @NotNull Time time, UserInfo patient, Doctors doctor) {
-        this.date = date;
-        this.time = time;
+    public AppointmentID(UserInfo patient, Doctors doctor, @NotNull Date date, @NotNull int numberInQueue) {
         this.patient = patient;
         this.doctor = doctor;
+        this.date = date;
+        this.numberInQueue = numberInQueue;
     }
 
     public Date getDate() {
@@ -45,12 +45,12 @@ public class AppointmentID implements Serializable {
         this.date = date;
     }
 
-    public Time getTime() {
-        return time;
+    public int getNumberInQueue() {
+        return numberInQueue;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public void setNumberInQueue(byte numberInQueue) {
+        this.numberInQueue = numberInQueue;
     }
 
     public UserInfo getPatient() {
@@ -76,14 +76,14 @@ public class AppointmentID implements Serializable {
         AppointmentID that = (AppointmentID) o;
         return
                 Objects.equals(getDate(), that.getDate()) &&
-                        Objects.equals(getTime(), that.getTime()) &&
+                        Objects.equals(getNumberInQueue(), that.getNumberInQueue()) &&
                         Objects.equals(getDoctor(), that.getDoctor()) &&
                         Objects.equals(getPatient(), that.getPatient());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDate(), getTime(), getDoctor(), getPatient());
+        return Objects.hash(getDate(), getNumberInQueue(), getDoctor(), getPatient());
     }
 
 }
