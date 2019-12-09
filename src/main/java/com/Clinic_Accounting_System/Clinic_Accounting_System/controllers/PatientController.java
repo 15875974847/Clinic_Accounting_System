@@ -78,7 +78,8 @@ public class PatientController {
                 // setting request params, so jsp can render the page
                 request.setAttribute("username", accountInfo.get().getUsername());
                 request.setAttribute("password", accountInfo.get().getPassword());
-
+                // go thought message-by-ticket system
+                ControllerUtils.goThru_MessageByTicket_System(session);
                 return "patient/account";
             } else {
                 return ControllerUtils.processNonexistentUserWithValidSessionParams(session, request);
@@ -107,6 +108,8 @@ public class PatientController {
                     accountInfo.setUsername(newUsername);
                     accountInfo.setPassword(newPassword);
                     accountInfoService.saveAndFlush(accountInfo);
+                    // give ticket to successful username and password update message
+                    ControllerUtils.giveTicketToMyMessage(session, "Username and password updated!");
                     return "redirect:/patient/account";
                 } else {
                     return ControllerUtils.processNonexistentUserWithValidSessionParams(session, request);

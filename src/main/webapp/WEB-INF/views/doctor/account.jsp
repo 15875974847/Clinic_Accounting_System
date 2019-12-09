@@ -6,7 +6,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-	<title>Patient's Account Page</title>
+	<title>Doctor's Account Page</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
 	<meta name="author" content="Artique">
@@ -43,6 +43,7 @@
 				<a class="nav-item nav-link active" href="account">Account<span class="sr-only">(current)</span></a>
 				<a class="nav-item nav-link" href="pers_info">Personal Information</a>
 				<a class="nav-item nav-link" href="see_doctor">See Doctor</a>
+				<a class="nav-item nav-link" href="find_patient">Find Patient</a>
 				<a class="nav-item nav-link" href="my_appointments">My Appointments</a>
 			</div>
 		</div>
@@ -123,9 +124,6 @@
 	</div><!--main modal content division-->
 
 	<div id="snackbar"></div>    <!-- this bar will be showing notifications and errors -->
-	
-	
-	
 	
   </body>
 </html>

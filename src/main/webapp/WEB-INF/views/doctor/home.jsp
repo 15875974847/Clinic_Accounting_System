@@ -23,11 +23,13 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap4.min.css"/>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css"/>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap4.min.css"/>
+<!-- Custom checkboxes -->
+	<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 <!-- My CSS -->
 	<link rel="stylesheet" type="text/css" href="../css/myBackgrounds.css">
 	
 	
-<!--JQuery, Bootstrap 4, Buttons, Responsivness, selection here-->
+<!-- JQuery, Bootstrap 4, Buttons, Responsivness, selection here -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -37,11 +39,23 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+<!-- Custom checkbox -->
+	<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 <!-- My scripts -->
 	<script type="text/javascript" src="../../utils/utils.js"></script> 
 	<script type="text/javascript" src="../js/doctor/home/datePickerConfig.js"></script>
 	<script type="text/javascript" src="../js/doctor/home/dataTableConfig.js"></script>
+	
+	<%-- Injecting error message if we have one --%>
+	<c:if test = "${sessionScope.message != null}">
+		<%-- Snackbar css and js function definition --%>
+		<link rel="stylesheet" type="text/css" href="../css/snackbar.css">
+		<script type="text/javascript" src="../js/snackbar.js"></script>
+		<%-- Displaying snackbar with error --%>
+		<script>$(document).ready(function () {showPopupSnackbar('${sessionScope.message}');});</script>
+	</c:if>
+	
   </head>
   
   <body class = "bg-light-green-mari" style="font-family: Ubuntu">
@@ -53,7 +67,7 @@
 				<a class="nav-item nav-link" href="account">Account</a>
 				<a class="nav-item nav-link" href="pers_info">Personal Information</a>
 				<a class="nav-item nav-link" href="see_doctor">See Doctor</a>
-				<a class="nav-item nav-link" href="find_patient">Find Doctor</a>
+				<a class="nav-item nav-link" href="find_patient">Find Patient</a>
 				<a class="nav-item nav-link" href="my_appointments">My Appointments</a>
 			</div>
 		</div>
@@ -153,8 +167,10 @@
 									<input class="form-control" id="newEventEndDate" name = "end_date" required></input>   
 								</div>
 								<div class="row my-2">
-									<label for="newEventOnlyForPersonalCB"><b>End date:</b></label>
-									<input class="form-control" id="newEventOnlyForPersonalCB" name = "only_for_personal"></input>   
+									<div class="form-check form-check-inline">
+										<label for="newEventOnlyForPersonalCB" class="form-check-label">Only for personal</label>
+										<input type="checkbox" id="newEventOnlyForPersonalCB" name = "only_for_personal" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger">
+									</div>
 								</div>
 							</div>
 						</div>
