@@ -103,12 +103,12 @@
                 <tbody>
 					<c:forEach var="doctor" items="${requestScope.doctors}">
 						<tr>
-							<td>${requestScope.doctor.id}</td>
-							<td>${requestScope.doctor.staffEntity.userInfo.firstName}</td>
-							<td>${requestScope.doctor.staffEntity.userInfo.middleName}</td>
-							<td>${requestScope.doctor.staffEntity.userInfo.lastName}</td>
-							<td>${requestScope.doctor.specialization}</td>
-							<td>${requestScope.doctor.degree}</td>
+							<td>${doctor.id}</td>
+							<td>${doctor.staffEntity.userInfo.firstName}</td>
+							<td>${doctor.staffEntity.userInfo.middleName}</td>
+							<td>${doctor.staffEntity.userInfo.lastName}</td>
+							<td>${doctor.specialization}</td>
+							<td>${doctor.degree}</td>
 							<td>
 								<div class="row justify-content-center">
 									<button class="btn" data-toggle="modal" data-target="#datePickerModal">

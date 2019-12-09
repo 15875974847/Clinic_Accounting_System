@@ -7,7 +7,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-	<title>Patient's Appointments</title>
+	<title>Doctors's Appointments</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
 	<meta name="author" content="Artique">

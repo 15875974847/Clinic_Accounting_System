@@ -257,6 +257,49 @@ public class DoctorController {
     }
 
 
+    @GetMapping(value = "/find_patient")
+    public String findPatient(HttpServletRequest request){
+        if(checkDocAuth(request)){
+            HttpSession session = request.getSession();
+            // making call to db to fetch all patients
+            List<UserInfo> patients = patientInfoService.findAll();
+            // setting list of patients as a param
+            request.setAttribute("patients", patients);
+            // go thru message-by-ticket to display messages
+            ControllerUtils.goThru_MessageByTicket_System(session);
+            return "doctor/find_patient";
+        } else{
+            return "redirect:/sign_in";
+        }
+    }
+
+    @PostMapping(value="changePatientsMedicalHistory")
+    public String changePatientsMedicalHistory(HttpServletRequest request){
+        if(checkDocAuth(request)){
+            HttpSession session = request.getSession();
+            // retrieving params from request
+            Long patientID = Long.parseLong(request.getParameter("patientID"));
+            String newMedicalHistory = request.getParameter("newMedicalHistory");
+            // making call to database to make LAZY fetch of patient info
+            UserInfo patient = patientInfoService.getOne(patientID);
+            if(patient != null){
+                // update it's medical history
+                patient.setMedicalHistory(newMedicalHistory);
+                // and flush changes
+                patientInfoService.saveAndFlush(patient);
+                // give message about successful update
+                ControllerUtils.giveTicketToMyMessage(session, "Medical history successfully updated!");
+                return "redirect:/doctor/find_patient";
+            } else {
+                ControllerUtils.giveTicketToMyMessage(session, "Such patient don't exist anymore!");
+                return "redirect:/doctor/find_patient";
+            }
+        } else{
+            return "redirect:/sign_in";
+        }
+    }
+
+
     private boolean checkDocAuth(HttpServletRequest request){
         /*
             Checking session and Auth attributes for existence,
