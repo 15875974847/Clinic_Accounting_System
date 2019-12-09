@@ -47,7 +47,7 @@
 	<script src="https://kit.fontawesome.com/7685c16a3d.js" crossorigin="anonymous"></script>
 	
 <!-- My scripts -->
-	<script type="text/javascript" src="../../utils/utils.js"></script> 
+	<script type="text/javascript" src="../js/utils/utils.js"></script>
 	<script type="text/javascript" src="../js/doctor/see_doctor/dataTableConfig.js"></script>
 	<script type="text/javascript" src="../js/doctor/see_doctor/datePickerConfig.js"></script>
 	
@@ -120,7 +120,7 @@
 					</c:forEach>
                 </tbody>
 
-                <thead>
+                <tfoot>
                     <tr class="bg-dark text-white">
 						<th class="th-sm">ID</th>
                         <th class="th-sm">First Name</th>
@@ -130,7 +130,7 @@
 						<th class="th-sm">Degree</th>
 						<th class="th-sm">See Doctor</th>
                     </tr>
-                </thead>
+                </tfoot>
             </table>
         </div> 
 	</div>

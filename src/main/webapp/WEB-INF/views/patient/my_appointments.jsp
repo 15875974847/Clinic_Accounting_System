@@ -94,7 +94,7 @@
 					</c:forEach>
                 </tbody>
 
-                <thead>
+                <tfoot>
                     <tr class="bg-dark text-white">
                         <th class="th-sm">Doc's Specialization</th>
                         <th class="th-sm">Doc's Name</th>
@@ -104,7 +104,7 @@
 						<th class="th-sm">Number in queue</th>
 						<th class="th-sm">Comment</th>
                     </tr>
-                </thead>
+                </tfoot>
             </table>
         </div> 
 	</div>

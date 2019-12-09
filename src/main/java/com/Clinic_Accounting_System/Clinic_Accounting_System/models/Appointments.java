@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Objects;
 
 @Entity
 @Table(name = "appointments")
@@ -40,5 +41,18 @@ public class Appointments implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Appointments)) return false;
+        Appointments that = (Appointments) o;
+        return Objects.equals(getAppointmentID(), that.getAppointmentID());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAppointmentID());
     }
 }

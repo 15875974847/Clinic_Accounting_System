@@ -29,7 +29,7 @@
 	<!-- Date picker -->
 	<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <!-- My JS -->
-	<script type="text/javascript" src="../../utils/utils.js"></script> 
+	<script type="text/javascript" src="../js/utils/utils.js"></script>
 	<script type="text/javascript" src="../js/patient/pers_info/datePickerConfig.js"></script>
 	
 	<%-- Injecting message if we only have one --%>

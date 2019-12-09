@@ -29,7 +29,7 @@
 	<!-- Date picker -->
 	<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <!-- My JS -->
-	<script type="text/javascript" src="../../utils/utils.js"></script> 
+	<script type="text/javascript" src="../js/utils/utils.js"></script>
 	<script type="text/javascript" src="../js/doctor/pers_info/datePickerConfig.js"></script>
 	<script type="text/javascript" src="../js/doctor/pers_info/validators.js"></script>
 	
@@ -116,7 +116,7 @@
 		</div>
 		
 		
-		<div class="text-center mt-3 mb-2">
+		<div class="text-center mt-5 mb-2">
 			<h3 class="bg-secondary text-white">&darr;Personal information as a doctor&darr;</h3>
 		</div>
 		
@@ -135,7 +135,7 @@
 		<div class="row justify-content-md-center my-3">
 			<div class="col-6">
 				<label class="bg-dark text-white" for="salaryInfo"><b>Salary:</b></label>
-				<input class="form-control" id="salaryInfo" value="${requestScope.doctor.staffEntity.salary}" readonly></input>
+				<input class="form-control" id="salaryInfo" value="${requestScope.doctor.staffEntity.salary} $$$" readonly></input>
 			</div>
 		</div>
 		

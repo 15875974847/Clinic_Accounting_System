@@ -243,7 +243,7 @@ public class PatientController {
             UserInfo patientInfo = patientInfoService.getOne((Long)session.getAttribute("user_id"));
             if(patientInfo != null){
                 // fetch from database all patient's
-                List<Appointments> appointments = appointmentsService.findAppointmentsByAppointmentID_PatientId(patientInfo.getId());
+                List<Appointments> appointments = appointmentsService.findAllByAppointmentID_Patient_Id(patientInfo.getId());
                 //set it as request attrib
                 request.setAttribute("appointments", appointments);
                 return "patient/my_appointments";

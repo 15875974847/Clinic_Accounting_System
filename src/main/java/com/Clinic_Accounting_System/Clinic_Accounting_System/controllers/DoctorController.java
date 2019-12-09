@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
@@ -55,7 +56,7 @@ public class DoctorController {
                 // setting firstname to greet user
                 request.setAttribute("user", patientInfo.get().getFirstName());
                 // search events for doctor
-                ArrayList<Events> events = eventsService.findAllByOnlyForPersonal(true);
+                List<Events> events = eventsService.findAll();
                 request.setAttribute("events", events);
                 // process thru message-by-ticket system
                 ControllerUtils.goThru_MessageByTicket_System(session);
@@ -182,7 +183,7 @@ public class DoctorController {
                 String dob = request.getParameter("newDOB");
                 String address = request.getParameter("newAddress");
                 String specialization = request.getParameter("newSpecialization");
-                String degree = request.getParameter("newDegreeInfo");
+                String degree = request.getParameter("newDegree");
                 // setting updated doctor's info params
                 doctorInfo.getStaffEntity().getUserInfo().setFirstName(firstname);
                 doctorInfo.getStaffEntity().getUserInfo().setMiddleName(midname);
@@ -190,7 +191,7 @@ public class DoctorController {
                 doctorInfo.getStaffEntity().getUserInfo().setEmail(email);
                 doctorInfo.getStaffEntity().getUserInfo().setPhone(phone);
                 doctorInfo.getStaffEntity().getUserInfo().setDateOfBirth(java.sql.Date.valueOf(dob));
-                doctorInfo.getStaffEntity().getUserInfo().setFirstName(address);
+                doctorInfo.getStaffEntity().getUserInfo().setAddress(address);
                 doctorInfo.setSpecialization(specialization);
                 doctorInfo.setDegree(degree);
                 // and flush changes to db
@@ -295,6 +296,69 @@ public class DoctorController {
                 return "redirect:/doctor/find_patient";
             }
         } else{
+            return "redirect:/sign_in";
+        }
+    }
+
+
+    @GetMapping(value="my_appointments")
+    public String showAppointments(HttpServletRequest request){
+        if(checkDocAuth(request)){
+            HttpSession session = request.getSession();
+            // fetching from session user_id param
+            Long user_id = (Long)session.getAttribute("user_id");
+            // fetching appointment's info from database
+            List<Appointments> asPatientAppointments = appointmentsService.findAllByAppointmentID_Patient_Id(user_id);
+            List<Appointments> asDoctorAppointments = appointmentsService.findAllByAppointmentID_Doctor_Id(user_id);
+            // set those two lists as attributes of request scope
+            request.setAttribute("asPatientAppointments", asPatientAppointments);
+            request.setAttribute("asDoctorAppointments", asDoctorAppointments);
+            // go thru message-by-ticket system
+            ControllerUtils.goThru_MessageByTicket_System(session);
+            return "doctor/my_appointments";
+        } else {
+            return "redirect:/sign_in";
+        }
+    }
+
+    @PostMapping(value="/endAppointmentAndLeaveANote")
+    public String endAppointmentAndLeaveANote(HttpServletRequest request){
+        if(checkDocAuth(request)){
+            HttpSession session = request.getSession();
+
+            // scrapping needed params from post request scope and session
+            Long doctorID = (Long)session.getAttribute("user_id");
+            Long patientID = Long.parseLong(request.getParameter("patientID"));
+            Date date = java.sql.Date.valueOf(request.getParameter("date"));
+            int numberInQueue = Integer.parseInt(request.getParameter("numberInQueue"));
+            String note = request.getParameter("note");
+
+            // message about status of operation
+            String statusMessage;
+
+            // making call to database to check if such patient and doctor still existing there
+            UserInfo patient = patientInfoService.getOne(patientID);
+            Doctors doctor = doctorsService.getOne(doctorID);
+            if(patient != null && doctor != null){
+                // creating AppointmentID object with same params we want to delete
+                AppointmentID appointmentID = new AppointmentID(patient, doctor, date, numberInQueue);
+                // deleting Appointment instance by AppointmentID
+                appointmentsService.deleteAppointmentsByAppointmentID(appointmentID);
+                // adding note to client's medical history if note exists
+                if(!note.equals("")){
+                    patient.setMedicalHistory(patient.getMedicalHistory() + "\n" + note);
+                    // flushing changes to database
+                    patientInfoService.saveAndFlush(patient);
+                }
+                // giving ticket to message about successful deleting and updating patient's information
+                statusMessage = "Appointment successfully ended!";
+            } else {
+                statusMessage = "Patient and/or doctor do not exist anymore!";
+            }
+            // giving ticket to statusMessage to display result of operation
+            ControllerUtils.giveTicketToMyMessage(session, statusMessage);
+            return "redirect:/doctor/my_appointments";
+        } else {
             return "redirect:/sign_in";
         }
     }

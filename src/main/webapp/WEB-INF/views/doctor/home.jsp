@@ -25,6 +25,8 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap4.min.css"/>
 <!-- Custom checkboxes -->
 	<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<!-- Date picker css -->
+	<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
 <!-- My CSS -->
 	<link rel="stylesheet" type="text/css" href="../css/myBackgrounds.css">
 	
@@ -41,9 +43,11 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
 <!-- Custom checkbox -->
 	<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-
+<!-- Date picker -->
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+	
 <!-- My scripts -->
-	<script type="text/javascript" src="../../utils/utils.js"></script> 
+	<script type="text/javascript" src="../js/utils/utils.js"></script>
 	<script type="text/javascript" src="../js/doctor/home/datePickerConfig.js"></script>
 	<script type="text/javascript" src="../js/doctor/home/dataTableConfig.js"></script>
 	
@@ -110,7 +114,7 @@
 							<td>${event.endDate.toString()}</td>
 							<td>
 								<c:choose>
-									<c:when test = "${event.onlyForPersonal == true}>
+									<c:when test = "${event.onlyForPersonal == true}">
 										Yes
 									</c:when>
 									<c:otherwise>
@@ -122,7 +126,7 @@
 					</c:forEach>
                 </tbody>
 
-                <thead>
+                <tfoot>
                     <tr class="bg-dark text-white">
                         <th class="th-sm">ID</th>
                         <th class="th-sm">Event</th>
@@ -131,7 +135,7 @@
                         <th class="th-sm">End Date</th>
 						<th class="th-sm">Only for personal</th>
                     </tr>
-                </thead>
+                </tfoot>
             </table>
         </div> 
 	</div>
@@ -156,7 +160,7 @@
 								</div>
 								<div class="row my-2">
 									<label for="newEventContent"><b>Content:</b></label>
-									<textarea class="form-control" id="newEventContent" name = "content" rows=10 required></textarea>   
+									<textarea class="form-control" id="newEventContent" name = "content" rows=5 required></textarea>
 								</div>
 								<div class="row my-2">
 									<label for="newEventStartDate"><b>Start date:</b></label>
@@ -168,7 +172,7 @@
 								</div>
 								<div class="row my-2">
 									<div class="form-check form-check-inline">
-										<label for="newEventOnlyForPersonalCB" class="form-check-label">Only for personal</label>
+										<label for="newEventOnlyForPersonalCB" class="form-check-label mx-3">Only for personal</label>
 										<input type="checkbox" id="newEventOnlyForPersonalCB" name = "only_for_personal" checked data-toggle="toggle" data-on="Yes" data-off="No" data-onstyle="success" data-offstyle="danger">
 									</div>
 								</div>
@@ -179,7 +183,7 @@
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 						<button type="submit" class="btn btn-primary">Add event</button>
 					</div>
-				</form>
+                </form>
 			</div><!--modal content-->
 		</div><!--modal dialog-->
 	</div><!--main modal content division-->

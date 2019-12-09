@@ -14,7 +14,19 @@ import java.util.ArrayList;
 public interface AppointmentsRepository extends JpaRepository<Appointments, AppointmentID> {
 //    @Query(countQuery = "SELECT COUNT(a.appointmentID) FROM Appointments AS a WHERE a.appointmentID.doctor.id = :doctorID AND a.appointmentID.date = :selectedDate")
 //    Long countAppointmentsToTheDoctorOnThisDate(@Param("doctorID") Long doctorID, @Param("selectedDate") Date selectedDate);
+
+    // count number of appointments for doctor on selected date
     Long countAppointmentsByAppointmentID_Doctor_IdAndAppointmentID_Date(Long doctorID, Date selectedDate);
 
-    ArrayList<Appointments> findAppointmentsByAppointmentID_PatientId(Long patientID);
+    // to fetch ArrayList of Appointments for patient by it's id
+    ArrayList<Appointments> findAllByAppointmentID_Patient_Id(Long patientID);
+
+    // to fetch ArrayList of Appointments for doctor by it's id
+    ArrayList<Appointments> findAllByAppointmentID_Doctor_Id(Long doctorID);
+
+    // checking existence of the Appointments entity instance with such AppointmentID
+    boolean existsAppointmentsByAppointmentID(AppointmentID appointmentID);
+
+    // deleting Appointments entity instance with such AppointmentID
+    Long deleteAppointmentsByAppointmentID(AppointmentID appointmentID);
 }

@@ -92,14 +92,14 @@
 					</c:forEach>
                 </tbody>
 
-                <thead>
+                <tfoot>
                     <tr class="bg-dark text-white">
                         <th class="th-sm">Event</th>
                         <th class="th-sm">Description</th>
                         <th class="th-sm">Start date</th>
                         <th class="th-sm">End Date</th>
                     </tr>
-                </thead>
+                </tfoot>
             </table>
         </div> 
 	</div>

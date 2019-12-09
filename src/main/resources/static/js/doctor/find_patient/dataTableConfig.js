@@ -1,9 +1,7 @@
 $(document).ready(function () {
 
     // working with DataTable API
-    let table = $('#dtDoctors').DataTable({
-        "scrollY":      true,
-        "scrollX":      true,
+    let table = $('#dtPatients').DataTable({
         "pagingType": "full_numbers", 																				//  first, last, next, prev and nums
         "order": [[ 0, "asc" ]],																					// firstly, sort by first row and in asc order
         "select": {"style": 'single'},																				// only single selection!
@@ -22,9 +20,11 @@ $(document).ready(function () {
     table
         .on( 'select', function ( e, dt, type, indexes ) {
             // remembering rows(actually, row) we are selected
-            const selectedDocInfoRows = table.rows(indexes).data().toArray();
+            let selectedDocInfoRows = table.rows(indexes).data().toArray();
             // when table row is selected set selectedPatientID equals to patientID, so it will be ready to go to server
-            document.getElementById("selectedPatientID").value = selectedDocInfoRows[0][0];             // 0:0 cuz we have only 1 selected row and it's id is 1 column
+            document.getElementById("selectedPatientID").value = selectedDocInfoRows[0][0];         // column 0 is id as usual
+            document.getElementById("oldMedHistory").value = selectedDocInfoRows[0][8];             // 8 - because in this column we have selected patient's medical history
+            document.getElementById("newMedHistory").value = selectedDocInfoRows[0][8];             // duplicating old and new info
         } );
 
 });

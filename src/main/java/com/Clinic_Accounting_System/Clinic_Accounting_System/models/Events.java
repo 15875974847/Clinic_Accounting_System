@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "events")
@@ -82,5 +83,18 @@ public class Events implements Serializable {
 
     public void setOnlyForPersonal(boolean onlyForPersonal) {
         this.onlyForPersonal = onlyForPersonal;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Events)) return false;
+        Events that = (Events) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

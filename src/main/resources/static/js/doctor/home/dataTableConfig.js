@@ -1,16 +1,12 @@
 $(document).ready(function () {
-    // add toggling function class description
-    $('#dtEvents').on('init.dt', function() {
-        $('.btn-form-toggling')
-            .attr('data-toggle', 'modal')
-            .attr('data-target', '#addNewEventModal');
-    });
 
     // working with DataTable API
     let table = $('#dtEvents').DataTable({
-        "pagingType": "full_numbers", 																				//  first, last, next, prev and nums
-        "order": [[ 0, "asc" ]],																					// firstly, sort by first row and in asc order
-        "dom": 'Bfrtip',                                                                                            // alignment of dt elements
+        "pagingType": "full_numbers",
+        "order": [[ 0, "asc" ]],
+        "dom": "<'row mx-3 my-2 font-italic'<'col-4'<'dtEventsButtonToolbar'>><'col-8'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row mx-3 my-2'<'col-6'i><'col-6'p>>",
         "buttons": [
             {
                 text: 'Add event',
@@ -20,7 +16,7 @@ $(document).ready(function () {
                 className: 'btn btn-primary btn-form-toggling'
             }
         ],
-        "columnDefs": [                                                                                             // making id field not visible for user
+        "columnDefs": [
             {
                 "targets": [ 0 ],
                 "visible": false,
@@ -31,4 +27,12 @@ $(document).ready(function () {
         "processing": true,																							// processing sign on inserting, search and sort
         "responsive": true																							// and lastly it's set responsive property
     });
+
+    // setting content to aforementioned table button's toolbar
+    $("div.dtEventsButtonToolbar").html(
+        '<div>'+
+            '<button id="endAppointmentButton" class="btn btn-primary" data-toggle="modal" data-target="#addNewEventModal">Add event</button>'+
+        '</div>'
+    );
+
 });

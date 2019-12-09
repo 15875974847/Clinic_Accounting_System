@@ -111,7 +111,7 @@
 							<td>${patient.address}</td>
 							<td>${patient.medicalHistory}</td>
 							<td>
-								<div class="row justify-content-center">
+								<div class="row justify-content-center mx-1">
 									<button class="btn" data-toggle="modal" data-target="#editMedicalHistoryModal">
 										<i class="fas fa-edit"></i>
 									</button>
@@ -121,7 +121,7 @@
 					</c:forEach>
                 </tbody>
 
-                <thead>
+                <tfoot>
                     <tr class="bg-dark text-white">
 						<th class="th-sm">ID</th>
                         <th class="th-sm">First Name</th>
@@ -134,7 +134,7 @@
 						<th class="th-sm">Medical History</th>
 						<th class="th-sm">Edit</th>
                     </tr>
-                </thead>
+                </tfoot>
             </table>
         </div> 
 	</div>
@@ -150,16 +150,16 @@
 					</button>
 				</div>
 				<form action = "/doctor/changePatientsMedicalHistory" method = "post">
-					<input type="hidden" name="patientID" id="selectedPatientID"><input>
+					<input type="hidden" name="patientID" id="selectedPatientID"></input>
 					<div class="modal-body">
 						<div class="form-row my-3">
 							<label class="text-danger" for="oldMedHistory"><b>Old medical history</b></label>	
-							<textarea class="form-control" id="oldMedHistory" rows=8 readonly>${patient.medicalHistory}</textarea>
-						<div>
+							<textarea class="form-control" id="oldMedHistory" rows=5 readonly></textarea>
+						</div>
 						<div class="form-row my-3">
 							<label class="text-danger" for="newMedHistory"><b>New medical history</b></label>	
-							<textarea class="form-control" name="newMedicalHistory" id="newMedHistory" rows=8>${patient.medicalHistory}</textarea>
-						<div>
+							<textarea class="form-control" name="newMedicalHistory" id="newMedHistory" rows=5></textarea>
+						</div>
 					</div><!-- end of modal body -->
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
