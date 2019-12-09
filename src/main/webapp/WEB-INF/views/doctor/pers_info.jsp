@@ -31,6 +31,7 @@
     <!-- My JS -->
 	<script type="text/javascript" src="../../utils/utils.js"></script> 
 	<script type="text/javascript" src="../js/doctor/pers_info/datePickerConfig.js"></script>
+	<script type="text/javascript" src="../js/doctor/pers_info/validators.js"></script>
 	
 	<%-- Injecting message if we only have one --%>
 	<c:if test = "${sessionScope.message != null}">
@@ -155,7 +156,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form action = "/patient/editPersonalInfo" method = "post">
+				<form id="editPersonalInfoForm" action = "/doctor/editPersonalInfo" method = "post">
 					<div class="modal-body">
 						<div class="row col-12">
 							<div class="col-6">
@@ -203,23 +204,23 @@
 								<h5 class="text-center text-success">New Personal Info</h5>
 								<div class="col-12 my-2">
 									<label for="newFirstnameInfo"><b>First Name:</b></label>
-									<input class="form-control" name="newFirstname" id="newFirstnameInfo" value="requestScope.doctor.staffEntity.userInfo.firstName" maxlength=20 required></input>   
+									<input class="form-control" name="newFirstname" id="newFirstnameInfo" value="${requestScope.doctor.staffEntity.userInfo.firstName}" maxlength=20 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newMidnameInfo"><b>Middle Name:</b></label>
-									<input class="form-control" name="newMidname" id="newMidnameInfo" value="requestScope.doctor.staffEntity.userInfo.middleName" maxlength=20 required></input>   
+									<input class="form-control" name="newMidname" id="newMidnameInfo" value="${requestScope.doctor.staffEntity.userInfo.middleName}" maxlength=20 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newLastnameInfo"><b>Last Name:</b></label>
-									<input class="form-control" name="newLastname" id="newLastnameInfo" value="requestScope.doctor.staffEntity.userInfo.lastName" maxlength=20 required></input>   
+									<input class="form-control" name="newLastname" id="newLastnameInfo" value="${requestScope.doctor.staffEntity.userInfo.lastName}" maxlength=20 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newEmailInfo"><b>Email:</b></label>
-									<input class="form-control" name="newEmail" id="newEmailInfo" value="requestScope.doctor.staffEntity.userInfo.email" maxlength=30 required></input>   
+									<input class="form-control" name="newEmail" id="newEmailInfo" value="${requestScope.doctor.staffEntity.userInfo.email}" maxlength=30 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newPhoneInfo"><b>Phone:</b></label>
-									<input class="form-control" name="newPhone" id="newPhoneInfo" value="requestScope.doctor.staffEntity.userInfo.phone" maxlength=25 required></input>   
+									<input class="form-control" name="newPhone" id="newPhoneInfo" value="${requestScope.doctor.staffEntity.userInfo.phone}" maxlength=25 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newDOBInfo"><b>Date of birth:</b></label>
@@ -227,16 +228,16 @@
 								</div>
 								<div class="col-12 my-2">
 									<label for="newAddressInfo"><b>Address:</b></label>
-									<input class="form-control" name="newAddress" id="newAddressInfo" value="requestScope.doctor.staffEntity.userInfo.address" maxlength=40 required></input>   
+									<input class="form-control" name="newAddress" id="newAddressInfo" value="${requestScope.doctor.staffEntity.userInfo.address}" maxlength=40 required></input>   
 								</div>
 								
 								<div class="col-12 my-2">
 									<label for="newSpecInfo"><b>Specialization:</b></label>
-									<input class="form-control" name="newSpecialization" id="newSpecInfo" value="requestScope.doctor.specialization" maxlength=40 required></input>   
+									<input class="form-control" name="newSpecialization" id="newSpecInfo" value="${requestScope.doctor.specialization}" maxlength=40 required></input>   
 								</div>
 								<div class="col-12 my-2">
 									<label for="newDegreeInfo"><b>Degree:</b></label>
-									<input class="form-control" name="newDegree" id="newDegreeInfo" value="requestScope.doctor.degree" maxlength=40 required></input>   
+									<input class="form-control" name="newDegree" id="newDegreeInfo" value="${requestScope.doctor.degree}" maxlength=40 required></input>   
 								</div>
 								
 							</div>

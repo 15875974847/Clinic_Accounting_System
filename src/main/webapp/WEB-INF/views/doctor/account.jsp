@@ -87,7 +87,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form action = "/patient/editAccountInfo" method = "post">
+				<form action = "/doctor/editAccountInfo" method = "post">
 					<div class="modal-body">
 						<div class="row col-12">
 							<div class="col-6">

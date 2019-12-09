@@ -10,7 +10,7 @@ $(document).ready(function () {
     let table = $('#dtEvents').DataTable({
         "pagingType": "full_numbers", 																				//  first, last, next, prev and nums
         "order": [[ 0, "asc" ]],																					// firstly, sort by first row and in asc order
-        "dom": 'Bfrtip',
+        "dom": 'Bfrtip',                                                                                            // alignment of dt elements
         "buttons": [
             {
                 text: 'Add event',
@@ -18,6 +18,13 @@ $(document).ready(function () {
                     // for now nothing is here
                 },
                 className: 'btn btn-primary btn-form-toggling'
+            }
+        ],
+        "columnDefs": [                                                                                             // making id field not visible for user
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
             }
         ],
         "select": {"style": 'multiple'},																			// multiple selection

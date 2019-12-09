@@ -7,7 +7,14 @@ $(document).ready(function () {
         "order": [[ 0, "asc" ]],																					// firstly, sort by first row and in asc order
         "select": {"style": 'single'},																				// only single selection!
         "processing": true,																							// processing sign on inserting, search and sort
-        "responsive": true																							// and lastly it's set responsive property
+        "responsive": true,																							// and lastly it's set responsive property
+        "columnDefs": [                                                                                             // making id field not visible for user
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }
+        ]
     });
 
     // setting event handlers on our table

@@ -1,5 +1,5 @@
 // stop event propagation of the form if all parameters are equal
-$('form').on('submit', function(e) {
+$('editPersonalInfoForm').on('submit', function(e) {
     if(document.getElementById("oldFirstnameInfo").value === document.getElementById("newFirstnameInfo").value
         && document.getElementById("oldMidnameInfo").value === document.getElementById("newMidnameInfo").value
         && document.getElementById("oldLastnameInfo").value === document.getElementById("newLastnameInfo").value
@@ -10,7 +10,7 @@ $('form').on('submit', function(e) {
         && document.getElementById("oldSpecInfo").value === document.getElementById("newSpecInfo").value
         && document.getElementById("oldDegreeInfo").value === document.getElementById("newDegreeInfo").value
     ){
-        alert("You entered same information, we cannot proceed form submission!")
+        alert("You entered same information, we cannot proceed form submission!");
         e.preventDefault();
     }
 });

@@ -207,6 +207,54 @@ public class DoctorController {
     }
 
 
+    @GetMapping (value = "/see_doctor")
+    public String show_SeeDoctor_Page(HttpServletRequest request){
+        if(checkDocAuth(request)){
+            HttpSession session = request.getSession();
+            // making some calls to retrieve info from database
+            List<Doctors> doctors = doctorsService.findAll();
+            // setting list of doctors as request attribute
+            request.setAttribute("doctors", doctors);
+            // pass this page thru message-only-with-ticket system
+            ControllerUtils.goThru_MessageByTicket_System(session);
+            return "doctor/see_doctor";
+        } else {
+            return "redirect:/sign_in";
+        }
+    }
+    // this post request is used to register patient appointment in database
+    @PostMapping (value = "/makeAppointment")
+    public String makeAnAppointment(HttpServletRequest request){
+        if(checkDocAuth(request)){
+            HttpSession session = request.getSession();
+            // scrapping params
+            Long patientID = (Long)session.getAttribute("user_id");
+            Long doctorID = Long.parseLong(request.getParameter("doctorID"));
+            Date date = java.sql.Date.valueOf(request.getParameter("date"));
+            String comment = request.getParameter("comment");
+            // making call to database to find out how many appointments already we have on this date
+            int numberInQueue = appointmentsService.countAppointmentsByAppointmentID_Doctor_IdAndAppointmentID_Date(doctorID, date).intValue() + 1;
+
+            // taking from db necessary to create new appointment patient and doctor objects
+            UserInfo patientInfo = patientInfoService.getOne(patientID);
+            Doctors doctorInfo = doctorsService.getOne(doctorID);
+            // and check those objects on existence
+            if(patientInfo != null && doctorInfo != null){
+                // creating new appointment on chosen date
+                AppointmentID newAppointmentID = new AppointmentID(patientInfo, doctorInfo, date, numberInQueue);
+                Appointments newAppointment = new Appointments(newAppointmentID, comment);
+                // and save and flush(always flush after yourself!:))
+                appointmentsService.saveAndFlush(newAppointment);
+                // add give ticket to message to notify user that appointment to doctor successfully created
+                ControllerUtils.giveTicketToMyMessage(session, "Appointment to selected doctor successfully created!");
+                return "redirect:/doctor/see_doctor";
+            } else {
+                return ControllerUtils.processNonexistentUserWithValidSessionParams(session, request);
+            }
+        } else {
+            return "redirect:/sign_in";
+        }
+    }
 
 
     private boolean checkDocAuth(HttpServletRequest request){
