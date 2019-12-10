@@ -1,10 +1,12 @@
 package com.Clinic_Accounting_System.Clinic_Accounting_System.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.Objects;
 
 @Embeddable
@@ -19,13 +21,15 @@ public class AppointmentID implements Serializable {
     private int numberInQueue;
 
     // specifying many to one relationship to UserInfo table(btw, it's unidirectional relationship)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "patient_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserInfo patient;
 
     // specifying many to one relationship to Doctors table(btw, it's unidirectional relationship)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "doctor_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Doctors doctor;
 
     public AppointmentID() {}
@@ -49,7 +53,7 @@ public class AppointmentID implements Serializable {
         return numberInQueue;
     }
 
-    public void setNumberInQueue(byte numberInQueue) {
+    public void setNumberInQueue(int numberInQueue) {
         this.numberInQueue = numberInQueue;
     }
 
@@ -75,7 +79,7 @@ public class AppointmentID implements Serializable {
         if (!(o instanceof AppointmentID)) return false;
         AppointmentID that = (AppointmentID) o;
         return
-                Objects.equals(getDate(), that.getDate()) &&
+                Objects.equals(getDate().toString(), that.getDate().toString()) &&
                         Objects.equals(getNumberInQueue(), that.getNumberInQueue()) &&
                         Objects.equals(getDoctor(), that.getDoctor()) &&
                         Objects.equals(getPatient(), that.getPatient());

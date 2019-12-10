@@ -123,7 +123,7 @@
 			</div> 
 		</div>
 		
-		<div class = "my-4">
+		<div class = "mt-2 mb-5">
 			<div class="text-center mt-5 mb-2">
 				<h3 class="bg-secondary text-white">&darr;Your appointments as a doctor here&darr;</h3>
 			</div>
@@ -189,27 +189,27 @@
 	</div>
 	
 	<!-- ====== End appointment form modal ======-->
-	<div class="modal fade" id="endAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="endAppointmentModalLabel" aria-hidden="true">
+	<div class="modal fade" id="closeAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="closeAppointmentModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title text-center" id="endAppointmentModalLabel"><b>Here you can leave a note to patient's medical history</b></h3>
+					<h3 class="modal-title text-center" id="closeAppointmentModalLabel"><b>Here you can leave a note to patient's medical history</b></h3>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form action = "/doctor/endAppointmentAndLeaveANote" method = "post">
-					<input type="hidden" name="patientID" id="endAppointmentForm_PatientID">
-					<input type="hidden" name="date" id="endAppointmentForm_Date">
-					<input type="hidden" name="numberInQueue" id="endAppointmentForm_NumberInQueue">
+				<form action = "/doctor/closeAppointmentAndLeaveANote" method = "post">
+					<input type="hidden" name="patientID" id="closeAppointmentForm_PatientID">
+					<input type="hidden" name="date" id="closeAppointmentForm_Date">
+					<input type="hidden" name="numberInQueue" id="closeAppointmentForm_NumberInQueue">
 					<div class="modal-body">
 						<div class="form-row my-5">
 							<textarea class="form-control" name="note" id="noteToMedicalHistory" rows=7></textarea>
 						</div>
 					</div><!-- end of modal body -->
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary">Edit</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Dismiss</button>
+						<button type="submit" class="btn btn-primary">Close appointment</button>
 					</div>
 				</form>
 			</div><!--modal content-->

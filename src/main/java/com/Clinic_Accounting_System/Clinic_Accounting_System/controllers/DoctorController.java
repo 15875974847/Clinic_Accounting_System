@@ -6,7 +6,9 @@ import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.*;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.utils.AppLogger;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.utils.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -321,8 +324,8 @@ public class DoctorController {
         }
     }
 
-    @PostMapping(value="/endAppointmentAndLeaveANote")
-    public String endAppointmentAndLeaveANote(HttpServletRequest request){
+    @PostMapping(value="/closeAppointmentAndLeaveANote")
+    public String closeAppointmentAndLeaveANote(HttpServletRequest request){
         if(checkDocAuth(request)){
             HttpSession session = request.getSession();
 
@@ -340,18 +343,17 @@ public class DoctorController {
             UserInfo patient = patientInfoService.getOne(patientID);
             Doctors doctor = doctorsService.getOne(doctorID);
             if(patient != null && doctor != null){
-                // creating AppointmentID object with same params we want to delete
-                AppointmentID appointmentID = new AppointmentID(patient, doctor, date, numberInQueue);
-                // deleting Appointment instance by AppointmentID
-                appointmentsService.deleteAppointmentsByAppointmentID(appointmentID);
+                // deleting Appointment instance by AppointmentID fields
+                appointmentsService.deleteByAppointmentID_DoctorAndAppointmentID_PatientAndAppointmentID_NumberInQueue(doctor, patient, numberInQueue);
                 // adding note to client's medical history if note exists
                 if(!note.equals("")){
-                    patient.setMedicalHistory(patient.getMedicalHistory() + "\n" + note);
+                    System.out.println("adding note");
+                    patient.setMedicalHistory(patient.getMedicalHistory() + "\n"+ "|" + note + "|");
                     // flushing changes to database
                     patientInfoService.saveAndFlush(patient);
                 }
                 // giving ticket to message about successful deleting and updating patient's information
-                statusMessage = "Appointment successfully ended!";
+                statusMessage = "Appointment successfully closed!";
             } else {
                 statusMessage = "Patient and/or doctor do not exist anymore!";
             }
