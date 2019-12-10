@@ -63,7 +63,20 @@ public class UserInfo implements Serializable {
     private StaffEntity staffEntity;
 
 
+    public UserInfo(@NotNull @Size(max = 20) String firstName, @Size(max = 20) String middleName, @NotNull @Size(max = 20) String lastName, @NotNull Date dateOfBirth, @Size(max = 25) String phone, @Size(max = 30) String email, @NotNull @Size(max = 40) String address, Users user) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.user = user;
+    }
+
     public UserInfo() { }
+
+
 
     public Long getId() {
         return id;
@@ -123,14 +136,6 @@ public class UserInfo implements Serializable {
 
     public void setUser(Users user) {
         this.user = user;
-    }
-
-    public StaffEntity getStaffEntity() {
-        return staffEntity;
-    }
-
-    public void setStaffEntity(StaffEntity staffEntity) {
-        this.staffEntity = staffEntity;
     }
 
     public String getEmail() {
