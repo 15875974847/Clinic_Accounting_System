@@ -28,7 +28,7 @@ public class RegistrationController {
 
     @GetMapping(value = "/")
     public String showAccountInfoForm(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         // going thru message by ticket system
         ControllerUtils.goThru_MessageByTicket_System(session);
         return "registration/new_account_application";
@@ -36,13 +36,13 @@ public class RegistrationController {
 
     @PostMapping(value = "/submitNewAccountApplicationForm")
     public String submitAccountInfoForm(HttpServletRequest request){
+        // creating new session to store params or error messages there
+        HttpSession session = request.getSession(true);
         // scraping params from request
         String reg_username = request.getParameter("reg_username");
         String reg_password = request.getParameter("reg_password");
         // checking on param existence
-        if(reg_username != null && reg_password != null) {
-            // creating new session to store params there
-            HttpSession session = request.getSession(true);
+        if(reg_username.length() >= 8 || reg_password.length() >= 8) {
             // checking if user with such username already exists in database
             if(!userService.existsByUsername(reg_username)){
                 // moving username and pwd params from request scope to session scope
@@ -54,6 +54,7 @@ public class RegistrationController {
                 return "redirect:/registration/";
             }
         } else {
+            ControllerUtils.giveTicketToMyMessage(session, "Username and password length should be no less then 8 characters!");
             return "redirect:/registration/";
         }
     }
@@ -81,7 +82,7 @@ public class RegistrationController {
                 // scrapping user info from form params
                 String firstname = request.getParameter("firstname");
                 String midname = request.getParameter("midname");
-                String lastname = request.getParameter("midname");
+                String lastname = request.getParameter("lastname");
                 Date dob = java.sql.Date.valueOf(request.getParameter("dob"));
                 String phone = request.getParameter("phone");
                 String email = request.getParameter("email");
@@ -89,9 +90,10 @@ public class RegistrationController {
                 // persist user info in database
                 UserInfo userInfo = new UserInfo(firstname, midname, lastname, dob, phone, email, homeAddress, user);
                 userInfoService.saveAndFlush(userInfo);
-                // give session sign_in token
-                session.setAttribute("user_id", user.getId());
-                // and redirect him to sign in
+                // take registration username and password
+                session.removeAttribute("reg_username");
+                session.removeAttribute("reg_password");
+                // and redirect new user to sign in page
                 return "redirect:/sign_in";
             } else {
                 ControllerUtils.giveTicketToMyMessage(session, "Sorry, but your username somebody already took!");
@@ -106,7 +108,7 @@ public class RegistrationController {
     private boolean checkSessionAttribsForRegOnExistence(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            return session.getAttribute("req_username") != null && session.getAttribute("req_password") != null;
+            return session.getAttribute("reg_username") != null && session.getAttribute("reg_password") != null;
         }
         return false;
     }

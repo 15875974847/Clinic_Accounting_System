@@ -9,14 +9,4 @@ import javax.transaction.Transactional;
 @Transactional
 public class UserService {
 
-    private final UsersRepository usersRepository;
-
-    public UserService(UsersRepository usersRepository) {
-        this.usersRepository = usersRepository;
-    }
-
-
-
-
-
 }

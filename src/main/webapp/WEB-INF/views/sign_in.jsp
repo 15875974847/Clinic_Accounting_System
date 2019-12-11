@@ -65,14 +65,17 @@
 				<label for="rem_me_Cb">Remember me</label>
 				</div>
 				<div class="col-md-6 text-right">
-				<a href="#"><i>Forgot</i></a>
+				<a href="/forgot/"><i>Forgot</i></a>
 				</div>
 			</div>
 			<div class="form-group my-2">
 				<button type="submit" class="btn btn-info btn-lg btn-block text-white">Sign In</button>
 			</div>
-			
 		</form>
+			
+		<div class = "row justify-content-center">
+			Not registered yet? <a href="/registration/"><i>Register now!</i></a>
+		</div>
 
 	</div>
 	
