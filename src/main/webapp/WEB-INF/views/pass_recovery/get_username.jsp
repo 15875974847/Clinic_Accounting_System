@@ -7,7 +7,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-	<title>Registration</title>
+	<title>Password recovery</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
 	<meta name="author" content="Artique">
@@ -44,26 +44,20 @@
 		
 			<div class="mt-5 mb-3">
 				<div class="text-center">
-					<h2 class="bg-secondary text-white">&darr;Please, enter username and password&darr;</h2>
+					<h2 class="bg-secondary text-white">&darr;Please, enter username&darr;</h2>
 				</div>
 			</div>
 
-			<form action="/registration/submitNewAccountApplicationForm" method="post">
-				<div class = "row justify-content-center">
-					<div class="col-6 my-3">
+			<form action="/pass_recovery/checkUsername" method="post">
+				<div class = "row justify-content-center my-2">
+					<div class="col-6 mt-5 mb-2">
 						<label class="bg-dark text-white" for="usernameInput"><b>Username:</b></label>
-						<input type="text" class="form-control" name="reg_username" id="usernameInput" required />  
+						<input type="text" class="form-control" name="username" id="usernameInput" maxlength = 30 required />  
 					</div>
 				</div>
-				<div class = "row justify-content-center">
-					<div class="col-6 mt-3 mb-2">
-						<label class="bg-dark text-white" for="passwordInput"><b>Password:</b></label>
-						<input type="password" class="form-control" name="reg_password" id="passwordInput" required/> 
-					</div>
-				</div>
-				<div class = "row justify-content-center">
-					<div class="col-6 mt-2">
-						<button type = "submit" class="btn btn-primary form-control">Submit</button>
+				<div class = "row justify-content-center my-2">
+					<div class="col-6">
+						<button type = "submit" class="btn btn-primary form-control">Go next-></button>
 					</div>
 				</div>
 			</form>

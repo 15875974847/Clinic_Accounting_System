@@ -38,10 +38,10 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- to send emails -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
-			<version>2.2.2.RELEASE</version>
 		</dependency>
 
 		<!-- MySQL connector -->

@@ -39,7 +39,7 @@ public class Users implements Serializable {
 
     public Users() {}
 
-    public Users(@NotNull @Size(min = 4, max = 30) String username, @NotNull @Size(min = 4, max = 30) String password, @NotNull @Size(max = 10) Roles role) {
+    public Users(@NotNull @Size(max = 30) String username, @NotNull @Size(max = 30) String password, @NotNull @Size(max = 10) Roles role) {
         this.username = username;
         this.password = password;
         this.role = role;

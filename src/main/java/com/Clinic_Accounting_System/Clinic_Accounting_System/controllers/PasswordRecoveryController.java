@@ -7,6 +7,7 @@ import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.UsersR
 import com.Clinic_Accounting_System.Clinic_Accounting_System.services.EmailServiceImpl;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.utils.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/forgot")
-public class ForgotPassController {
+@RequestMapping("/pass_recovery")
+public class PasswordRecoveryController {
 
     @Autowired
     UsersRepository userService;
@@ -30,14 +31,14 @@ public class ForgotPassController {
     EmailServiceImpl emailService;
 
     @GetMapping(value = "/")
-    public String showForgotPage(HttpServletRequest request){
+    public String showGetUsernamePage(HttpServletRequest request){
         HttpSession session = request.getSession();
         ControllerUtils.goThru_MessageByTicket_System(session);
-        return "forgot/get_username";
+        return "pass_recovery/get_username";
     }
 
     @PostMapping(value="/checkUsername")
-    public String checkUsernameAndSendCode(HttpServletRequest request){
+    public String checkUsernameAndSendCodeOnEmail(HttpServletRequest request){
         HttpSession session = request.getSession();
         // scrapping username from request
         String username = request.getParameter("username");
@@ -49,12 +50,12 @@ public class ForgotPassController {
             if(userInfo != null){
                 try {
                     // moving "forgot_page_user_id" and "forgot_page_username" tokens to have access to next pages
-                    session.setAttribute("forgot_page_user_id", user.getId());
-                    session.setAttribute("forgot_page_username", username);
+                    session.setAttribute("pass_recovery_user_id", user.getId());
+                    session.setAttribute("pass_recovery_username", username);
                     // then try to send code to email from profile
-                    emailService.sendCodeToRestorePassword(userInfo.getEmail(), "Hey buddy, it's Arti's CAS password restoring system", "Your code: " + user.getPassword().hashCode());
-                    return "redirect:/forgot/enter_email_code";
-                } catch (SendFailedException e){
+                    emailService.sendCodeToRestorePassword(userInfo.getEmail(), "Hey buddy, it's Arti's CAS password recovery system", "Your code: " + user.getPassword().hashCode());
+                    return "redirect:/pass_recovery/enter_email_code";
+                } catch (MailException e){
                     ControllerUtils.giveTicketToMyMessage(session, "Sorry, but we cannot send your code to restore password on provided email!");
                     return "redirect:/sign_in";
                 }
@@ -64,7 +65,7 @@ public class ForgotPassController {
             }
         } else {
             ControllerUtils.giveTicketToMyMessage(session, "User with such username does not exist!");
-            return "redirect:/forgot/";
+            return "redirect:/pass_recovery/";
         }
     }
 
@@ -74,9 +75,9 @@ public class ForgotPassController {
         HttpSession session = request.getSession();
         if(checkForgotPageUsernameAttribInSession(session)){
             ControllerUtils.goThru_MessageByTicket_System(session);
-            return "/forgot/enter_email_code";
+            return "forgot/enter_email_code";
         } else {
-            return "redirect:/forgot/";
+            return "redirect:/pass_recovery/";
         }
     }
 
@@ -87,35 +88,41 @@ public class ForgotPassController {
         if(checkForgotPageUsernameAttribInSession(session)){
             // taking "email_code" from request
             String code = request.getParameter("email_code");
-            Users user = userService.getOne((Long)session.getAttribute("forgot_page_user_id"));
+            Users user = userService.getOne((Long)session.getAttribute("pass_recovery_user_id"));
             if(code != null && user != null){
                 // if hashcode of password equals entered code
                 if(code.equals(Integer.toString(user.getPassword().hashCode()))){
                     // taking new password from request scope
                     String newPassword = request.getParameter("new_password");
-                    // and update it in database
-                    user.setPassword(newPassword);
-                    userService.saveAndFlush(user);
-                    // then notify user that password successfully changed and go sign in
-                    ControllerUtils.giveTicketToMyMessage(session, "Password successfully changed!");
-                    return "redirect:/sign_in";
+                    // check if password is following requirements, you can add yours
+                    if(newPassword.length() >= 8){
+                        // and update it in database
+                        user.setPassword(newPassword);
+                        userService.saveAndFlush(user);
+                        // then notify user that password successfully changed and go sign in
+                        ControllerUtils.giveTicketToMyMessage(session, "Password successfully changed!");
+                        return "redirect:/sign_in";
+                    } else{
+                        ControllerUtils.giveTicketToMyMessage(session, "Password is less then 8 characters!");
+                        return "redirect:/pass_recovery/enter_email_code";
+                    }
                 } else {
                     ControllerUtils.giveTicketToMyMessage(session, "Sorry, but u entered wrong code! Try once again!");
-                    return "redirect:/forgot/enter_email_code";
+                    return "redirect:/pass_recovery/enter_email_code";
                 }
             } else {
-                ControllerUtils.giveTicketToMyMessage(session, "Sorry, but somebody alredy deleted this user");
+                ControllerUtils.giveTicketToMyMessage(session, "Sorry, but somebody already deleted your user account");
                 return "redirect:/sign_in";
             }
         } else {
-            return "redirect:/forgot/";
+            return "redirect:/pass_recovery/";
         }
     }
 
     private boolean checkForgotPageUsernameAttribInSession(HttpSession session){
         if(session != null){
-            Long id = (Long)session.getAttribute("forgot_page_user_id");
-            String username = (String)session.getAttribute("forgot_page_username");
+            Long id = (Long)session.getAttribute("pass_recovery_user_id");
+            String username = (String)session.getAttribute("pass_recovery_username");
             return username != null && id != null;
         } else {
             return false;

@@ -7,7 +7,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-	<title>Registration</title>
+	<title>Password Recovery</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
 	<meta name="author" content="Artique">
@@ -44,26 +44,26 @@
 		
 			<div class="mt-5 mb-3">
 				<div class="text-center">
-					<h2 class="bg-secondary text-white">&darr;Please, enter username and password&darr;</h2>
+					<h2 class="bg-secondary text-white">&darr;Please, enter code from email message and new password&darr;</h2>
 				</div>
 			</div>
 
-			<form action="/registration/submitNewAccountApplicationForm" method="post">
-				<div class = "row justify-content-center">
+			<form action="/pass_recovery/checkCode" method="post">
+				<div class = "row justify-content-center my-2">
 					<div class="col-6 my-3">
-						<label class="bg-dark text-white" for="usernameInput"><b>Username:</b></label>
-						<input type="text" class="form-control" name="reg_username" id="usernameInput" required />  
+						<label class="bg-dark text-white" for="codeInput"><b>Email code:</b></label>
+						<input type="text" class="form-control" name="email_code" id="codeInput" required />  
 					</div>
 				</div>
-				<div class = "row justify-content-center">
+				<div class = "row justify-content-center my-2">
 					<div class="col-6 mt-3 mb-2">
-						<label class="bg-dark text-white" for="passwordInput"><b>Password:</b></label>
-						<input type="password" class="form-control" name="reg_password" id="passwordInput" required/> 
+						<label class="bg-dark text-white" for="newPasswordInput"><b>New password:</b></label>
+						<input type="password" class="form-control" name="new_password" id="newPasswordInput" maxlength=30 required /> 
 					</div>
 				</div>
-				<div class = "row justify-content-center">
+				<div class = "row justify-content-center my-2">
 					<div class="col-6 mt-2">
-						<button type = "submit" class="btn btn-primary form-control">Submit</button>
+						<button type = "submit" class="btn btn-primary form-control">Apply changes</button>
 					</div>
 				</div>
 			</form>

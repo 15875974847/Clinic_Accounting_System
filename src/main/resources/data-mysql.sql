@@ -10,7 +10,8 @@ insert into users (`username`, `password`, `role`) values ('secondUser', 'second
 
 -- pushing UserInfo
 -- admins
-insert into user_info (`id`, `first_name`, `middle_name`, `last_name`, `email`, `phone`, `dob`, `address`, `medical_history`) values (1, 'Artemqa', 'Arti', 'Tsv', 'artem.tsvirko@mail.ru', '+375 (33) 337-33-33', '2000-07-06', 'Trump st, 65', 'Bad vision');
+-- I decided to deprive the admin of the right to have his own profile and manage it, i.e. my admin will not be the essence of the clinic
+-- insert into user_info (`id`, `first_name`, `middle_name`, `last_name`, `email`, `phone`, `dob`, `address`, `medical_history`) values (1, 'Artemqa', 'Arti', 'Tsv', 'artem.tsvirko@mail.ru', '+375 (33) 337-33-33', '2000-07-06', 'Trump st, 65', 'Bad vision');
 -- docs
 insert into user_info (`id`, `first_name`, `middle_name`, `last_name`, `email`, `phone`, `dob`, `address`, `medical_history`) values (2, 'John', 'Egghead', 'Sturgis', 'j.sturgis@gmail.com', '+1-444-555-5309', '1999-11-29', 'Klinton st, 69', 'Time-to-time crazy');
 insert into user_info (`id`, `first_name`, `middle_name`, `last_name`, `email`, `phone`, `dob`, `address`, `medical_history`) values (3, 'Sheldon', 'Lee', 'Cooper', 'artem.tsvirko@mail.ru', '+1-444-666-5309', '1999-11-29', 'Klinton st, 69', 'Dangerosly funny');

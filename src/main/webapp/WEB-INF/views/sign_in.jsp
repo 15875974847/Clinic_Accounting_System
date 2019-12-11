@@ -65,7 +65,7 @@
 				<label for="rem_me_Cb">Remember me</label>
 				</div>
 				<div class="col-md-6 text-right">
-				<a href="/forgot/"><i>Forgot</i></a>
+				<a href="/pass_recovery/"><i>Forgot</i></a>
 				</div>
 			</div>
 			<div class="form-group my-2">
