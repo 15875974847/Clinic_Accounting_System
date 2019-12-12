@@ -21,15 +21,21 @@ public class AppointmentID implements Serializable {
     private int numberInQueue;
 
     // specifying many to one relationship to UserInfo table(btw, it's unidirectional relationship)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_id", referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private UserInfo patient;
 
     // specifying many to one relationship to Doctors table(btw, it's unidirectional relationship)
-    @ManyToOne(fetch = FetchType.LAZY)
+    /*
+        ** Gotchas **
+        In this case all cascade type crap did not work and causing ConstraintViolationException on parent deletion
+        As far as i understand, this is hibernate don't know what childs parent have and should to delete because it's unidirectional binding on the side of child, so childs become orphans
+        And it's unacceptable, because those fields are part of composite PK, so they cannot be NULL
+        So, that's why we are catching ConstraintViolationException
+        Why i'm leaving Cascade property here? - In case if i'll decide to change unidirectional relationship on bidirectional
+     */
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id", referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Doctors doctor;
 
     public AppointmentID() {}

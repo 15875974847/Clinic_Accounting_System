@@ -44,8 +44,12 @@ public class AdminController {
     }
 
     @GetMapping (value = "/home")
-    public String showPage() {
-        return "admin/home";
+    public String showPage(HttpServletRequest request) {
+        if(checkAdminAuth(request)){
+            return "admin/home";
+        } else {
+            return "redirect:/sign_in";
+        }
     }
 
     @GetMapping (value = "/events")
@@ -71,7 +75,9 @@ public class AdminController {
             String header = request.getParameter("header");
             String content = request.getParameter("content");
             Date startDate = java.sql.Date.valueOf(request.getParameter("start_date"));
+            ControllerUtils.makeCorrectionForTimeZone(startDate);
             Date endDate = java.sql.Date.valueOf(request.getParameter("end_date"));
+            ControllerUtils.makeCorrectionForTimeZone(endDate);
             boolean onlyForPersonal = request.getParameterValues("only_for_personal") != null;
             // creating object with invoked params
             Events event = new Events(header, content, startDate, endDate, onlyForPersonal);
@@ -126,7 +132,8 @@ public class AdminController {
             String firstname = request.getParameter("firstname");
             String midname = request.getParameter("midname");
             String lastname = request.getParameter("lastname");
-            String dob = request.getParameter("dob");
+            Date dob = java.sql.Date.valueOf(request.getParameter("dob"));
+            ControllerUtils.makeCorrectionForTimeZone(dob);
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
             String address = request.getParameter("address");
@@ -139,7 +146,7 @@ public class AdminController {
                 Users user = new Users(username, password, Roles.doctor);
                 usersService.saveAndFlush(user);
                 UserInfo userInfo = new UserInfo(firstname, midname, lastname,
-                        java.sql.Date.valueOf(dob), phone, email, address, user);
+                        dob, phone, email, address, user);
                 userInfoService.saveAndFlush(userInfo);
                 StaffEntity staffEntity = new StaffEntity(Double.parseDouble(salary), userInfo);
                 staffEntityService.saveAndFlush(staffEntity);
@@ -164,12 +171,135 @@ public class AdminController {
         if(checkAdminAuth(request)){
             // gettin' docID param from request
             Long docID = Long.parseLong(request.getParameter("docID"));
-            // removing it from database
+            // if you want to know why i'm doing this -> go see AppointmentID gotcha
+            appointmentsService.removeAllByAppointmentID_Doctor_Id(docID);
+            // removing doc from database, cascade will do the rest with other doctor's entity dependencies
             doctorsService.deleteById(docID);
             // notifying about successful delete operation
             HttpSession session = request.getSession();
             ControllerUtils.giveTicketToMyMessage(session, "Doctor successfully deleted!");
             return "redirect:/admin/doctors";
+        } else {
+            return "redirect:/sign_in";
+        }
+    }
+
+
+    @GetMapping(value = "/patients")
+    public String showPatients(HttpServletRequest request){
+        if(checkAdminAuth(request)){
+            // fetching patients from database
+            List<UserInfo> patients = userInfoService.findAll();
+            // setting this list of patients as request attrib
+            request.setAttribute("patients", patients);
+            HttpSession session = request.getSession();
+            ControllerUtils.goThru_MessageByTicket_System(session);
+            return "admin/patients";
+        } else {
+            return "redirect:/sign_in";
+        }
+    }
+
+    @PostMapping(value="/editPatient")
+    public String editPatient(HttpServletRequest request){
+        if(checkAdminAuth(request)){
+            // fetching params from request
+            Long patientID = Long.parseLong(request.getParameter("patientID"));
+            // checking if such patient exists
+            Users user = usersService.getOne(patientID);
+            if(user != null){
+                // continue fetching
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                String firstname = request.getParameter("firstname");
+                String midname = request.getParameter("midname");
+                String lastname = request.getParameter("lastname");
+                Date dob = java.sql.Date.valueOf(request.getParameter("dob"));
+                ControllerUtils.makeCorrectionForTimeZone(dob);
+                String phone = request.getParameter("phone");
+                String email = request.getParameter("email");
+                String address = request.getParameter("address");
+                // update data in Users
+                user.setUsername(username);
+                user.setPassword(password);
+                usersService.saveAndFlush(user);
+                // update data in UserInfo
+                UserInfo userInfo = userInfoService.getOne(patientID);
+                userInfo.setFirstName(firstname);
+                userInfo.setMiddleName(midname);
+                userInfo.setLastName(lastname);
+                userInfo.setDateOfBirth(dob);
+                userInfo.setPhone(phone);
+                userInfo.setEmail(email);
+                userInfo.setAddress(address);
+                userInfoService.saveAndFlush(userInfo);
+                // give admin notification about successful update operation
+                HttpSession session = request.getSession();
+                ControllerUtils.giveTicketToMyMessage(session, "Patient's info successfully updated!");
+                return "redirect:/admin/patients";
+            } else {
+                HttpSession session = request.getSession();
+                ControllerUtils.giveTicketToMyMessage(session, "User with such id don't exist anymore");
+                return "redirect:/admin/patients";
+            }
+        } else {
+            return "redirect:/sign_in";
+        }
+    }
+
+    @PostMapping(value="/deletePatient")
+    public String deletePatient(HttpServletRequest request){
+        if(checkAdminAuth(request)){
+            // fetching patientID from request
+            Long patientID = Long.parseLong(request.getParameter("patientID"));
+            UserInfo patient = userInfoService.getOne(patientID);
+            if(patient != null){
+                // if you want to know why i'm doing this -> go see AppointmentID gotcha
+                appointmentsService.removeAllByAppointmentID_Patient_Id(patientID);
+                // deleting from UserInfo table, cascade will delete from Users
+                userInfoService.deleteById(patientID);
+                // notifying about successful delete operation
+                HttpSession session = request.getSession();
+                ControllerUtils.giveTicketToMyMessage(session, "Patient successfully deleted!");
+                return "redirect:/admin/patients";
+            } else {
+                HttpSession session = request.getSession();
+                ControllerUtils.giveTicketToMyMessage(session, "Such patient do not exist anymore!");
+                return "redirect:/admin/patients";
+            }
+        } else {
+            return "redirect:/sign_in";
+        }
+    }
+
+
+    @GetMapping(value="/appointments")
+    public String showAppointments(HttpServletRequest request){
+        if(checkAdminAuth(request)){
+            // fetching from database all appointments
+            List<Appointments> appointments = appointmentsService.findAll();
+            // push them into request scope, yeah, i know it's bad idea, but i don't have time to implement something better
+            request.setAttribute("appointments", appointments);
+            HttpSession session = request.getSession();
+            ControllerUtils.goThru_MessageByTicket_System(session);
+            return "admin/appointments";
+        } else {
+            return "redirect:/sign_in";
+        }
+    }
+
+    @PostMapping(value="/deleteAllAppointmentsAfterDate")
+    public String deleteAllAppointmentsAfterDate(HttpServletRequest request){
+        if(checkAdminAuth(request)){
+            // fetching date from request
+            Date date = java.sql.Date.valueOf(request.getParameter("date"));
+            ControllerUtils.makeCorrectionForTimeZone(date);
+            // delete all appointments after date
+            int numberOfDeletedAppointments = appointmentsService.removeOlderThan(date);
+            // give ticket to success message
+            HttpSession session = request.getSession();
+            ControllerUtils.giveTicketToMyMessage(session, numberOfDeletedAppointments + " appointments successfully deleted!");
+            return "redirect:/admin/appointments";
         } else {
             return "redirect:/sign_in";
         }

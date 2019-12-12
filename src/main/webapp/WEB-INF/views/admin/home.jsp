@@ -43,10 +43,26 @@
 	</nav>
 
 	<div class="container mt-2">
-		<div class="text-center my-5">
-			<h1 class="bg-secondary text-white">Howdy , admin!</h1>
+		<div class="my-5">
+			<h1 class="text-center text-primary">Howdy , admin!</h1>
+			
+			<div class="row justify-content-md-center mt-5 mb-2">
+				<div class="col-4 my-2">
+					<h3 class="text-center bg-secondary text-white">Here u can:</h3>
+					<ul>
+						<li>Manage events</li>
+						<li>Manage doctors</li>
+						<li>Manage patients</li>
+						<li>Manage appointments</li>
+					</ul>  
+				</div>
+			</div>
 		</div>
 	</div>
 	
   </body>
 </html>
+
+
+
+

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 @Repository
 public interface AppointmentsRepository extends JpaRepository<Appointments, AppointmentID> {
 
-
     Long countAppointmentsByAppointmentID_Doctor_IdAndAppointmentID_Date(Long doctorID, Date selectedDate);
 
     // to fetch ArrayList of Appointments for patient by it's id
@@ -25,6 +24,22 @@ public interface AppointmentsRepository extends JpaRepository<Appointments, Appo
 
     // to fetch ArrayList of Appointments for doctor by it's id
     ArrayList<Appointments> findAllByAppointmentID_Doctor_Id(Long doctorID);
+
+    // this one deleting all appointments older than Date
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Transactional
+    @Query("DELETE FROM Appointments a WHERE a.appointmentID.date < :date")
+    int removeOlderThan(@Param("date") java.sql.Date date);
+
+    // this one removing all appointments by PatientID
+    @Transactional
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    void removeAllByAppointmentID_Patient_Id(Long patientID);
+
+    // this one removing all appointments by DoctorID
+    @Transactional
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    void removeAllByAppointmentID_Doctor_Id(Long doctorID);
 
     /*
         The real reason why i'm doing this without Date object is that my ass finally in the moon because i tried a lot ways how to process this query with Date object and didn't succeed

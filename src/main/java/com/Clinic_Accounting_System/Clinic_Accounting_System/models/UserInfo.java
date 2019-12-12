@@ -51,7 +51,7 @@ public class UserInfo implements Serializable {
     private String medicalHistory;
 
     // Specifying the child relationship with Users datatable(owner of the relationship)
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "id", nullable = false, unique = true)
     @MapsId
     private Users user;

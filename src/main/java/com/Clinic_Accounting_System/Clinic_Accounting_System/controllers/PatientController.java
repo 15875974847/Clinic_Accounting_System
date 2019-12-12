@@ -163,7 +163,8 @@ public class PatientController {
                 String lastname = request.getParameter("lastname");
                 String email = request.getParameter("email");
                 String phone = request.getParameter("phone");
-                String dob = request.getParameter("dob");
+                Date dob = java.sql.Date.valueOf(request.getParameter("dob"));
+                ControllerUtils.makeCorrectionForTimeZone(dob);
                 String address = request.getParameter("address");
                 // setting updated patient info params
                 patientInfo.setFirstName(firstname);
@@ -171,7 +172,7 @@ public class PatientController {
                 patientInfo.setLastName(lastname);
                 patientInfo.setEmail(email);
                 patientInfo.setPhone(phone);
-                patientInfo.setDateOfBirth(java.sql.Date.valueOf(dob));     // important: dob should be yyyy-mm-dd(american format)
+                patientInfo.setDateOfBirth(dob);
                 patientInfo.setAddress(address);
                 // and apply changes to db
                 patientInfoService.saveAndFlush(patientInfo);
@@ -209,6 +210,7 @@ public class PatientController {
             Long patientID = (Long)session.getAttribute("user_id");
             Long doctorID = Long.parseLong(request.getParameter("doctorID"));
             Date date = java.sql.Date.valueOf(request.getParameter("date"));
+            ControllerUtils.makeCorrectionForTimeZone(date);
             String comment = request.getParameter("comment");
             // making call to database to find out how many appointments already we have on this date
             int numberInQueue = appointmentsService.countAppointmentsByAppointmentID_Doctor_IdAndAppointmentID_Date(doctorID, date).intValue() + 1;

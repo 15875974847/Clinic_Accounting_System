@@ -79,7 +79,9 @@ public class DoctorController {
             String header = request.getParameter("header");
             String content = request.getParameter("content");
             Date startDate = java.sql.Date.valueOf(request.getParameter("start_date"));
+            ControllerUtils.makeCorrectionForTimeZone(startDate);
             Date endDate = java.sql.Date.valueOf(request.getParameter("end_date"));
+            ControllerUtils.makeCorrectionForTimeZone(endDate);
             boolean onlyForPersonal = request.getParameterValues("only_for_personal") != null;
             // creating object with invoked params
             Events event = new Events(header, content, startDate, endDate, onlyForPersonal);
@@ -183,7 +185,8 @@ public class DoctorController {
                 String lastname = request.getParameter("newLastname");
                 String email = request.getParameter("newEmail");
                 String phone = request.getParameter("newPhone");
-                String dob = request.getParameter("newDOB");
+                Date dob = java.sql.Date.valueOf(request.getParameter("newDOB"));
+                ControllerUtils.makeCorrectionForTimeZone(dob);
                 String address = request.getParameter("newAddress");
                 String specialization = request.getParameter("newSpecialization");
                 String degree = request.getParameter("newDegree");
@@ -193,7 +196,7 @@ public class DoctorController {
                 doctorInfo.getStaffEntity().getUserInfo().setLastName(lastname);
                 doctorInfo.getStaffEntity().getUserInfo().setEmail(email);
                 doctorInfo.getStaffEntity().getUserInfo().setPhone(phone);
-                doctorInfo.getStaffEntity().getUserInfo().setDateOfBirth(java.sql.Date.valueOf(dob));
+                doctorInfo.getStaffEntity().getUserInfo().setDateOfBirth(dob);
                 doctorInfo.getStaffEntity().getUserInfo().setAddress(address);
                 doctorInfo.setSpecialization(specialization);
                 doctorInfo.setDegree(degree);
@@ -235,6 +238,7 @@ public class DoctorController {
             Long patientID = (Long)session.getAttribute("user_id");
             Long doctorID = Long.parseLong(request.getParameter("doctorID"));
             Date date = java.sql.Date.valueOf(request.getParameter("date"));
+            ControllerUtils.makeCorrectionForTimeZone(date);
             String comment = request.getParameter("comment");
             // making call to database to find out how many appointments already we have on this date
             int numberInQueue = appointmentsService.countAppointmentsByAppointmentID_Doctor_IdAndAppointmentID_Date(doctorID, date).intValue() + 1;
@@ -333,6 +337,7 @@ public class DoctorController {
             Long doctorID = (Long)session.getAttribute("user_id");
             Long patientID = Long.parseLong(request.getParameter("patientID"));
             Date date = java.sql.Date.valueOf(request.getParameter("date"));
+            ControllerUtils.makeCorrectionForTimeZone(date);
             int numberInQueue = Integer.parseInt(request.getParameter("numberInQueue"));
             String note = request.getParameter("note");
 

@@ -2,6 +2,7 @@ package com.Clinic_Accounting_System.Clinic_Accounting_System.utils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.Date;
 
 public final class ControllerUtils {
 
@@ -25,6 +26,11 @@ public final class ControllerUtils {
         session = request.getSession(true);
         giveTicketToMyMessage(session, "User with such user_id not found. Sorry!");
         return "redirect:/sign_in";
+    }
+
+    public static void makeCorrectionForTimeZone(Date date){
+        // making 'wind correction' cuz actually JS picker returning one day back date(because it's returning GMT-0, and i'm in GMT+3), i.e if we pick 23 Feb 00:00:00, it'll return 22 Feb 21:00:00
+        date.setTime(date.getTime()+1000*60*60*24);
     }
 
 }

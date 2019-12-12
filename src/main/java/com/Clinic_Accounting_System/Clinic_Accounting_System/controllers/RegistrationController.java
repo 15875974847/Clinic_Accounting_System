@@ -84,6 +84,7 @@ public class RegistrationController {
                 String midname = request.getParameter("midname");
                 String lastname = request.getParameter("lastname");
                 Date dob = java.sql.Date.valueOf(request.getParameter("dob"));
+                ControllerUtils.makeCorrectionForTimeZone(dob);
                 String phone = request.getParameter("phone");
                 String email = request.getParameter("email");
                 String homeAddress = request.getParameter("homeAddress");
