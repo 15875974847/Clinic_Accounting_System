@@ -42,21 +42,19 @@ Small overview of the project(not all application functions shown here, most of 
 ![](src/test/results/screenshots/doctor/doctor-my_appointments_closing_appointment_form_submission_result.jpg)
 
 ## Admin
+### Home
+![](src/test/results/screenshots/admin/admin_home.jpg)
 ### Managing events
 ![](src/test/results/screenshots/admin/admin-events_creation_form.jpg)
 ![](src/test/results/screenshots/admin/admin-events_deletion.jpg)
 ### Managing doctors
 ![](src/test/results/screenshots/admin/admin-doctors_add_doctor_form.jpg)
 ![](src/test/results/screenshots/admin/admin-doctors_add_doctor_form_2.jpg)
-![](src/test/results/screenshots/admin/admin-delete_doctor.jpg)
-
-
-
-
-
-
-
-
-
-
+![](src/test/results/screenshots/admin/admin-doctor_deletion.jpg)
+### Managing patients
+![](src/test/results/screenshots/admin/admin_patient_edit_info.jpg)
+![](src/test/results/screenshots/admin/admin_patients_deletion.jpg)
+### Managing appointments
+![](src/test/results/screenshots/admin/admin_appointments.jpg)
+![](src/test/results/screenshots/admin/admin_appointments_deletion_after_date.jpg)
 
