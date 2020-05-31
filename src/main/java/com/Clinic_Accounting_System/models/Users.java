@@ -1,4 +1,4 @@
-package com.Clinic_Accounting_System.Clinic_Accounting_System.models;
+package com.Clinic_Accounting_System.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

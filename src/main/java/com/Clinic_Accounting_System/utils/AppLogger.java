@@ -1,4 +1,4 @@
-package com.Clinic_Accounting_System.Clinic_Accounting_System.utils;
+package com.Clinic_Accounting_System.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
