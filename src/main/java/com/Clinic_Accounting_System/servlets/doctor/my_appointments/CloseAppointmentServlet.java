@@ -1,5 +1,13 @@
 package com.Clinic_Accounting_System.servlets.doctor.my_appointments;
 
+import com.Clinic_Accounting_System.dao.AppointmentDAO;
+import com.Clinic_Accounting_System.dao.DoctorDAO;
+import com.Clinic_Accounting_System.dao.PatientDAO;
+import com.Clinic_Accounting_System.entities.Doctor;
+import com.Clinic_Accounting_System.entities.Patient;
+import com.Clinic_Accounting_System.utils.ControllerUtils;
+import lombok.extern.log4j.Log4j2;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,46 +16,56 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 
+@Log4j2
 @WebServlet(name = "DoctorsCloseAppointmentServlet", urlPatterns = "/doctor/closeAppointmentAndLeaveANote")
 public class CloseAppointmentServlet extends HttpServlet {
 
+    private PatientDAO patientDAO = PatientDAO.getInstance();
+    private DoctorDAO doctorDAO = DoctorDAO.getInstance();
+    private AppointmentDAO appointmentDAO = AppointmentDAO.getInstance();
+
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        try {
+            HttpSession session = request.getSession();
 
-        // scrapping needed params from post request scope and session
-        Long doctorID = (Long)session.getAttribute("user_id");
-        Long patientID = Long.parseLong(request.getParameter("patientID"));
-        Date date = java.sql.Date.valueOf(request.getParameter("date"));
-        ControllerUtils.makeCorrectionForTimeZone(date);
-        int numberInQueue = Integer.parseInt(request.getParameter("numberInQueue"));
-        String note = request.getParameter("note");
+            // scrapping needed params from post request scope and session
+            Long doctorID = (Long)session.getAttribute("user_id");
+            Long patientID = Long.parseLong(request.getParameter("patientID"));
+            Date date = java.sql.Date.valueOf(request.getParameter("date"));
+            ControllerUtils.makeCorrectionForTimeZone(date);
+            int numberInQueue = Integer.parseInt(request.getParameter("numberInQueue"));
+            String note = request.getParameter("note");
 
-        // message about status of operation
-        String statusMessage;
+            // message about status of operation
+            String statusMessage;
 
-        // making call to database to check if such patient and doctor still existing there
-        UserInfo patient = patientInfoService.getOne(patientID);
-        Doctors doctor = doctorsService.getOne(doctorID);
-        if(patient != null && doctor != null){
-            // deleting Appointment instance by AppointmentID fields
-            appointmentsService.deleteByAppointmentID_DoctorAndAppointmentID_PatientAndAppointmentID_NumberInQueue(doctor, patient, numberInQueue);
-            // adding note to client's medical history if note exists
-            if(!note.equals("")){
-                System.out.println("adding note");
-                patient.setMedicalHistory(patient.getMedicalHistory() + "\n"+ "|" + note + "|");
-                // flushing changes to database
-                patientInfoService.saveAndFlush(patient);
+            // making call to database to check if patient and doctor with such ids still existing there
+            Patient patient = patientDAO.getPatientById(patientID);
+            Doctor doctor = doctorDAO.getDoctorById(doctorID);
+            if(patient != null && doctor != null){
+                // delete Appointment instance by Appointment PK fields
+                appointmentDAO.removeAppointmentsByPK(doctor.getId(), patient.getId(), numberInQueue, date);
+                // adding note to client's medical history if note exists
+                if(!note.equals("")){
+                    patient.setMedicalHistory(patient.getMedicalHistory() + "\n"+ "|" + note + "|");
+                    patientDAO.updatePatientMedicalHistoryById(patient.getId(), patient.getMedicalHistory());
+                }
+                // giving ticket to message about successful deleting and updating patient's information
+                statusMessage = "Appointment successfully closed!";
+            } else {
+                statusMessage = "Patient and/or doctor do not exist anymore!";
             }
-            // giving ticket to message about successful deleting and updating patient's information
-            statusMessage = "Appointment successfully closed!";
-        } else {
-            statusMessage = "Patient and/or doctor do not exist anymore!";
+            // giving ticket to statusMessage to display result of operation
+            ControllerUtils.giveTicketToMyMessage(session, statusMessage);
+            response.sendRedirect("/doctor/my_appointments");
+        } catch (SQLException e) {
+            log.error("500: SQLException at doctor/my_appointments/CloseAppointmentServlet");
+            request.getRequestDispatcher("errors/500.html").forward(request, response);
         }
-        // giving ticket to statusMessage to display result of operation
-        ControllerUtils.giveTicketToMyMessage(session, statusMessage);
-        response.sendRedirect("/doctor/my_appointments");
+
     }
 
 }

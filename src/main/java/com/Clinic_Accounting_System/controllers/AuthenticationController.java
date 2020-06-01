@@ -3,7 +3,6 @@ package com.Clinic_Accounting_System.Clinic_Accounting_System.controllers;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.models.Roles;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.models.Users;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.repositories.UsersRepository;
-import com.Clinic_Accounting_System.Clinic_Accounting_System.services.UserService;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.utils.AppLogger;
 import com.Clinic_Accounting_System.Clinic_Accounting_System.utils.ControllerUtils;
 import org.springframework.beans.factory.annotation.Autowired;

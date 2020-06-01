@@ -5,11 +5,10 @@ import lombok.Data;
 
 import java.sql.Date;
 
-
 @Data
 @AllArgsConstructor
 public class Patient {
-    private User id;
+    private long id;
     private String firstname;
     private String lastname;
     private String middlename;
@@ -18,4 +17,6 @@ public class Patient {
     private String phone;
     private String address;
     private String medicalHistory;
+    // Foreign key
+    private User user;
 }

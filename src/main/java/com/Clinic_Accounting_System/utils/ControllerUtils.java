@@ -1,7 +1,10 @@
 package com.Clinic_Accounting_System.utils;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.sql.Date;
 
 public final class ControllerUtils {
@@ -20,12 +23,14 @@ public final class ControllerUtils {
         }
     }
 
-    public static String processNonexistentUserWithValidSessionParams(HttpSession session, HttpServletRequest request){
+    public static void processNonexistentUserWithValidSessionParams
+            (HttpSession session, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         // invalidate this session and notify that user with such 'user_id' does not exist
         session.invalidate();
         session = request.getSession(true);
         giveTicketToMyMessage(session, "User with such user_id not found. Sorry!");
-        return "redirect:/sign_in";
+        request.getRequestDispatcher("sign_in").forward(request, response);
     }
 
     public static void makeCorrectionForTimeZone(Date date){
