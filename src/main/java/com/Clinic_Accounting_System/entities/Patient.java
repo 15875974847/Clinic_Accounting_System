@@ -8,7 +8,7 @@ import java.sql.Date;
 @Data
 @AllArgsConstructor
 public class Patient {
-    private long id;
+    private Long id;
     private String firstname;
     private String lastname;
     private String middlename;

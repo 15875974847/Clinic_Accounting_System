@@ -8,10 +8,10 @@ import java.sql.Date;
 @Data
 @AllArgsConstructor
 public class Event {
-    private long id;
+    private Long id;
     private String header;
     private String content;
     private Date startDate;
     private Date endDate;
-    private boolean onlyForPersonal;
+    private Boolean onlyForPersonal;
 }

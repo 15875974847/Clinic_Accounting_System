@@ -14,8 +14,8 @@ public class AppointmentDAO {
 
     private static AppointmentDAO instance;
     private final Executor executor = Executor.getInstance();
-    private ResultHandler<Integer> appointmentCountHandler = AppointmentCountHandler.getInstance();
-	private ResultHandler<List<Appointment>> appointmentListHandler = AppointmentListHandler.getInstance();
+    private final ResultHandler<Integer> appointmentCountHandler = AppointmentCountHandler.getInstance();
+	private final ResultHandler<List<Appointment>> appointmentListHandler = AppointmentListHandler.getInstance();
 
 	private AppointmentDAO() {}
 
@@ -51,41 +51,42 @@ public class AppointmentDAO {
 			"DELETE FROM appointments WHERE doctor_id = ?";
 	
 	private static final String Remove_Appointment_By_DoctorId_And_PatientId_And_NumberInQueue_And_Date =
-	"DELETE FROM appointments WHERE doctor_id = ? AND patient_id = ? AND number_in_queue = ? AND `date` = ?";
+			"DELETE FROM appointments " +
+					"WHERE doctor_id = ? AND patient_id = ? AND number_in_queue = ? AND `date` = ?";
 
     public List<Appointment> getAll() throws SQLException {
     	return executor.executeQuery(Get_All_Appointments, appointmentListHandler);
 	}
 
-	public List<Appointment> getAppointmentsByPatientId(long patient_id) throws SQLException {
+	public List<Appointment> getAppointmentsByPatientId(Long patient_id) throws SQLException {
     	return executor.executeQuery(Get_Appointments_By_PatientId, appointmentListHandler, patient_id);
 	}
 
-	public List<Appointment> getAppointmentsByDocId(long doctor_id) throws SQLException {
+	public List<Appointment> getAppointmentsByDocId(Long doctor_id) throws SQLException {
 		return executor.executeQuery(Get_Appointments_By_DoctorId, appointmentListHandler, doctor_id);
 	}
 
-	public Integer countAppointmentsByDocIdAndDate(long doctor_id, Date date) throws SQLException {
+	public Integer countAppointmentsByDocIdAndDate(Long doctor_id, Date date) throws SQLException {
 		return executor.executeQuery(Count_Appointments_By_DoctorID_And_Date, appointmentCountHandler, doctor_id, date);
 	}
 
-	public void createAppointment(long doctor_id, long patient_id, int number_in_queue, Date date, String comment) throws SQLException {
+	public void createAppointment(Long doctor_id, Long patient_id, Integer number_in_queue, Date date, String comment) throws SQLException {
         executor.executeUpdate(Create_Appointment, doctor_id, patient_id, number_in_queue, date, comment);
     }
 
-	public void removeAppointmentsOlderThenDate(Date date) throws SQLException {
-    	executor.executeUpdate(Remove_Appointments_OlderThen_Date, date);
+	public int removeAppointmentsOlderThenDate(Date date) throws SQLException {
+    	return executor.executeUpdate(Remove_Appointments_OlderThen_Date, date);
 	}
 
-	public void removeAllAppointmentsByPatientId(long patient_id) throws SQLException {
+	public void removeAllAppointmentsByPatientId(Long patient_id) throws SQLException {
 		executor.executeUpdate(Remove_All_Appointments_By_PatientId, patient_id);
 	}
 
-	public void removeAppointmentsByDocId(long doctor_id) throws SQLException {
+	public void removeAppointmentsByDocId(Long doctor_id) throws SQLException {
 		executor.executeUpdate(Remove_All_Appointments_By_DoctorId, doctor_id);
 	}
 
-	public void removeAppointmentsByPK(long doctor_id, long patient_id, int number_in_queue, Date date) throws SQLException {
+	public void removeAppointmentsByPK(Long doctor_id, Long patient_id, Integer number_in_queue, Date date) throws SQLException {
 		executor.executeUpdate(Remove_Appointment_By_DoctorId_And_PatientId_And_NumberInQueue_And_Date,
 				doctor_id, patient_id, number_in_queue, date);
 	}

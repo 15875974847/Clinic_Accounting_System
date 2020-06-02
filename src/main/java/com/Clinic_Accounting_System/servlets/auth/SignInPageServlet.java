@@ -15,16 +15,16 @@ public class SignInPageServlet extends HttpServlet {
             throws ServletException, IOException {
         // checking session obj existence
         HttpSession session = request.getSession(false);
-        if(session != null){
+        if(session != null) {
             // if session objects exists
             Long id = (Long)session.getAttribute("user_id");
-            Roles role = (Roles)session.getAttribute("role");
+            String role = (String)session.getAttribute("role");
             if(id != null && role != null){
-                // that means that we are authenticated
+                // means that we are authenticated
                 // update max inactive interval in "no remember-me" type of session
                 if(session.getMaxInactiveInterval() > 0) session.setMaxInactiveInterval(30*60);
-                // if such user found in database -> redirect on page he 'deserves'
-                return response.sendRedirect(getUserHomePage(user.getRole()));
+                // redirect user on page he 'deserves'
+                request.getRequestDispatcher(role + "/home.jsp").forward(request, response);
             } else {
                 // we have session, but don't have Auth objects
                 ControllerUtils.goThru_MessageByTicket_System(session);

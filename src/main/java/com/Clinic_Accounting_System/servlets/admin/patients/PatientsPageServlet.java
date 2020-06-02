@@ -1,6 +1,9 @@
 package com.Clinic_Accounting_System.servlets.admin.patients;
 
+import com.Clinic_Accounting_System.dao.PatientDAO;
+import com.Clinic_Accounting_System.entities.Patient;
 import com.Clinic_Accounting_System.utils.ControllerUtils;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,15 +12,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
+@Log4j2
 @WebServlet(name = "AdminsPatientsPageServlet", urlPatterns = "/admin/patients")
 public class PatientsPageServlet extends HttpServlet {
+
+    private PatientDAO patientDAO = PatientDAO.getInstance();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // fetching patients from database
-        List<UserInfo> patients = userInfoService.findAll();
+        List<Patient> patients = null;
+        try {
+            patients = patientDAO.getAll();
+        } catch (SQLException e) {
+            log.error("500: SQLException at admin/patients/PatientsPageServlet");
+            request.getRequestDispatcher("errors/500.html").forward(request, response);
+        }
         // setting this list of patients as request attrib
         request.setAttribute("patients", patients);
         HttpSession session = request.getSession();

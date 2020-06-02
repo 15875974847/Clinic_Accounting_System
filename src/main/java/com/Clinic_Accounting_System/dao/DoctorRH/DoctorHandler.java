@@ -1,5 +1,6 @@
 package com.Clinic_Accounting_System.dao.DoctorRH;
 
+import com.Clinic_Accounting_System.dao.StaffEntityDAO;
 import com.Clinic_Accounting_System.entities.Doctor;
 import com.Clinic_Accounting_System.executor.ResultHandler;
 
@@ -24,7 +25,8 @@ public class DoctorHandler implements ResultHandler<Doctor> {
         final long id = resultSet.getLong("id");
         final String degree = resultSet.getString("degree");
         final String specialization = resultSet.getString("specialization");
-        return new Doctor(id, degree, specialization);
+        return new Doctor(id, degree, specialization,
+                StaffEntityDAO.getInstance().getStaffEntityById(id));
     }
 
 }

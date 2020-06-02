@@ -8,10 +8,10 @@ import java.sql.Date;
 @Data
 @AllArgsConstructor
 public class Appointment {
-    private long doctorId;
-    private long patientId;
+    private Long doctorId;
+    private Long patientId;
     private Date date;
-    private int numberInQueue;
+    private Integer numberInQueue;
     private String comment;
     // Foreign keys
     private Doctor doctor;

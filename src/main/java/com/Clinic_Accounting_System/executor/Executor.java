@@ -30,15 +30,17 @@ public class Executor {
                 stmt.setLong(i + 1, (Long)args[i]);
             else if (args[i].getClass() == Date.class)
                 stmt.setDate(i + 1, (Date)args[i]);
+            else if (args[i].getClass() == Double.class)
+                stmt.setDouble(i + 1, (Double)args[i]);
             else stmt.setString(i + 1, (String)args[i]);
         }
     }
 
-    public void executeUpdate(final String update, Object... args) throws SQLException {
+    public int executeUpdate(final String update, Object... args) throws SQLException {
         try (final Connection con = mysqlDataSource.getConnection();
              final PreparedStatement stmt = con.prepareStatement(update)) {
             setArgs(stmt, args);
-            stmt.executeUpdate();
+            return stmt.executeUpdate();
         }
     }
 

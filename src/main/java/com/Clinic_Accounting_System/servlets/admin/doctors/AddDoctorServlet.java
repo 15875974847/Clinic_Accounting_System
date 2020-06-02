@@ -1,6 +1,8 @@
 package com.Clinic_Accounting_System.servlets.admin.doctors;
 
+import com.Clinic_Accounting_System.dao.DoctorDAO;
 import com.Clinic_Accounting_System.dao.PatientDAO;
+import com.Clinic_Accounting_System.dao.StaffEntityDAO;
 import com.Clinic_Accounting_System.dao.UserDAO;
 import com.Clinic_Accounting_System.entities.User;
 import com.Clinic_Accounting_System.utils.ControllerUtils;
@@ -23,6 +25,8 @@ public class AddDoctorServlet extends HttpServlet {
 
     private final UserDAO userDAO = UserDAO.getInstance();
     private final PatientDAO patientDAO = PatientDAO.getInstance();
+    private final StaffEntityDAO staffEntityDAO = StaffEntityDAO.getInstance();
+    private final DoctorDAO doctorDAO = DoctorDAO.getInstance();
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,20 +42,25 @@ public class AddDoctorServlet extends HttpServlet {
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
             String address = request.getParameter("address");
-            String salary = request.getParameter("salary");
             String degree = request.getParameter("degree");
             String specialization = request.getParameter("specialization");
+            Double salary = 0.0;
+            try {
+                salary = Double.parseDouble(request.getParameter("salary"));
+            } catch (NullPointerException | NumberFormatException e){
+                HttpSession session = request.getSession();
+                ControllerUtils.giveTicketToMyMessage(session, "Wrong `salary` field!");
+                response.sendRedirect("/admin/doctors");
+            }
             // persisting data into database
             if(!userDAO.existsByUsername(username)) {
                 userDAO.createUser(username, password, Roles.doctor.name());
                 final User user = userDAO.getByUsername(username);
                 patientDAO.createPatient(user.getId(), firstname, lastname, midname, dob,
                                         email, phone, address, "");
-                StaffEntity staffEntity = new StaffEntity(Double.parseDouble(salary), userInfo);
-                staffEntityService.saveAndFlush(staffEntity);
-                Doctors doctor = new Doctors(degree, specialization, staffEntity);
-                doctorsService.saveAndFlush(doctor);
-                // notifying administrator about successful add operation
+                staffEntityDAO.createStaffEntity(user.getId(), salary);
+                doctorDAO.createDoctor(user.getId(), degree, specialization);
+                // notifying administrator about successful operation
                 HttpSession session = request.getSession();
                 ControllerUtils.giveTicketToMyMessage(session, "Doctor successfully added!");
                 response.sendRedirect("/admin/doctors");
@@ -62,7 +71,7 @@ public class AddDoctorServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             log.error("500: SQLException at admin/doctors/AddDoctorServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            response.sendRedirect("/errors/500.html");
         }
     }
 }

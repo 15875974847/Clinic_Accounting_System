@@ -12,8 +12,8 @@ public class UserDAO {
 
 	private static UserDAO instance;
 	private final Executor executor = Executor.getInstance();
-	private ResultHandler<User> userHandler = UserHandler.getInstance();
-	private ResultHandler<Boolean> isUserExistsHandler = IsUserExistsHandler.getInstance();
+	private final ResultHandler<User> userHandler = UserHandler.getInstance();
+	private final ResultHandler<Boolean> isUserExistsHandler = IsUserExistsHandler.getInstance();
 
 	private UserDAO() {}
 
@@ -35,6 +35,15 @@ public class UserDAO {
 	private static final String Create_User =
 			"INSERT INTO users(username, `password`, `role`) VALUES(?,?,?)";
 
+	private static final String Remove_By_Id =
+			"DELETE FROM users WHERE id = ?";
+
+	private static final String Update_Username_And_Password =
+			"UPDATE users SET username = ?, `password` = ? WHERE id = ?";
+
+	private static final String Update_Password =
+			"UPDATE users SET `password` = ? WHERE id = ?";
+
 	public User getByUsernameAndPassword(String username, String password) throws SQLException {
 		return executor.executeQuery(Get_By_Username_And_Password, userHandler, username, password);
 	}
@@ -53,6 +62,18 @@ public class UserDAO {
 
 	public void createUser(String username, String password, String role) throws SQLException {
 		executor.executeUpdate(Create_User, username, password, role);
+	}
+
+	public void removeById(Long id) throws SQLException {
+		executor.executeUpdate(Remove_By_Id, id);
+	}
+
+	public void updateUsernameAndPassword(Long id, String username, String password) throws SQLException {
+		executor.executeUpdate(Update_Username_And_Password, username, password, id);
+	}
+
+	public void updatePassword(Long id, String password) throws SQLException {
+		executor.executeUpdate(Update_Password, password, id);
 	}
 
 }

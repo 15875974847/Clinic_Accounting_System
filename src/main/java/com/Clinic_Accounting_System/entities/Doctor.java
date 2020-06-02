@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Doctor {
-    private long id;
+    private Long id;
     private String degree;
     private String specialization;
     // Foreign key
-    private Staff staff;
+    private StaffEntity staff;
 }

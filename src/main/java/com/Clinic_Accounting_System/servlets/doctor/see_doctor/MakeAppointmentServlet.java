@@ -30,22 +30,22 @@ public class MakeAppointmentServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
-            // scrapping params
+            // scrap params
             Long patientID = (Long)session.getAttribute("user_id");
             Long doctorID = Long.parseLong(request.getParameter("doctorID"));
             Date date = java.sql.Date.valueOf(request.getParameter("date"));
             ControllerUtils.makeCorrectionForTimeZone(date);
             String comment = request.getParameter("comment");
-            // making call to database to find out how many appointments already we have on this date
+            // make call to db to find out how many appointments we already have on this date
             int numberInQueue = appointmentDAO.countAppointmentsByDocIdAndDate(doctorID, date) + 1;
 
-            // checking if patient and doc with such ids are exist in database
+            // check if patient and doc with such ids are in db
             Patient patient = patientDAO.getPatientById(patientID);
             Doctor doctor = doctorDAO.getDoctorById(doctorID);
             if(patient != null && doctor != null){
-                // creating new appointment on chosen date
+                // create new appointment on chosen date
                 appointmentDAO.createAppointment(doctorID, patientID, numberInQueue, date, comment);
-                // add give ticket to message to notify user that appointment to doctor successfully created
+                // give ticket to message
                 ControllerUtils.giveTicketToMyMessage(session, "Appointment to selected doctor successfully created!");
                 response.sendRedirect("/doctor/see_doctor");
             } else {
@@ -53,7 +53,7 @@ public class MakeAppointmentServlet extends HttpServlet {
             }
         } catch(SQLException e) {
             log.error("500: SQLException at doctor/see_doctor/MakeAppointmentServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            response.sendRedirect("/errors/500.html");
         }
     }
 

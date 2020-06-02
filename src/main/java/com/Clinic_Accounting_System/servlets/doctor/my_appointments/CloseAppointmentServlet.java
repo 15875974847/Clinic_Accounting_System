@@ -22,9 +22,9 @@ import java.sql.SQLException;
 @WebServlet(name = "DoctorsCloseAppointmentServlet", urlPatterns = "/doctor/closeAppointmentAndLeaveANote")
 public class CloseAppointmentServlet extends HttpServlet {
 
-    private PatientDAO patientDAO = PatientDAO.getInstance();
-    private DoctorDAO doctorDAO = DoctorDAO.getInstance();
-    private AppointmentDAO appointmentDAO = AppointmentDAO.getInstance();
+    private final PatientDAO patientDAO = PatientDAO.getInstance();
+    private final DoctorDAO doctorDAO = DoctorDAO.getInstance();
+    private final AppointmentDAO appointmentDAO = AppointmentDAO.getInstance();
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,7 +63,7 @@ public class CloseAppointmentServlet extends HttpServlet {
             response.sendRedirect("/doctor/my_appointments");
         } catch (SQLException e) {
             log.error("500: SQLException at doctor/my_appointments/CloseAppointmentServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            response.sendRedirect("/errors/500.html");
         }
 
     }

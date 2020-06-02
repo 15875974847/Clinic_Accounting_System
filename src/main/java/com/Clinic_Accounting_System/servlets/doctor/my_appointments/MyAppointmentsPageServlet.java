@@ -19,15 +19,15 @@ import java.util.List;
 @WebServlet(name = "DoctorsMyAppointmentsPageServlet", urlPatterns = "/doctor/my_appointments")
 public class MyAppointmentsPageServlet extends HttpServlet {
 
-    private AppointmentDAO appointmentDAO = AppointmentDAO.getInstance();
+    private final AppointmentDAO appointmentDAO = AppointmentDAO.getInstance();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
-            // fetching from session user_id param
+            // get from session user_id param
             Long user_id = (Long)session.getAttribute("user_id");
-            // fetching appointment's info from database
+            // fetch appointment's info from database
             List<Appointment> asPatientAppointments = appointmentDAO.getAppointmentsByPatientId(user_id);
             List<Appointment> asDoctorAppointments = appointmentDAO.getAppointmentsByDocId(user_id);
             // set those two lists as attributes of request scope

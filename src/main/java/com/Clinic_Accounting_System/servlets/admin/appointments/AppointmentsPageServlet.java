@@ -28,6 +28,7 @@ public class AppointmentsPageServlet extends HttpServlet {
             List<Appointment> appointments = appointmentDAO.getAll();
             request.setAttribute("appointments", appointments);
             HttpSession session = request.getSession();
+            // go thru message-by-ticket system
             ControllerUtils.goThru_MessageByTicket_System(session);
             request.getRequestDispatcher("admin/appointments.jsp").forward(request, response);
         } catch (SQLException e) {

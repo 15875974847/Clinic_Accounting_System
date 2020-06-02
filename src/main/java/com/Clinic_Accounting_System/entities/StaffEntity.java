@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Staff {
-    private long id;
-    private double salary;
+public class StaffEntity {
+    private Long id;
+    private Double salary;
     // Foreign key
     private User user;
 }
