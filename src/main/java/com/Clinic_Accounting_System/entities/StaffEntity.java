@@ -9,5 +9,5 @@ public class StaffEntity {
     private Long id;
     private Double salary;
     // Foreign key
-    private User user;
+    private Patient patient;
 }

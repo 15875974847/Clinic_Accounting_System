@@ -10,5 +10,5 @@ public class Doctor {
     private String degree;
     private String specialization;
     // Foreign key
-    private StaffEntity staff;
+    private StaffEntity staffEntity;
 }

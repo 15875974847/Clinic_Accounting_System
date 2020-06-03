@@ -1,5 +1,7 @@
 package com.Clinic_Accounting_System.servlets.pass_recovery;
 
+import com.Clinic_Accounting_System.utils.ControllerUtils;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +16,7 @@ public class PassRecoveryPageServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        // go thru message-by-ticket system
         ControllerUtils.goThru_MessageByTicket_System(session);
         request.getRequestDispatcher("pass_recovery/get_username.jsp").forward(request, response);
     }

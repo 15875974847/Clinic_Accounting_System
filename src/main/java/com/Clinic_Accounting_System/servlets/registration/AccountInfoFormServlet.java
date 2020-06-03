@@ -16,7 +16,7 @@ public class AccountInfoFormServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
-        // going thru message by ticket system
+        // go thru message by ticket system
         ControllerUtils.goThru_MessageByTicket_System(session);
         request.getRequestDispatcher("registration/new_account_application.jsp").forward(request, response);
     }
