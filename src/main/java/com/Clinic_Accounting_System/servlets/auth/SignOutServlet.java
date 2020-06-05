@@ -15,7 +15,7 @@ public class SignOutServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if(session != null) session.invalidate();
-        response.sendRedirect("/sign_in");
+        response.sendRedirect(request.getContextPath() + "/sign_in");
     }
 
 }

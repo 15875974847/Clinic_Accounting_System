@@ -37,18 +37,18 @@ public class EditAccountInfoServlet extends HttpServlet {
                     userDAO.updateUsernameAndPassword(user.getId(), newUsername, newPassword);
                     // give ticket to successful username and password update message
                     ControllerUtils.giveTicketToMyMessage(session, "Username and password updated!");
-                    response.sendRedirect("/patient/account");
+                    response.sendRedirect(request.getContextPath() + "/patient/account");
                 } else {
                     ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
                 }
             } else {
                 // user entered same credentials
                 ControllerUtils.giveTicketToMyMessage(session, "You entered same credentials!");
-                response.sendRedirect("/patient/account");
+                response.sendRedirect(request.getContextPath() + "/patient/account");
             }
         } catch (SQLException e) {
-            log.error("500: SQLException at patient/account/EditAccountInfoServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at patient/account/EditAccountInfoServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

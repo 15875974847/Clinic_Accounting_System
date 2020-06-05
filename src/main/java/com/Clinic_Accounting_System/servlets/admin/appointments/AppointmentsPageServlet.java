@@ -30,10 +30,10 @@ public class AppointmentsPageServlet extends HttpServlet {
             HttpSession session = request.getSession();
             // go thru message-by-ticket system
             ControllerUtils.goThru_MessageByTicket_System(session);
-            request.getRequestDispatcher("admin/appointments.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/admin/appointments.jsp").forward(request, response);
         } catch (SQLException e) {
-            log.error("500: SQLException at admin/appointments/AppointmentsPageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at admin/appointments/AppointmentsPageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

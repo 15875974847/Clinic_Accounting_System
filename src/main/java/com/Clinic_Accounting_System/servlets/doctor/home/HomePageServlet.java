@@ -40,13 +40,13 @@ public class HomePageServlet extends HttpServlet {
                 request.setAttribute("events", events);
                 // go thru message-by-ticket system
                 ControllerUtils.goThru_MessageByTicket_System(session);
-                request.getRequestDispatcher("doctor/home.jsp").forward(request, response);
+                request.getRequestDispatcher("/pages/doctor/home.jsp").forward(request, response);
             } else {
                 ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
             }
         } catch (SQLException e) {
-            log.error("500: SQLException at doctor/home/HomePageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at doctor/home/HomePageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

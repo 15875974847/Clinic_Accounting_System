@@ -1,30 +1,36 @@
 package com.Clinic_Accounting_System.db;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import lombok.extern.log4j.Log4j2;
+
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
+@Log4j2
 public class JdbcConnector {
+
     private static ComboPooledDataSource instance;
 
-    private JdbcConnector() {
-    }
+    private JdbcConnector() {}
 
     public static DataSource getDataSource() {
         if (instance == null) {
             synchronized (JdbcConnector.class) {
-                try {
-                    final String url = "jdbc:mysql://localhost:3306/clinic?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false";
-                    final String userName = "ClinicAdmin";
-                    final String password = "pass";
+                final Properties properties = new Properties();
+                try(InputStream resourceAsStream = JdbcConnector.class.getResourceAsStream("/jdbc.properties")) {
+                    properties.load(resourceAsStream);
                     instance = new ComboPooledDataSource();
-                    instance.setDriverClass("com.mysql.jdbc.Driver");
-                    instance.setJdbcUrl(url);
-                    instance.setUser(userName);
-                    instance.setPassword(password);
-                    instance.setMinPoolSize(4);
+                    instance.setDriverClass(properties.getProperty("driver"));
+                    instance.setJdbcUrl(properties.getProperty("url"));
+                    instance.setUser(properties.getProperty("username"));
+                    instance.setPassword(properties.getProperty("password"));
+                    instance.setMinPoolSize(2);
                     instance.setMaxPoolSize(40);
-                } catch (PropertyVetoException e) {
+                } catch (PropertyVetoException | IOException e) {
+                    log.error(e.getMessage());
                     e.printStackTrace();
                 }
             }

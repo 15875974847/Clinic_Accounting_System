@@ -42,13 +42,13 @@ public class EditPersonalInfoServlet extends HttpServlet {
                                                                     dob, email, phone, address);
                 // go thru message-by-ticket system
                 ControllerUtils.giveTicketToMyMessage(session, "Information successfully updated!");
-                response.sendRedirect("/patient/pers_info");
+                response.sendRedirect(request.getContextPath() + "/patient/pers_info");
             } else {
                 ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
             }
         } catch (SQLException e) {
-            log.error("500: SQLException at patient/personal_info/EditPersonalInfoServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at patient/personal_info/EditPersonalInfoServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

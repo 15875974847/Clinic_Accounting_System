@@ -30,7 +30,7 @@ public final class ControllerUtils {
         session.invalidate();
         session = request.getSession(true);
         giveTicketToMyMessage(session, "User with such user_id not found. Sorry!");
-        request.getRequestDispatcher("sign_in").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/sign_in");
     }
 
     public static void makeCorrectionForTimeZone(Date date){

@@ -25,7 +25,8 @@ public class DeletePatientServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // fetching patient from db by patientID from request
+            HttpSession session = request.getSession();
+            // fetch patient from db by patientID from request
             Long patientID = Long.parseLong(request.getParameter("patientID"));
             Patient patient = patientDAO.getPatientById(patientID);
             if(patient != null){
@@ -33,18 +34,15 @@ public class DeletePatientServlet extends HttpServlet {
                 appointmentDAO.removeAllAppointmentsByPatientId(patientID);
                 // remove from `user_info` table, method also removes patient from `users`
                 patientDAO.removePatient(patientID);
-                // notifying about successful delete operation
-                HttpSession session = request.getSession();
+                // notify about successful delete operation
                 ControllerUtils.giveTicketToMyMessage(session, "Patient successfully deleted!");
-                response.sendRedirect("/admin/patients");
             } else {
-                HttpSession session = request.getSession();
                 ControllerUtils.giveTicketToMyMessage(session, "Such patient do not exist anymore!");
-                response.sendRedirect("/admin/patients");
             }
+            response.sendRedirect(request.getContextPath() + "/admin/patients");
         } catch (SQLException e) {
-            log.error("500: SQLException at admin/appointments/AppointmentsPageServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at admin/appointments/AppointmentsPageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

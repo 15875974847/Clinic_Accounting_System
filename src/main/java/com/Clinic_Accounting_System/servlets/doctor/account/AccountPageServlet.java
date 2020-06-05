@@ -33,13 +33,13 @@ public class AccountPageServlet extends HttpServlet {
                 request.setAttribute("password", user.getPassword());
                 // go thought message-by-ticket system
                 ControllerUtils.goThru_MessageByTicket_System(session);
-                request.getRequestDispatcher("doctor/account.jsp").forward(request, response);
+                request.getRequestDispatcher("/pages/doctor/account.jsp").forward(request, response);
             } else {
                 ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
             }
         } catch (SQLException e) {
-            log.error("500: SQLException at doctor/account/AccountPageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at doctor/account/AccountPageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

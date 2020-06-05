@@ -23,7 +23,7 @@ public class DeleteAfterDateServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
-            // fetching date from request
+            // fetch date from request
             Date date = java.sql.Date.valueOf(request.getParameter("date"));
             ControllerUtils.makeCorrectionForTimeZone(date);
             // delete all appointments after date
@@ -31,10 +31,10 @@ public class DeleteAfterDateServlet extends HttpServlet {
             // give ticket to success message
             HttpSession session = request.getSession();
             ControllerUtils.giveTicketToMyMessage(session, numberOfDeletedAppointments + " appointments successfully deleted!");
-            response.sendRedirect("/admin/appointments");
+            response.sendRedirect(request.getContextPath() + "/admin/appointments");
         } catch (SQLException e) {
-            log.error("500: SQLException at admin/home/DeleteAfterDateServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at admin/home/DeleteAfterDateServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

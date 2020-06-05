@@ -9,9 +9,9 @@ import java.io.IOException;
 
 @WebFilter(
         urlPatterns = {"/admin/*",
-                "/doctor/*",
-                "/patient/*",
-                "/sign_out"}, // all protected routes
+                        "/doctor/*",
+                        "/patient/*",
+                        "/sign_out"}, // all protected routes
         filterName = "AuthenticatedRoutesFilter",
         description = "Prevents from accidental access to authenticated routes."
 )
@@ -33,15 +33,20 @@ public class AuthenticatedRoutes implements Filter {
                 // update max inactive interval in "no remember-me" type of session
                 if(session.getMaxInactiveInterval() > 0) session.setMaxInactiveInterval(30*60);
                 // check if role param in session matches requested URI path
-                String[] uriChunks = ((HttpServletRequest)request).getRequestURI().split("/", 2);
-                if(uriChunks[0].equals(role)) {
+                // approach works if URI matches pattern /webapp/doctor/home
+                String[] uriChunks = ((HttpServletRequest)request).getRequestURI().split("/", 4);
+                if(uriChunks[2].equals(role) || uriChunks[2].equals("sign_out")) {
                     filterChain.doFilter(request, response);
                 } else {
-                    request.getRequestDispatcher(role + "/home").forward(request, response);
+                    // if user get lost -> redirect him to his home page
+                    ((HttpServletResponse)response).sendRedirect(((HttpServletRequest) request).getContextPath() +
+                                                                        "/" + role + "/home");
                 }
+                return;
             }
         }
-        request.getRequestDispatcher("sign_in.jsp").forward(request, response);
+        // we are not authenticated -> go sign in
+        ((HttpServletResponse)response).sendRedirect(((HttpServletRequest) request).getContextPath() +"/sign_in");
     }
 
     public void destroy() {}

@@ -22,7 +22,7 @@ public class SignInPageServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("sign_in.jsp").forward(request, response);
+        request.getRequestDispatcher("/pages/sign_in.jsp").forward(request, response);
     }
 
     public void doPost (HttpServletRequest request, HttpServletResponse response)
@@ -33,38 +33,35 @@ public class SignInPageServlet extends HttpServlet {
             // check existence of username and password form attributes
             if(username == null || password == null){
                 log.warn("Hacker tried to go without user/password params at sign_in.");
-                response.sendRedirect("/sign_in");
+                response.sendRedirect(request.getContextPath() + "/sign_in");
+                return;
             }
-
             // look for user in database thru DAO object
             User user = userDAO.getByUsernameAndPassword(username, password);
-
             // create new session
             HttpSession session = request.getSession(true);
             // if there is no such user in db -> stay on 'sign in' page and set error message to display
             if(user == null) {
                 ControllerUtils.giveTicketToMyMessage(session, "Invalid credentials!");
-                response.sendRedirect("/sign_in");
+                response.sendRedirect(request.getContextPath() + "/sign_in");
+            } else {
+                // set Auth session objects
+                session.setAttribute("user_id", user.getId());
+                session.setAttribute("role", user.getRole());
+                // also don't forget remember-me checkbox(am i poked vain on him???)
+                if(request.getParameterValues("remember-me") != null){
+                    // if checkbox selected --> set endless session timeout
+                    session.setMaxInactiveInterval(-1);
+                } else{
+                    // set session inactive interval = 30 mins by default
+                    session.setMaxInactiveInterval(30*60);
+                }
+                // redirect user to corresponded home page
+                response.sendRedirect(request.getContextPath() + "/" + user.getRole() + "/home");
             }
-
-            // set Auth session objects
-            session.setAttribute("user_id", user.getId());
-            session.setAttribute("role", user.getRole());
-
-            // also don't forget remember-me checkbox(am i poked vain on him???)
-            if(request.getParameterValues("remember-me") != null){
-                // if checkbox selected --> set endless session timeout
-                session.setMaxInactiveInterval(-1);
-            } else{
-                // set session inactive interval = 30 mins by default
-                session.setMaxInactiveInterval(30*60);
-            }
-
-            // redirect user to corresponded home page
-            response.sendRedirect(user.getRole() + "/home");
         } catch (SQLException e) {
-            log.error("500: SQLException at auth/SignInServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at auth/SignInServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

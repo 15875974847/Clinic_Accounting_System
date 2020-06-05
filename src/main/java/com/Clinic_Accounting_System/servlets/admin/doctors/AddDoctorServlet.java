@@ -31,6 +31,7 @@ public class AddDoctorServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            HttpSession session = request.getSession();
             // scrapping all params from request
             String username = request.getParameter("username");
             String password = request.getParameter("password");
@@ -48,9 +49,9 @@ public class AddDoctorServlet extends HttpServlet {
             try {
                 salary = Double.parseDouble(request.getParameter("salary"));
             } catch (NullPointerException | NumberFormatException e){
-                HttpSession session = request.getSession();
                 ControllerUtils.giveTicketToMyMessage(session, "Wrong `salary` field!");
-                response.sendRedirect("/admin/doctors");
+                response.sendRedirect(request.getContextPath() + "/admin/doctors");
+                return;
             }
             // persisting data into database
             if(!userDAO.existsByUsername(username)) {
@@ -61,17 +62,14 @@ public class AddDoctorServlet extends HttpServlet {
                 staffEntityDAO.createStaffEntity(user.getId(), salary);
                 doctorDAO.createDoctor(user.getId(), degree, specialization);
                 // notifying administrator about successful operation
-                HttpSession session = request.getSession();
                 ControllerUtils.giveTicketToMyMessage(session, "Doctor successfully added!");
-                response.sendRedirect("/admin/doctors");
             } else {
-                HttpSession session = request.getSession();
                 ControllerUtils.giveTicketToMyMessage(session, "Doctor with such username already exists!");
-                response.sendRedirect("/admin/doctors");
             }
+            response.sendRedirect(request.getContextPath() + "/admin/doctors");
         } catch (SQLException e) {
-            log.error("500: SQLException at admin/doctors/AddDoctorServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at admin/doctors/AddDoctorServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 }

@@ -35,10 +35,10 @@ public class MyAppointmentsPageServlet extends HttpServlet {
             request.setAttribute("asDoctorAppointments", asDoctorAppointments);
             // go thru message-by-ticket system
             ControllerUtils.goThru_MessageByTicket_System(session);
-            request.getRequestDispatcher("doctor/my_appointments.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/doctor/my_appointments.jsp").forward(request, response);
         } catch (SQLException e) {
-            log.error("500: SQLException at doctor/my_appointments/MyAppointmentsPageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at doctor/my_appointments/MyAppointmentsPageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

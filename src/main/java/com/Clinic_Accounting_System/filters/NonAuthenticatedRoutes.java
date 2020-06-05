@@ -3,6 +3,7 @@ package com.Clinic_Accounting_System.filters;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
@@ -26,10 +27,13 @@ public class NonAuthenticatedRoutes implements Filter {
             Long id = (Long) session.getAttribute("user_id");
             String role = (String) session.getAttribute("role");
             if (id != null && role != null) {
-                // means that we are authenticated
-                request.getRequestDispatcher(role + "/home").forward(request, response);
+                // means that we are authenticated -> redirect to home page
+                ((HttpServletResponse)response).sendRedirect(((HttpServletRequest) request).getContextPath() +
+                                                                    "/" + role + "/home");
+                return;
             }
         }
+        // we are not authenticated -> proceed
         filterChain.doFilter(request, response);
     }
 

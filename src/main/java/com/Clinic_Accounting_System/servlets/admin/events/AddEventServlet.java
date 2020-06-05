@@ -24,7 +24,7 @@ public class AddEventServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
-            // gettin' params from request
+            // get params from request
             String header = request.getParameter("header");
             String content = request.getParameter("content");
             Date startDate = java.sql.Date.valueOf(request.getParameter("start_date"));
@@ -36,10 +36,10 @@ public class AddEventServlet extends HttpServlet {
             eventDAO.createEvent(header, content, startDate, endDate, onlyForPersonal);
             // give ticket to message notifying user that event successfully created
             ControllerUtils.giveTicketToMyMessage(session, "Event successfully created!");
-            response.sendRedirect("/admin/events");
+            response.sendRedirect(request.getContextPath() + "/admin/events");
         } catch (SQLException e) {
-            log.error("500: SQLException at admin/events/AddEventServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at admin/events/AddEventServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

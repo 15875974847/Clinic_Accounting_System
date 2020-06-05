@@ -38,13 +38,13 @@ public class HomePageServlet extends HttpServlet {
                 // fetch patient's events
                 List<Event> events = eventDAO.getAllEventsByOnlyForPersonal(false);
                 request.setAttribute("events", events);
-                request.getRequestDispatcher("patient/home.jsp").forward(request, response);
+                request.getRequestDispatcher("/pages/patient/home.jsp").forward(request, response);
             } else {
                 ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
             }
         } catch(SQLException e) {
-            log.error("500: SQLException at patient/home/HomePageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at patient/home/HomePageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

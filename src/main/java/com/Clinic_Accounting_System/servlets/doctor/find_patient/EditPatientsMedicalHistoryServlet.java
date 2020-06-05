@@ -33,14 +33,13 @@ public class EditPatientsMedicalHistoryServlet extends HttpServlet {
                 // update patient's medical history
                 patientDAO.updatePatientMedicalHistoryById(patient.getId(), newMedicalHistory);
                 ControllerUtils.giveTicketToMyMessage(session, "Patient's medical history successfully updated!");
-                response.sendRedirect("/doctor/find_patient");
             } else {
                 ControllerUtils.giveTicketToMyMessage(session, "Patient account does not exist anymore!");
-                response.sendRedirect("/doctor/find_patient");
             }
+            response.sendRedirect(request.getContextPath() + "/doctor/find_patient");
         } catch (SQLException e) {
-            log.error("500: SQLException at doctor/find_patient/EditPatientsMedHistoryServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at doctor/find_patient/EditPatientsMedHistoryServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

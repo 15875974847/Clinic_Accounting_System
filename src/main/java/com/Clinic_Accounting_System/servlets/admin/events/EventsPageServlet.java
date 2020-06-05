@@ -24,16 +24,16 @@ public class EventsPageServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // making call to db to fetch all events
+            // fetch all events
             List<Event> events = eventDAO.getAll();
             request.setAttribute("events", events);
             // process thru message-by-ticket system
             HttpSession session = request.getSession();
             ControllerUtils.goThru_MessageByTicket_System(session);
-            request.getRequestDispatcher("admin/events.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/admin/events.jsp").forward(request, response);
         } catch (SQLException e) {
-            log.error("500: SQLException at admin/events/EventsPageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at admin/events/EventsPageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

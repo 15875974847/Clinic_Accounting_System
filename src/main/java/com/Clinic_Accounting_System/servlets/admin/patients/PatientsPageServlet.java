@@ -23,19 +23,18 @@ public class PatientsPageServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // fetching patients from database
-        List<Patient> patients = null;
         try {
-            patients = patientDAO.getAll();
+            // fetch patients from database
+            List<Patient> patients = patientDAO.getAll();
+            // sett this list of patients as request attrib
+            request.setAttribute("patients", patients);
+            HttpSession session = request.getSession();
+            ControllerUtils.goThru_MessageByTicket_System(session);
+            request.getRequestDispatcher("/pages/admin/patients.jsp").forward(request, response);
         } catch (SQLException e) {
-            log.error("500: SQLException at admin/patients/PatientsPageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at admin/patients/PatientsPageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
-        // setting this list of patients as request attrib
-        request.setAttribute("patients", patients);
-        HttpSession session = request.getSession();
-        ControllerUtils.goThru_MessageByTicket_System(session);
-        request.getRequestDispatcher("admin/patients.jsp").forward(request, response);
     }
 
 }

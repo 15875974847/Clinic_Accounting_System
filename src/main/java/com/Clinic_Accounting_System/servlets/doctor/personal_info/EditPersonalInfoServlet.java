@@ -54,11 +54,11 @@ public class EditPersonalInfoServlet extends HttpServlet {
 
                 // give ticket to message about successful update
                 ControllerUtils.giveTicketToMyMessage(session, "Personal information successfully updated!");
-                response.sendRedirect("/doctor/pers_info");
+                response.sendRedirect(request.getContextPath() + "/doctor/pers_info");
             }
         } catch(SQLException e) {
-            log.error("500: SQLException at doctor/pers_info/EditPersonalInfoServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at doctor/pers_info/EditPersonalInfoServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

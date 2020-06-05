@@ -39,13 +39,13 @@ public class PersonalInfoPageServlet extends HttpServlet {
                 request.setAttribute("medHistory", patient.getMedicalHistory());
                 // go thru message-by-ticket system
                 ControllerUtils.goThru_MessageByTicket_System(session);
-                request.getRequestDispatcher("patient/pers_info.jsp").forward(request, response);
+                request.getRequestDispatcher("/pages/patient/pers_info.jsp").forward(request, response);
             } else {
                 ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
             }
         } catch (SQLException e) {
-            log.error("500: SQLException at patient/personal_info/PersonalInfoPageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at patient/personal_info/PersonalInfoPageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

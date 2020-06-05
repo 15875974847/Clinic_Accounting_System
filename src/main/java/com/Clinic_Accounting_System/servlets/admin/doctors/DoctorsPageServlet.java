@@ -30,10 +30,10 @@ public class DoctorsPageServlet extends HttpServlet {
             // process thru message-by-ticket system
             HttpSession session = request.getSession();
             ControllerUtils.goThru_MessageByTicket_System(session);
-            request.getRequestDispatcher("admin/doctors.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/admin/doctors.jsp").forward(request, response);
         } catch (SQLException e) {
             log.error("500: SQLException at admin/doctors/DoctorsPageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

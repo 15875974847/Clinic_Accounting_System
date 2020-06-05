@@ -34,13 +34,13 @@ public class MyAppointmentsPageServlet extends HttpServlet {
                 // fetch patient's appointments from db
                 List<Appointment> appointments = appointmentDAO.getAppointmentsByPatientId(patient.getId());
                 request.setAttribute("appointments", appointments);
-                request.getRequestDispatcher("patient/my_appointments.jsp").forward(request, response);
+                request.getRequestDispatcher("/pages/patient/my_appointments.jsp").forward(request, response);
             } else {
                 ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
             }
         } catch (SQLException e) {
-            log.error("500: SQLException at patient/my_appointments/MyAppointmentsPageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at patient/my_appointments/MyAppointmentsPageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

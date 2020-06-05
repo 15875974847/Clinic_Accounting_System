@@ -24,19 +24,19 @@ public class DeleteDoctorServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // gettin' docID param from request
+            // get docID param from request
             Long docID = Long.parseLong(request.getParameter("docID"));
             // remove all doc's appointments
             appointmentDAO.getAppointmentsByDocId(docID);
-            // removing doc from database, cascade will do the rest with other doctor's dependencies
+            // remove doc from database, cascade will do the rest with other doctor's dependencies
             doctorDAO.removeById(docID);
-            // notifying about successful delete operation
+            // notify about successful delete operation
             HttpSession session = request.getSession();
             ControllerUtils.giveTicketToMyMessage(session, "Doctor successfully deleted from database!");
-            response.sendRedirect("/admin/doctors");
+            response.sendRedirect(request.getContextPath() + "/admin/doctors");
         } catch (SQLException e) {
-            log.error("500: SQLException at admin/doctors/deleteDoctorServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at admin/doctors/deleteDoctorServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

@@ -31,10 +31,10 @@ public class SeeDoctorPageServlet extends HttpServlet {
             request.setAttribute("doctors", doctors);
             // pass this page thru message-only-with-ticket system
             ControllerUtils.goThru_MessageByTicket_System(session);
-            request.getRequestDispatcher("doctor/see_doctor.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/doctor/see_doctor.jsp").forward(request, response);
         } catch (SQLException e) {
-            log.error("500: SQLException at doctor/see_doctor/SeeDoctorPageServlet");
-            request.getRequestDispatcher("errors/500.html").forward(request, response);
+            log.error("500: SQLException at doctor/see_doctor/SeeDoctorPageServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

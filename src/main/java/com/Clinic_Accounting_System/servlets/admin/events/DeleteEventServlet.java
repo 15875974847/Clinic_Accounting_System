@@ -22,17 +22,17 @@ public class DeleteEventServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            // gettin' eventID param from request
+            // get eventID param from request
             Long eventID = Long.parseLong(request.getParameter("eventID"));
             // remove event from database
             eventDAO.removeEventById(eventID);
             // notify about successful delete operation
             HttpSession session = request.getSession();
             ControllerUtils.giveTicketToMyMessage(session, "Event successfully deleted!");
-            response.sendRedirect("/admin/events");
+            response.sendRedirect(request.getContextPath() + "/admin/events");
         } catch (SQLException e) {
-            log.error("500: SQLException at admin/events/DeleteEventServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at admin/events/DeleteEventServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

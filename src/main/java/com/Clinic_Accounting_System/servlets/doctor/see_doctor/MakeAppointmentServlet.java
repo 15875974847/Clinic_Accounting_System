@@ -47,13 +47,13 @@ public class MakeAppointmentServlet extends HttpServlet {
                 appointmentDAO.createAppointment(doctorID, patientID, numberInQueue, date, comment);
                 // give ticket to message
                 ControllerUtils.giveTicketToMyMessage(session, "Appointment to selected doctor successfully created!");
-                response.sendRedirect("/doctor/see_doctor");
+                response.sendRedirect(request.getContextPath() + "/doctor/see_doctor");
             } else {
                 ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
             }
         } catch(SQLException e) {
-            log.error("500: SQLException at doctor/see_doctor/MakeAppointmentServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at doctor/see_doctor/MakeAppointmentServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 

@@ -39,10 +39,7 @@ public class CloseAppointmentServlet extends HttpServlet {
             int numberInQueue = Integer.parseInt(request.getParameter("numberInQueue"));
             String note = request.getParameter("note");
 
-            // message about status of operation
-            String statusMessage;
-
-            // making call to database to check if patient and doctor with such ids still existing there
+            // make call to database to check if patient and doctor with such ids still existing there
             Patient patient = patientDAO.getPatientById(patientID);
             Doctor doctor = doctorDAO.getDoctorById(doctorID);
             if(patient != null && doctor != null){
@@ -53,19 +50,16 @@ public class CloseAppointmentServlet extends HttpServlet {
                     patient.setMedicalHistory(patient.getMedicalHistory() + "\n"+ "|" + note + "|");
                     patientDAO.updatePatientMedicalHistoryById(patient.getId(), patient.getMedicalHistory());
                 }
-                // giving ticket to message about successful deleting and updating patient's information
-                statusMessage = "Appointment successfully closed!";
+                // give ticket to message about successful deleting and updating patient's information
+                ControllerUtils.giveTicketToMyMessage(session, "Appointment successfully closed!");
             } else {
-                statusMessage = "Patient and/or doctor do not exist anymore!";
+                ControllerUtils.giveTicketToMyMessage(session, "Patient and/or doctor do not exist anymore!");
             }
-            // giving ticket to statusMessage to display result of operation
-            ControllerUtils.giveTicketToMyMessage(session, statusMessage);
-            response.sendRedirect("/doctor/my_appointments");
+            response.sendRedirect(request.getContextPath() + "/doctor/my_appointments");
         } catch (SQLException e) {
-            log.error("500: SQLException at doctor/my_appointments/CloseAppointmentServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at doctor/my_appointments/CloseAppointmentServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
-
     }
 
 }

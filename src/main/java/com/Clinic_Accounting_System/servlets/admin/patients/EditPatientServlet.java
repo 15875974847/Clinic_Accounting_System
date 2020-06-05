@@ -27,6 +27,7 @@ public class EditPatientServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            HttpSession session = request.getSession();
             // fetch params from request
             Long patientID = Long.parseLong(request.getParameter("patientID"));
             // check if such patient exists
@@ -54,17 +55,14 @@ public class EditPatientServlet extends HttpServlet {
                         dob, email, phone, address);
 
                 // give admin notification about successful update operation
-                HttpSession session = request.getSession();
                 ControllerUtils.giveTicketToMyMessage(session, "Patient's info successfully updated!");
-                response.sendRedirect("/admin/patients");
             } else {
-                HttpSession session = request.getSession();
                 ControllerUtils.giveTicketToMyMessage(session, "User with such id don't exist anymore");
-                response.sendRedirect("/admin/patients");
             }
+            response.sendRedirect(request.getContextPath() + "/admin/patients");
         } catch(SQLException e){
-            log.error("500: SQLException at admin/patients/DeletePatientServlet");
-            response.sendRedirect("/errors/500.html");
+            log.error("500: SQLException at admin/patients/DeletePatientServlet: " + e.getMessage());
+            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
         }
     }
 
