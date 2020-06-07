@@ -40,7 +40,7 @@ public class MyAppointmentsPageServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             log.error("500: SQLException at patient/my_appointments/MyAppointmentsPageServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

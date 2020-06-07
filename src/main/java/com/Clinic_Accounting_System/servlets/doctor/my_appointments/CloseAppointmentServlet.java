@@ -35,7 +35,6 @@ public class CloseAppointmentServlet extends HttpServlet {
             Long doctorID = (Long)session.getAttribute("user_id");
             Long patientID = Long.parseLong(request.getParameter("patientID"));
             Date date = java.sql.Date.valueOf(request.getParameter("date"));
-            ControllerUtils.makeCorrectionForTimeZone(date);
             int numberInQueue = Integer.parseInt(request.getParameter("numberInQueue"));
             String note = request.getParameter("note");
 
@@ -44,7 +43,7 @@ public class CloseAppointmentServlet extends HttpServlet {
             Doctor doctor = doctorDAO.getDoctorById(doctorID);
             if(patient != null && doctor != null){
                 // delete Appointment instance by Appointment PK fields
-                appointmentDAO.removeAppointmentsByPK(doctor.getId(), patient.getId(), numberInQueue, date);
+                appointmentDAO.removeAppointmentByPK(doctor.getId(), patient.getId(), numberInQueue, date);
                 // adding note to client's medical history if note exists
                 if(!note.equals("")){
                     patient.setMedicalHistory(patient.getMedicalHistory() + "\n"+ "|" + note + "|");
@@ -58,7 +57,7 @@ public class CloseAppointmentServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/doctor/my_appointments");
         } catch (SQLException e) {
             log.error("500: SQLException at doctor/my_appointments/CloseAppointmentServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

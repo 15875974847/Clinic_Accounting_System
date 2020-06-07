@@ -39,7 +39,7 @@ public class EditPatientsMedicalHistoryServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/doctor/find_patient");
         } catch (SQLException e) {
             log.error("500: SQLException at doctor/find_patient/EditPatientsMedHistoryServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

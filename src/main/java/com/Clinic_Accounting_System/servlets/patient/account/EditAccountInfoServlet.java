@@ -23,32 +23,35 @@ public class EditAccountInfoServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
-            String oldUsername = request.getParameter("oldUsername");
-            String oldPassword = request.getParameter("oldPassword");
+            HttpSession session = request.getSession();
             String newUsername = request.getParameter("newUsername");
             String newPassword = request.getParameter("newPassword");
-
-            HttpSession session = request.getSession();
-            if(!oldUsername.equals(newUsername) || !oldPassword.equals(newPassword)){
-                // fetch user from db
-                User user = userDAO.getById((Long)session.getAttribute("user_id"));
-                if(user != null){
-                    // update username and password parameters
-                    userDAO.updateUsernameAndPassword(user.getId(), newUsername, newPassword);
-                    // give ticket to successful username and password update message
-                    ControllerUtils.giveTicketToMyMessage(session, "Username and password updated!");
-                    response.sendRedirect(request.getContextPath() + "/patient/account");
+            // fetch user from db
+            User user = userDAO.getById((Long)session.getAttribute("user_id"));
+            if(user != null){
+                if(!user.getUsername().equals(newUsername) || !user.getPassword().equals(newPassword)){
+                    if(!userDAO.isNewUsernameAvailable(newUsername, user.getUsername())){
+                        // update username and password parameters
+                        userDAO.updateUsernameAndPassword(user.getId(), newUsername, newPassword);
+                        // give ticket to successful username and password update message
+                        ControllerUtils.giveTicketToMyMessage(session, "Username and password updated!");
+                        response.sendRedirect(request.getContextPath() + "/patient/account");
+                    } else {
+                        // user entered same credentials
+                        ControllerUtils.giveTicketToMyMessage(session, "User with such username already exists!");
+                        response.sendRedirect(request.getContextPath() + "/patient/account");
+                    }
                 } else {
-                    ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
+                    // user entered same credentials
+                    ControllerUtils.giveTicketToMyMessage(session, "You entered same credentials!");
+                    response.sendRedirect(request.getContextPath() + "/patient/account");
                 }
             } else {
-                // user entered same credentials
-                ControllerUtils.giveTicketToMyMessage(session, "You entered same credentials!");
-                response.sendRedirect(request.getContextPath() + "/patient/account");
+                ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
             }
         } catch (SQLException e) {
             log.error("500: SQLException at patient/account/EditAccountInfoServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

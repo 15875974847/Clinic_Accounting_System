@@ -9,10 +9,11 @@ import java.io.IOException;
 
 @WebFilter(
         urlPatterns = {"/sign_in",
+                "/pass_recovery",
                 "/pass_recovery/*",
-                "/registration/*"},     // all admin's, doctor's and patient's paths are protected routes
+                "/registration"},     // all admin's, doctor's and patient's paths are protected routes
         filterName = "NonAuthenticatedRoutesFilter",
-        description = "Prevents from accidental access to non-authenticated routes."
+        description = "Prevents from accidental access to non-authenticated routes when authenticated."
 )
 public class NonAuthenticatedRoutes implements Filter {
 

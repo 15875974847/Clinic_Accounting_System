@@ -38,7 +38,7 @@ public class MyAppointmentsPageServlet extends HttpServlet {
             request.getRequestDispatcher("/pages/doctor/my_appointments.jsp").forward(request, response);
         } catch (SQLException e) {
             log.error("500: SQLException at doctor/my_appointments/MyAppointmentsPageServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

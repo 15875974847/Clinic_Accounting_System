@@ -13,7 +13,7 @@ import java.io.IOException;
                         "/patient/*",
                         "/sign_out"}, // all protected routes
         filterName = "AuthenticatedRoutesFilter",
-        description = "Prevents from accidental access to authenticated routes."
+        description = "Prevents from accidental access to authenticated routes when not authenticated."
 )
 public class AuthenticatedRoutes implements Filter {
 
@@ -28,6 +28,7 @@ public class AuthenticatedRoutes implements Filter {
             // if session objects exists
             Long id = (Long) session.getAttribute("user_id");
             String role = (String) session.getAttribute("role");
+
             if (id != null && role != null) {
                 // means that we are authenticated
                 // update max inactive interval in "no remember-me" type of session

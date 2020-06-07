@@ -24,31 +24,34 @@ public class EditAccountInfoServlet extends HttpServlet {
             throws ServletException, IOException {
         try{
             HttpSession session = request.getSession();
-            Long userID = (Long) session.getAttribute("user_id");
-            String oldUsername = request.getParameter("oldUsername");
-            String oldPassword = request.getParameter("oldPassword");
             String newUsername = request.getParameter("newUsername");
             String newPassword = request.getParameter("newPassword");
-
-            if(!oldUsername.equals(newUsername) || !oldPassword.equals(newPassword)){
-                User user = userDAO.getById(userID);
-                if(user != null){
-                    // reset username and password parameters
-                    userDAO.updateUsernameAndPassword(userID, newUsername, newPassword);
-                    // notify user about successful update
-                    ControllerUtils.giveTicketToMyMessage(session, "Credentials updated!");
-                    response.sendRedirect(request.getContextPath() + "/doctor/account");
+            // fetch user from db
+            User user = userDAO.getById((Long)session.getAttribute("user_id"));
+            if(user != null){
+                if(!user.getUsername().equals(newUsername) || !user.getPassword().equals(newPassword)){
+                    if(!userDAO.isNewUsernameAvailable(newUsername, user.getUsername())){
+                        // update username and password parameters
+                        userDAO.updateUsernameAndPassword(user.getId(), newUsername, newPassword);
+                        // give ticket to successful username and password update message
+                        ControllerUtils.giveTicketToMyMessage(session, "Username and password updated!");
+                        response.sendRedirect(request.getContextPath() + "/doctor/account");
+                    } else {
+                        // user entered same credentials
+                        ControllerUtils.giveTicketToMyMessage(session, "User with such username already exists!");
+                        response.sendRedirect(request.getContextPath() + "/doctor/account");
+                    }
                 } else {
-                    ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
+                    // user entered same credentials
+                    ControllerUtils.giveTicketToMyMessage(session, "You entered same credentials!");
+                    response.sendRedirect(request.getContextPath() + "/doctor/account");
                 }
             } else {
-                // if user entered same params redirect at the same page and display an error message
-                ControllerUtils.giveTicketToMyMessage(session, "You entered same credentials!");
-                response.sendRedirect(request.getContextPath() + "/doctor/account");
+                ControllerUtils.processNonexistentUserWithValidSessionParams(session, request, response);
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             log.error("500: SQLException at doctor/account/EditAccountInfoServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

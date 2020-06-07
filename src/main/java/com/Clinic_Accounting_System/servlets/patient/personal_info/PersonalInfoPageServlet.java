@@ -45,7 +45,7 @@ public class PersonalInfoPageServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             log.error("500: SQLException at patient/personal_info/PersonalInfoPageServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

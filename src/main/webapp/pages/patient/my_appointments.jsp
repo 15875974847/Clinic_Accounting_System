@@ -89,8 +89,8 @@
 						<tr>
 							<td>${appointment.doctor.specialization}</td>
 							<td>${appointment.doctor.staffEntity.patient.firstname}</td>
-							<td>${appointment.doctor.staffEntity.userInfo.middlename}</td>
-							<td>${appointment.doctor.staffEntity.userInfo.lastname}</td>
+							<td>${appointment.doctor.staffEntity.patient.middlename}</td>
+							<td>${appointment.doctor.staffEntity.patient.lastname}</td>
 							<td>${appointment.date.toString()}</td>
 							<td>${appointment.numberInQueue}</td>
 							<td>${appointment.comment}</td>

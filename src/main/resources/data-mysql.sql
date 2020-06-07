@@ -5,8 +5,8 @@ insert into users (`username`, `password`, `role`) values ('admin', 'admin', 'ad
 insert into users (`username`, `password`, `role`) values ('firstDoc', 'firstDoc', 'doctor');
 insert into users (`username`, `password`, `role`) values ('secondDoc', 'secondDoc', 'doctor');
 insert into users (`username`, `password`, `role`) values ('thirdDoc', 'thirdDoc', 'doctor');
-insert into users (`username`, `password`, `role`) values ('firstUser', 'firstUser', 'user');
-insert into users (`username`, `password`, `role`) values ('secondUser', 'secondUser', 'user');
+insert into users (`username`, `password`, `role`) values ('firstUser', 'firstUser', 'patient');
+insert into users (`username`, `password`, `role`) values ('secondUser', 'secondUser', 'patient');
 
 -- pushing UserInfo
 -- admins

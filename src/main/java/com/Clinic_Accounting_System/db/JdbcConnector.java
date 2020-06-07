@@ -19,8 +19,8 @@ public class JdbcConnector {
     public static DataSource getDataSource() {
         if (instance == null) {
             synchronized (JdbcConnector.class) {
-                final Properties properties = new Properties();
                 try(InputStream resourceAsStream = JdbcConnector.class.getResourceAsStream("/jdbc.properties")) {
+                    final Properties properties = new Properties();
                     properties.load(resourceAsStream);
                     instance = new ComboPooledDataSource();
                     instance.setDriverClass(properties.getProperty("driver"));

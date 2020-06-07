@@ -33,7 +33,7 @@ public class EventsPageServlet extends HttpServlet {
             request.getRequestDispatcher("/pages/admin/events.jsp").forward(request, response);
         } catch (SQLException e) {
             log.error("500: SQLException at admin/events/EventsPageServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -37,6 +38,7 @@ public class EditPersonalInfoServlet extends HttpServlet {
                 Date dob = java.sql.Date.valueOf(request.getParameter("dob"));
                 ControllerUtils.makeCorrectionForTimeZone(dob);
                 String address = request.getParameter("address");
+
                 // update patient's info in db
                 patientDAO.updateAllPatientInfoExceptMedHistory(patient.getId(), firstname, lastname, midname,
                                                                     dob, email, phone, address);
@@ -48,7 +50,7 @@ public class EditPersonalInfoServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             log.error("500: SQLException at patient/personal_info/EditPersonalInfoServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

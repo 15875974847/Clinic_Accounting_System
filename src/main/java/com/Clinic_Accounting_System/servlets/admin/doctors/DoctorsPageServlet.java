@@ -33,7 +33,7 @@ public class DoctorsPageServlet extends HttpServlet {
             request.getRequestDispatcher("/pages/admin/doctors.jsp").forward(request, response);
         } catch (SQLException e) {
             log.error("500: SQLException at admin/doctors/DoctorsPageServlet");
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

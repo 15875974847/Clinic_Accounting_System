@@ -32,7 +32,10 @@ public class Executor {
                 stmt.setDate(i + 1, (Date)args[i]);
             else if (args[i].getClass() == Double.class)
                 stmt.setDouble(i + 1, (Double)args[i]);
-            else stmt.setString(i + 1, (String)args[i]);
+            else if (args[i].getClass() == String.class)
+                stmt.setString(i + 1, (String)args[i]);
+            else if (args[i].getClass() == Boolean.class)
+                stmt.setBoolean(i + 1, (Boolean)args[i]);
         }
     }
 

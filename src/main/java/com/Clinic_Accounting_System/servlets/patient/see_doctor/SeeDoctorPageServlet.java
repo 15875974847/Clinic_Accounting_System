@@ -34,7 +34,7 @@ public class SeeDoctorPageServlet extends HttpServlet {
             request.getRequestDispatcher("/pages/patient/see_doctor.jsp").forward(request, response);
         } catch (SQLException e) {
             log.error("500: SQLException at patient/see_doctor/SeeDoctorPageServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

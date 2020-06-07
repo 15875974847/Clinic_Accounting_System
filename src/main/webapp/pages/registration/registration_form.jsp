@@ -48,13 +48,13 @@
 			<div class = "row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="usernameInput"><b>Username:</b></label>
-					<input class="form-control" id="usernameInput" name="username" required />
+					<input type="text" class="form-control" id="usernameInput" name="username" required />
 				</div>
 			</div>
 			<div class="row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="passwordInput"><b>Password:</b></label>
-					<input class="form-control" id="passwordInput" name="password" required />
+					<input type="password" class="form-control" id="passwordInput" name="password" required />
 				</div>
 			</div>
 			<div class = "row justify-content-md-center my-3">

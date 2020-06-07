@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @Log4j2
-@WebServlet(name = "EnterCodeServlet", urlPatterns = "/pass_recovery/enter_code")
+@WebServlet(name = "Recovery_EnterCodeServlet", urlPatterns = "/pass_recovery/enter_code")
 public class EnterCodeServlet extends HttpServlet {
 
     private final UserDAO userDAO = UserDAO.getInstance();
@@ -73,7 +73,7 @@ public class EnterCodeServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             log.error("500: SQLException at /pass_recovery/CheckCodeServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

@@ -32,7 +32,7 @@ public class DeleteEventServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/admin/events");
         } catch (SQLException e) {
             log.error("500: SQLException at admin/events/DeleteEventServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

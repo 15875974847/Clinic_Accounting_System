@@ -162,25 +162,25 @@
 					
 						<input type="hidden" id="editPatientID" name="patientID" />
 					
-						<div class="row my-2 mx-2">
-						
-							<div class="col-6">
+						<div class="row justify-content-around">
+
+							<div class="col-5">
 								<div class="row my-2">
-									<h4 class="bg-secondary text-danger text-center">&darr;Old patient's account information&darr;</h4>
+									<h4 class="text-danger text-center">&darr;Old patient's account information&darr;</h4>
 								</div>
 								<div class="row my-2">
 									<label for="oldPatUsername"><b>Username:</b></label>
-									<input class="form-control" id="oldPatUsername" readonly></input>   
+									<input class="form-control" id="oldPatUsername" readonly></input>
 								</div>
 								<div class="row my-2">
 									<label for="oldPatPassword"><b>Password:</b></label>
-									<input class="form-control" id="oldPatPassword" readonly></input>   
+									<input class="form-control" id="oldPatPassword" readonly></input>
 								</div>
 							</div>
 							
-							<div class="col-6">
-								<div class="row mt-4 mb-2">
-									<h4 class="bg-secondary text-success text-center">&darr;New patient's account information&darr;</h4>
+							<div class="col-5">
+								<div class="row my-2">
+									<h4 class="text-success text-center">&darr;New patient's account information&darr;</h4>
 								</div>
 								<div class="row my-2">
 									<label for="newPatUsername"><b>Username:</b></label>
@@ -195,11 +195,11 @@
 						</div>
 						
 						
-						<div class="row my-2 mx-2">
+						<div class="row justify-content-around">
 						
-							<div class="col-6">
+							<div class="col-5">
 								<div class="row my-2">
-									<h4 class="bg-secondary text-danger text-center">&darr;Old patient's personal information&darr;</h4>
+									<h4 class="text-danger text-center">&darr;Old patient's personal information&darr;</h4>
 								</div>
 								<div class="row my-2">
 									<label for="oldPatFirstname"><b>First Name:</b></label>
@@ -231,9 +231,9 @@
 								</div>
 							</div>
 							
-							<div class="col-6">
+							<div class="col-5">
 								<div class="row my-2">
-									<h4 class="bg-secondary text-success text-center">&darr;New patient's personal information&darr;</h4>
+									<h4 class="text-success text-center">&darr;New patient's personal information&darr;</h4>
 								</div>
 								<div class="row my-2">
 									<label for="newPatFirstname"><b>First Name:</b></label>

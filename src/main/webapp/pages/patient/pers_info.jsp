@@ -3,16 +3,17 @@
 <%@ page isELIgnored = "false" %>
 <%@ page session = "true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="context" value="${pageContext.request.contextPath}" />
 
 <!doctype html>
 <html lang="en">
   <head>
 	<title>Patient's Personal Info Page</title>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
 	<meta name="author" content="Artique">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
+
 	<!-- Latest Bootstrap and datatables Bootstrap API ================================================-->
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css"/>
 	<!-- Date picker css -->
@@ -139,7 +140,7 @@
 								<h5 class="text-center text-danger">Old Personal Info</h5>
 								<div class="col-12 my-2">
 									<label for="oldFirstnameInfo"><b>First Name:</b></label>
-									<input class="form-control" id="oldFirstnameInfo" value="${requestScope.firstname}" readonly></input>   
+									<input class="form-control" id="oldFirstnameInfo" value="${requestScope.firstname}" readonly></input>
 								</div>
 								<div class="col-12 my-2">
 									<label for="oldMidnameInfo"><b>Middle Name:</b></label>
@@ -170,23 +171,23 @@
 								<h5 class="text-center text-success">New Personal Info</h5>
 								<div class="col-12 my-2">
 									<label for="newFirstnameInfo"><b>First Name:</b></label>
-									<input class="form-control" name="firstname" id="newFirstnameInfo" value="" maxlength=20 required></input>   
+									<input class="form-control" name="firstname" id="newFirstnameInfo" value="${requestScope.firstname}" maxlength=20 required></input>
 								</div>
 								<div class="col-12 my-2">
 									<label for="newMidnameInfo"><b>Middle Name:</b></label>
-									<input class="form-control" name="midname" id="newMidnameInfo" value="" maxlength=20 required></input>   
+									<input class="form-control" name="midname" id="newMidnameInfo" value="${requestScope.midname}" maxlength=20 required></input>
 								</div>
 								<div class="col-12 my-2">
 									<label for="newLastnameInfo"><b>Last Name:</b></label>
-									<input class="form-control" name="lastname" id="newLastnameInfo" value="" maxlength=20 required></input>   
+									<input class="form-control" name="lastname" id="newLastnameInfo" value="${requestScope.lastname}" maxlength=20 required></input>
 								</div>
 								<div class="col-12 my-2">
 									<label for="newEmailInfo"><b>Email:</b></label>
-									<input class="form-control" name="email" id="newEmailInfo" value="" maxlength=30 required></input>   
+									<input class="form-control" name="email" id="newEmailInfo" value="${requestScope.email}" maxlength=30 required></input>
 								</div>
 								<div class="col-12 my-2">
 									<label for="newPhoneInfo"><b>Phone:</b></label>
-									<input class="form-control" name="phone" id="newPhoneInfo" value="" maxlength=25 required></input>   
+									<input class="form-control" name="phone" id="newPhoneInfo" value="${requestScope.phone}" maxlength=25 required></input>
 								</div>
 								<div class="col-12 my-2">
 									<label for="newDOBInfo"><b>Date of birth:</b></label>
@@ -194,7 +195,7 @@
 								</div>
 								<div class="col-12 my-2">
 									<label for="newAddressInfo"><b>Address:</b></label>
-									<input class="form-control" name="address" id="newAddressInfo" value="" maxlength=40 required></input>   
+									<input class="form-control" name="address" id="newAddressInfo" value="${requestScope.address}" maxlength=40 required></input>
 								</div>
 							</div>
 						</div>

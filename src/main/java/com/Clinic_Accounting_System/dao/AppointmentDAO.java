@@ -86,7 +86,7 @@ public class AppointmentDAO {
 		executor.executeUpdate(Remove_All_Appointments_By_DoctorId, doctor_id);
 	}
 
-	public void removeAppointmentsByPK(Long doctor_id, Long patient_id, Integer number_in_queue, Date date) throws SQLException {
+	public void removeAppointmentByPK(Long doctor_id, Long patient_id, Integer number_in_queue, Date date) throws SQLException {
 		executor.executeUpdate(Remove_Appointment_By_DoctorId_And_PatientId_And_NumberInQueue_And_Date,
 				doctor_id, patient_id, number_in_queue, date);
 	}

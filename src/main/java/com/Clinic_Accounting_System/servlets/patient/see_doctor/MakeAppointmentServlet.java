@@ -26,7 +26,7 @@ public class MakeAppointmentServlet extends HttpServlet {
     private final PatientDAO patientDAO = PatientDAO.getInstance();
     private final DoctorDAO doctorDAO = DoctorDAO.getInstance();
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
             HttpSession session = request.getSession();
@@ -53,7 +53,7 @@ public class MakeAppointmentServlet extends HttpServlet {
             }
         } catch (SQLException e){
             log.error("500: SQLException at patient/see_doctor/MakeAppointmentServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

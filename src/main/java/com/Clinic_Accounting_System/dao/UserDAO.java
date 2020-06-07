@@ -29,6 +29,9 @@ public class UserDAO {
 	private static final String Get_By_Username =
 			"SELECT * FROM users WHERE username = ?";
 
+	private static final String Is_New_Username_Available =
+			"SELECT * FROM users WHERE username = ? AND username <> ?";
+
 	private static final String Get_By_Id =
 			"SELECT * FROM users WHERE id = ?";
 
@@ -54,6 +57,11 @@ public class UserDAO {
 
 	public Boolean existsByUsername(String username) throws SQLException {
 		return executor.executeQuery(Get_By_Username, isUserExistsHandler, username);
+	}
+
+	public Boolean isNewUsernameAvailable(String newUsername, String oldUsername)
+																			throws SQLException {
+		return executor.executeQuery(Is_New_Username_Available, isUserExistsHandler, newUsername, oldUsername);
 	}
 
 	public User getById(long id) throws SQLException {

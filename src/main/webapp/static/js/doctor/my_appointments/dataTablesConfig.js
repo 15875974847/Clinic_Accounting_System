@@ -2,7 +2,7 @@ $(document).ready(function () {
     // working with DataTable API
     // as a patient appointment datatable description
     let asPatientAppointmentTable = $('#dtAsPatientAppointments').DataTable({
-        "pagingType": "full_numbers", 																			//  first, last, next, prev and nums
+        "pagingType": "full_numbers", 																			// first, last, next, prev and nums
         "order": [[ 0, "asc" ]],																			    // firstly, sort by first row and in asc order
 
         "select": {"style": 'single'},																			// single selection
@@ -63,7 +63,7 @@ $(document).ready(function () {
         } )
         .on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
-                // remembering selected row data
+                // remember selected row data
                 let selectedAppointment = asDoctorAppointmentTable.rows(indexes).data().toArray();
                 // set to form's hidden fields equals selected row data
                 document.getElementById("closeAppointmentForm_PatientID").value = selectedAppointment[0][3];

@@ -33,7 +33,7 @@ $(document).ready(function () {
     $("div.dtPatientsButtonToolbar").html(
         '<div class="row col-12">'+
             '<button id="editPatientButton" class="btn btn-primary mx-2 disabled" disabled data-toggle="modal" data-target="#editPatientModal">Edit</button>'+
-            '<form action="/admin/deletePatient" method="post">' +
+            '<form action="admin/deletePatient" method="post">' +
                 '<input type="hidden" id="deletePatientID" name="patientID"/>' +
                 '<button type="submit" id="deletePatientButton" class="btn btn-secondary mx-2 disabled" disabled >Delete</button>' +
             '</form>'+

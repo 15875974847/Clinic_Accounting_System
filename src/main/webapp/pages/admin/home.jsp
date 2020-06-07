@@ -49,7 +49,7 @@
 
 	<div class="container mt-2">
 		<div class="my-5">
-			<h1 class="text-center text-primary">Howdy , admin!</h1>
+			<h1 class="text-center text-primary">Howdy, admin!</h1>
 
 			<div class="my-5 d-flex align-items-center flex-column justify-content-center h-100">
 				<h3 class="text-center bg-secondary text-white">Here u can:</h3>

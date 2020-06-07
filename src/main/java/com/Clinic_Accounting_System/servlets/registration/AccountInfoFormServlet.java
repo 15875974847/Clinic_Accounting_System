@@ -19,7 +19,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 @Log4j2
-@WebServlet(name = "RegAccountInfoFormServlet", urlPatterns = "/registration")
+@WebServlet(name = "Registration_AccountInfoFormServlet", urlPatterns = "/registration")
 public class AccountInfoFormServlet extends HttpServlet {
 
     private final UserDAO userDAO = UserDAO.getInstance();
@@ -58,7 +58,7 @@ public class AccountInfoFormServlet extends HttpServlet {
                 // check if user with such username already exists in database
                 if(!userDAO.existsByUsername(username)) {
                     // persist new user in database
-                    userDAO.createUser(username, password, Roles.user.name());
+                    userDAO.createUser(username, password, Roles.patient.name());
                     // persist user info in database
                     User user = userDAO.getByUsername(username);
                     patientDAO.createPatient(user.getId(), firstname, lastname, midname, dob,
@@ -76,7 +76,7 @@ public class AccountInfoFormServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             log.error("500: SQLException at registration/SubmitNewAccountInfoServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

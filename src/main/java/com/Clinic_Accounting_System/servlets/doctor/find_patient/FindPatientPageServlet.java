@@ -34,7 +34,7 @@ public class FindPatientPageServlet extends HttpServlet {
             request.getRequestDispatcher("/pages/doctor/find_patient.jsp").forward(request, response);
         } catch(SQLException e) {
             log.error("500: SQLException at doctor/find_patient/FindPatientPageServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

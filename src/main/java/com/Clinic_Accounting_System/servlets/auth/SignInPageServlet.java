@@ -22,6 +22,8 @@ public class SignInPageServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        ControllerUtils.goThru_MessageByTicket_System(session);
         request.getRequestDispatcher("/pages/sign_in.jsp").forward(request, response);
     }
 
@@ -61,7 +63,7 @@ public class SignInPageServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             log.error("500: SQLException at auth/SignInServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

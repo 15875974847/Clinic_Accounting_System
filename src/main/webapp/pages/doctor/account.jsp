@@ -99,22 +99,22 @@
 								<h5 class="text-center text-danger">Old Account Info</h5>
 								<div class="col-12 my-2">
 									<label for="oldUsername"><b>Username:</b></label>
-									<input class="form-control" name="oldUsername" id="oldUsername" value="${requestScope.username}" readonly></input>   
+									<input class="form-control" id="oldUsername" value="${requestScope.username}" readonly></input>
 								</div>
 								<div class="col-12 my-2">
 									<label for="oldPassword"><b>Password:</b></label>
-									<input class="form-control" name="oldPassword" id="oldPassword" value="${requestScope.password}" readonly></input>   
+									<input class="form-control" id="oldPassword" value="${requestScope.password}" readonly></input>
 								</div>
 							</div>
 							<div class="col-6">
 								<h5 class="text-center text-success">New Account Info</h5>
 								<div class="col-12 my-2">
 									<label for="newUsername"><b>Username:</b></label>
-									<input class="form-control" name="newUsername" id="newUsername" value="" maxlength=30 required></input>   
+									<input class="form-control" name="newUsername" id="newUsername" value="${requestScope.username}" maxlength=30 required></input>
 								</div>
 								<div class="col-12 my-2">
 									<label for="newPassword"><b>Password:</b></label>
-									<input class="form-control" name="newPassword" id="newPassword" value="" maxlength=30 required></input>   
+									<input class="form-control" name="newPassword" id="newPassword" value="${requestScope.password}" maxlength=30 required></input>
 								</div>
 							</div>
 						</div>

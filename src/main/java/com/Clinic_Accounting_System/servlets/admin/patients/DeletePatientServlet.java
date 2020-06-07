@@ -42,7 +42,7 @@ public class DeletePatientServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/admin/patients");
         } catch (SQLException e) {
             log.error("500: SQLException at admin/appointments/AppointmentsPageServlet: " + e.getMessage());
-            request.getRequestDispatcher("/pages/errors/500.html").forward(request, response);
+            request.getRequestDispatcher("/pages/errors/500.jsp").forward(request, response);
         }
     }
 

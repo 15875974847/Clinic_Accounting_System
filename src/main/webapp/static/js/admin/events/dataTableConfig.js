@@ -23,7 +23,7 @@ $(document).ready(function () {
     $("div.dtEventsButtonToolbar").html(
         '<div class="row col-12">'+
             '<button id="addNewEventButton" class="btn btn-primary mx-2" data-toggle="modal" data-target="#addNewEventModal">Add event</button>'+
-            '<form action="/admin/deleteEvent" method="post">' +
+            '<form action="admin/deleteEvent" method="post">' +
                 '<input type="hidden" id="eventIDToDelete" name="eventID"/>' +
                 '<button type="submit" id="deleteEventButton" class="btn btn-secondary mx-2 disabled" disabled >Delete event</button>' +
             '</form>'+
