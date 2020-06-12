@@ -48,7 +48,7 @@
 				</div>
 			</div>
 
-			<form action="/registration/submitNewAccountApplicationForm" method="post">
+			<form action="submitNewAccountApplicationForm" method="post">
 				<div class = "row justify-content-center">
 					<div class="col-6 my-3">
 						<label class="bg-dark text-white" for="usernameInput"><b>Username:</b></label>

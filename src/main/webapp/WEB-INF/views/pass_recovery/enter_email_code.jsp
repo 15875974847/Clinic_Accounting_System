@@ -48,7 +48,7 @@
 				</div>
 			</div>
 
-			<form action="/pass_recovery/checkCode" method="post">
+			<form action="checkCode" method="post">
 				<div class = "row justify-content-center my-2">
 					<div class="col-6 my-3">
 						<label class="bg-dark text-white" for="codeInput"><b>Email code:</b></label>

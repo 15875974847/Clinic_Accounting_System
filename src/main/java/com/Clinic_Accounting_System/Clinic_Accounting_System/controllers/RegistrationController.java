@@ -77,7 +77,7 @@ public class RegistrationController {
             // to be sure checking once again if nobody took our username
             if(!userService.existsByUsername((String)session.getAttribute("reg_username"))){
                 // persisting new user in database
-                Users user = new Users((String)session.getAttribute("reg_username"), (String)session.getAttribute("reg_password"), Roles.user);
+                Users user = new Users((String)session.getAttribute("reg_username"), (String)session.getAttribute("reg_password"), Roles.patient);
                 userService.saveAndFlush(user);
                 // scrapping user info from form params
                 String firstname = request.getParameter("firstname");

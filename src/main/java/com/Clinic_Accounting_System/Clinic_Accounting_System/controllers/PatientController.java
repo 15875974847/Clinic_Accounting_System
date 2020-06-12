@@ -269,7 +269,7 @@ public class PatientController {
             Long id = (Long)session.getAttribute("user_id");
             Roles role = (Roles)session.getAttribute("role");
             if(id != null && role != null){
-                if(role == Roles.user){
+                if(role == Roles.patient){
                     // updating session interval
                     session.setMaxInactiveInterval(30*60);
                     return true;

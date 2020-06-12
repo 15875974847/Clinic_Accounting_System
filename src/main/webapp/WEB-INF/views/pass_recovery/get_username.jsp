@@ -48,7 +48,7 @@
 				</div>
 			</div>
 
-			<form action="/pass_recovery/checkUsername" method="post">
+			<form action="checkUsername" method="post">
 				<div class = "row justify-content-center my-2">
 					<div class="col-6 mt-5 mb-2">
 						<label class="bg-dark text-white" for="usernameInput"><b>Username:</b></label>

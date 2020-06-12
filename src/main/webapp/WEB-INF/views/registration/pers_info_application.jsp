@@ -43,7 +43,7 @@
 			<h2 class="bg-secondary text-white">&darr;Please, fill up patient's personal info application&darr;</h2>
 		</div>
 
-		<form action="/registration/submitPersonalInformationForm" method="post">
+		<form action="submitPersonalInformationForm" method="post">
 			<div class = "row justify-content-md-center my-3">
 				<div class="col-6">
 					<label class="bg-dark text-white" for="firstname"><b>First Name:</b></label>

@@ -104,7 +104,7 @@ public class AuthenticationController {
         switch(role){
             case admin: return "redirect:/admin/";
             case doctor: return "redirect:/doctor/";
-            case user: return "redirect:/patient/";
+            case patient: return "redirect:/patient/";
             default: return "redirect:sign_in";
         }
     }

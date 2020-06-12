@@ -64,7 +64,7 @@
 				<a class="nav-item nav-link active" href="my_appointments">My Appointments<span class="sr-only">(current)</span></a>
 			</div>
 		</div>
-		<form class="form-inline" action="/sign_out" method = "post">
+		<form class="form-inline" action="../sign_out" method = "post">
 			<button class="btn btn-info btn-lg my-2 my-sm-0" type="submit">Sign out</button>
 		</form>
 	</nav>
